@@ -1,0 +1,49 @@
+program = run.exe
+# +++ gfortran +++
+fc = gfortran
+fcopt =  -Wall -O3 -fbacktrace -fbounds-check
+#fcopt = -Wall -O3
+# +++ End gfortran +++
+
+# +++ ifort +++
+#fc = ifort
+#fcopt =  -CB -traceback -fpe0
+#fcopt =  -warn all -traceback
+# +++ End ifort +++
+objs = \
+parameters.o       \
+hist1D.o           \
+hist2D.o           \
+beads_expansion.o  \
+angle.o            \
+bond.o             \
+cent.o             \
+main.o             \
+multi_bond.o       \
+read_coor.o        \
+read_inp.o         \
+dummy_atom.o       \
+utile.o            \
+# particular_nitrate_min.o  \
+# bond_min_max.o     \
+
+$(program): $(objs)
+	@echo
+	$(fc) $(fcopt) $(objs) -o $@
+	cp $@ ../
+	@echo -e '\e[34m Noraml termination!!!\e[m\n'
+
+
+.SUFFIXES: .f90 .o
+.f90.o:
+	@echo
+	@echo ' << Compiling >>' '"'$<'"'
+	$(fc) $(fcopt) -c $< -o $@
+
+clean:
+	rm -f *.o *.mod *genmod.f90 $(program)
+
+install: $(objs)
+	$(fc) $(fcopt) $(objs) -o $(program)
+	cp $(program) /Users/kuwahatakazuaki/PIMD/Analysis/Program/PIMDanalysis
+

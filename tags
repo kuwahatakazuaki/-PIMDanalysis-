@@ -1,0 +1,133 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+100	hist1D.f90	/^        100 continue$/;"	l	subroutine:calc_1Dhist_sub	file:
+100	read_inp.f90	/^  100 print *, 'ERROR!!: There is no "# End ~~"'; stop$/;"	l	file:
+101	read_inp.f90	/^  101 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	file:
+102	read_inp.f90	/^  102 print *, 'ERROR!!: There is no "# input file"'; stop$/;"	l	file:
+103	read_inp.f90	/^  103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop$/;"	l	file:
+104	read_inp.f90	/^  104 print *, 'ERROR!!: There is no "# multi bond"'; stop$/;"	l	file:
+105	read_inp.f90	/^  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop$/;"	l	file:
+111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
+120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
+800	hist2D.f90	/^      800 continue$/;"	l	subroutine:external_2Dhits	file:
+801	hist2D.f90	/^      801 continue$/;"	l	subroutine:external_2Dhits	file:
+900	charge_analysis.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
+900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat'; stop$/;"	l	file:
+901	charge_analysis.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
+901	hist2D.f90	/^901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
+902	hist2D.f90	/^902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	file:
+902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_binary	file:
+902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_format	file:
+904	read_coor.f90	/^  904 print *, "ERROR!!: The number of atom or beads is wrong"; stop$/;"	l	subroutine:read_coor_format	file:
+911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_binary	file:
+911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_format	file:
+Dhist	hist1D.f90	/^  real(8), private :: Dhist$/;"	v	module:calc_histogram1D
+Dhist	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(2), Dhist(/;"	v	module:calc_histogram2D
+FIbinary	parameters.f90	/^  logical :: FIbinary$/;"	v	module:input_parameter
+FNameBinary1	parameters.f90	/^  character(len=:), allocatable :: FNameBinary1,/;"	v	module:input_parameter
+FNameBinary2	parameters.f90	/^  character(len=:), allocatable :: FNameBinary1, FNameBinary2$/;"	v	module:input_parameter
+FileName	parameters.f90	/^  character(len=128), save, allocatable :: FileName(/;"	v	module:input_parameter
+Ifile	cent.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_centoroid
+Ifile	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_histogram2D
+Lfolding	parameters.f90	/^  logical :: Lfolding /;"	v	module:input_parameter
+Natom	parameters.f90	/^  integer, save :: Natom,/;"	v	module:input_parameter
+Nbeads	parameters.f90	/^  integer, save :: Natom, Nbeads,/;"	v	module:input_parameter
+Nbond	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond$/;"	v	module:input_parameter
+Nfile	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist, Nfile,/;"	v	module:input_parameter
+Nhist	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist,/;"	v	module:input_parameter
+Nstart	parameters.f90	/^  integer, save, allocatable :: Nstep(:), Nstart(/;"	v	module:input_parameter
+Nstep	parameters.f90	/^  integer, save, allocatable :: Nstep(/;"	v	module:input_parameter
+TNstep	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep,/;"	v	module:input_parameter
+Uprint	parameters.f90	/^  integer, save :: Usave = 20, Uprint /;"	v	module:input_parameter
+Usave	parameters.f90	/^  integer, save :: Usave /;"	v	module:input_parameter
+analysis	main.f90	/^program analysis$/;"	p
+atom	parameters.f90	/^  character(len=2), save, allocatable :: atom(/;"	v	module:input_parameter
+atom_dummy	parameters.f90	/^  integer, save :: definition_dummy, atom_dummy(/;"	v	module:input_parameter
+atom_multi	parameters.f90	/^  integer, save, allocatable :: atom_multi(/;"	v	module:input_parameter
+atom_num	parameters.f90	/^  integer, save, allocatable :: atom_num(/;"	v	module:input_parameter
+beads_expansion	beads_expansion.f90	/^subroutine beads_expansion$/;"	s
+bond_dev2D	hist2D.f90	/^  real(8), save :: hist2D_ave(2), bond_dev2D(/;"	v	module:calc_histogram2D
+calc_1Dhist	hist1D.f90	/^  subroutine calc_1Dhist(/;"	s	module:calc_histogram1D
+calc_1Dhist_sub	hist1D.f90	/^  subroutine calc_1Dhist_sub$/;"	s	module:calc_histogram1D
+calc_2Dhist	hist2D.f90	/^subroutine calc_2Dhist$/;"	s	module:calc_histogram2D
+calc_2Dhist_sub	hist2D.f90	/^subroutine calc_2Dhist_sub(/;"	s	module:calc_histogram2D
+calc_angle	angle.f90	/^subroutine calc_angle$/;"	s
+calc_angle_sub	angle.f90	/^subroutine calc_angle_sub(/;"	s
+calc_bond	bond.f90	/^subroutine calc_bond$/;"	s
+calc_bond_sub	bond.f90	/^subroutine calc_bond_sub(/;"	s
+calc_cent	cent.f90	/^subroutine calc_cent$/;"	s	module:calc_centoroid
+calc_cent_1Dhist	cent.f90	/^subroutine calc_cent_1Dhist$/;"	s	module:calc_centoroid
+calc_cent_1Dhist_sub	cent.f90	/^subroutine calc_cent_1Dhist_sub(/;"	s	module:calc_centoroid
+calc_centoroid	cent.f90	/^module calc_centoroid$/;"	m
+calc_cumulative	utility.f90	/^  subroutine calc_cumulative(/;"	s	module:utility
+calc_deviation	utility.f90	/^  subroutine calc_deviation(/;"	s	module:utility
+calc_dihedral	dihedral.f90	/^subroutine calc_dihedral$/;"	s
+calc_dihedral_sub	dihedral.f90	/^subroutine calc_dihedral_sub(/;"	s
+calc_histogram1D	hist1D.f90	/^module calc_histogram1D$/;"	m
+calc_histogram2D	hist2D.f90	/^module calc_histogram2D$/;"	m
+calc_parameter	parameters.f90	/^module calc_parameter$/;"	m
+charge_analysis	charge_analysis.f90	/^  subroutine charge_analysis$/;"	s	module:mod_charge_analysis
+data_ave_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent, data_ave_cent$/;"	v	module:calc_centoroid
+data_beads	parameters.f90	/^  real(8), save, allocatable :: data_step(:), data_beads(/;"	v	module:calc_parameter
+data_cent	cent.f90	/^  real(8), public, allocatable :: data_cent(/;"	v	module:calc_centoroid
+data_max_cent	cent.f90	/^  real(8), public :: data_max_cent,/;"	v	module:calc_centoroid
+data_min_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent,/;"	v	module:calc_centoroid
+data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	module:calc_parameter
+definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
+dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
+external_2Dhits	hist2D.f90	/^subroutine external_2Dhits$/;"	s	module:calc_histogram2D
+fc	Makefile	/^fc = gfortran$/;"	m
+fcopt	Makefile	/^fcopt =  -Wall -O3 -fbacktrace -fbounds-check$/;"	m
+graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
+hist2D_ave	hist2D.f90	/^  real(8), save :: hist2D_ave(/;"	v	module:calc_histogram2D
+hist2D_beads	hist2D.f90	/^  real(8), save, allocatable :: hist2D_beads(/;"	v	module:calc_histogram2D
+hist2D_max	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(/;"	v	module:calc_histogram2D
+hist2D_min	hist2D.f90	/^  real(8), save :: hist2D_min(/;"	v	module:calc_histogram2D
+hist_axis	hist2D.f90	/^  real(8), save, allocatable :: hist_data(:,:), hist_axis(/;"	v	module:calc_histogram2D
+hist_data	hist2D.f90	/^  real(8), save, allocatable :: hist_data(/;"	v	module:calc_histogram2D
+hist_margin	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(2)=0.0d0, hist_margin /;"	v	module:input_parameter
+hist_max	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(/;"	v	module:input_parameter
+hist_min	parameters.f90	/^  real(8), save :: hist_min(/;"	v	module:input_parameter
+histogram	hist1D.f90	/^  real(8), public, save, allocatable :: histogram(/;"	v	module:calc_histogram1D
+i	cent.f90	/^  in/;"	v	module:calc_centoroid
+i	hist2D.f90	/^  in/;"	v	module:calc_histogram2D
+input_file	parameters.f90	/^character(:), allocatable :: input_file$/;"	v	module:input_parameter
+input_parameter	parameters.f90	/^module input_parameter$/;"	m
+j	cent.f90	/^  integer, private :: i, j,/;"	v	module:calc_centoroid
+j	hist1D.f90	/^  integer, private :: j,/;"	v	module:calc_histogram1D
+j	hist2D.f90	/^  integer, private :: i, j,/;"	v	module:calc_histogram2D
+jobtype	parameters.f90	/^  integer, save :: jobtype$/;"	v	module:input_parameter
+k	cent.f90	/^  integer, private :: i, j, k,/;"	v	module:calc_centoroid
+k	hist1D.f90	/^  integer, private :: j, k,/;"	v	module:calc_histogram1D
+k	hist2D.f90	/^  integer, private :: i, j, k,/;"	v	module:calc_histogram2D
+l	cent.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_centoroid
+l	hist1D.f90	/^  integer, private :: j, k, l$/;"	v	module:calc_histogram1D
+l	hist2D.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_histogram2D
+mod_charge_analysis	charge_analysis.f90	/^module mod_charge_analysis$/;"	m
+module	Makefile	/^module =              \\$/;"	m
+multi_bond	multi_bond.f90	/^subroutine multi_bond$/;"	s
+multi_bond_all	multi_bond.f90	/^subroutine multi_bond_all$/;"	s
+multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
+multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
+norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
+objs	Makefile	/^objs = \\$/;"	m
+out_hist	parameters.f90	/^  character(len=128) :: out_hist /;"	v	module:input_parameter
+outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
+path_charge	charge_analysis.f90	/^  character(len=:), allocatable :: path_charge$/;"	v	module:mod_charge_analysis
+pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
+program	Makefile	/^program = run.exe$/;"	m
+r	parameters.f90	/^  re/;"	v	module:calc_parameter
+r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
+read_charge	charge_analysis.f90	/^  subroutine read_charge$/;"	s	module:mod_charge_analysis
+read_coor	read_coor.f90	/^subroutine read_coor /;"	s
+read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
+read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor
+read_input	read_inp.f90	/^subroutine read_input$/;"	s
+save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter
+step	cent.f90	/^  integer, private :: i, j, k, l, Ifile, step /;"	v	module:calc_centoroid
+step	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile, step!/;"	v	module:calc_histogram2D
+utility	utility.f90	/^module utility$/;"	m
