@@ -1,0 +1,117 @@
+# choose "job type"
+#  1 : -1d histgram                 (atom1-atom2)
+#  2 : -angle histgram              (atom1-atom2-atom3)
+#  3 : -dihedral angle              (atom1-atom2-atom3-atom4)
+# 11 : -multi bond calc all
+# 12 : -multi bond sort
+# 13 : -multi bond diff              (atom1-atom2  -  atom3-atom4)
+# 21 : -2d histogram_bond            (atom1-atom2 and atom3-atom4)
+# 22 : -2d histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
+# 29 : -2D histogram from External
+# 31 : -1d histogram for centroid
+# 32 : -2d histogram for centroid
+# 33 : -angle histgram for centroid
+# 41 : -dummy atom (x) for bond      (atom1-atomx)
+# 42 : -dummy atom (x) for angle     (atom1-atom2-atomx)
+# 43 : -dummy atom (x) for angle     (atom1-atom2-atomx-atom4)
+# 51 : -beads expansion
+# job type
+-Nfile
+1
+-Job type
+29
+-graph_step
+10
+-save_beads
+T
+-name_binary
+bin1 bin2
+# end job type
+bin1   bin2
+
+# input file 1
+-FileName
+../Data/coor_binary
+-Binary  # Choose T(rue) or F(alse)
+T
+F
+-Natom
+8
+-Nbeads
+4
+-Nstart
+1
+-Nstep
+5000
+-atom1
+5
+-atom2
+1
+-atom3
+2
+-atom4
+7
+-atom5
+2
+# end file 1
+
+
+# input file 2
+-FileName
+../Data/coor_binary
+-Nstart
+1
+-Nstep
+500
+-atom1
+0
+-atom2
+0
+-atom3
+0
+-atom4
+0
+-atom5
+0
+# end file 2
+
+# histgram parameters
+-Xrange_min
+0
+-Xrange_max
+0
+-Yrange_min
+0
+-Yrange_max
+0
+-Nhist
+50
+-hist_margin
+0.01d0
+0.1d0
+-Output_name         # 0: automatically saved
+0
+hello.out
+-File1_external      # the form must (nimber) (data)
+# end histgram parameters
+
+
+# multi bond
+-Nbond
+3
+-atom1, atom2
+1, 2
+1, 3
+1, 4
+# end multi bond
+
+# dummy atom
+-definition of dummy   # 1: middle point, 2: difference
+1
+-atom_temp1
+7
+-atom_temp2
+8
+# end dummy atom
+
+
