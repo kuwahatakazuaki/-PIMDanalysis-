@@ -40,7 +40,8 @@ call read_coor
 ! 42 : -Dummy atom (X) for angle     (atom1-atom2-atomX)
 ! 43 : -Dummy atom (X) for dihedral  (atom1-atom2-atomX-atom4)
 ! 51 : -Beads expansion   (all atoms)
-! 52 : -Beads expansion   (atom1 projected to atom2-atom3)
+! 52 : -Beads expansion   (export binary of atom1)
+! 53 : -Beads expansion   (atom1 projected to atom2-atom3)
 !!! 91 : -Specific purpose (Dihedral of NH4+(H2O))
 
 select case(jobtype)
