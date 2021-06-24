@@ -1,7 +1,8 @@
 # choose "job type"
-#  1 : -1d histgram                 (atom1-atom2)
+#  1 : -1d histgram of bond         (atom1-atom2)
 #  2 : -angle histgram              (atom1-atom2-atom3)
 #  3 : -dihedral angle              (atom1-atom2-atom3-atom4)
+#  9 : -1D histgram from External
 # 11 : -multi bond calc all
 # 12 : -multi bond sort
 # 13 : -multi bond diff              (atom1-atom2  -  atom3-atom4)
@@ -29,7 +30,6 @@ T
 -name_binary
 bin1 bin2
 # end job type
-bin1   bin2
 
 # input file 1
 -FileName

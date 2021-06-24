@@ -7,6 +7,7 @@ program analysis
 use input_parameter
 use calc_parameter
 use calc_centoroid
+use calc_histogram1D
 use calc_histogram2D
 use mod_charge_analysis
 implicit none
@@ -24,9 +25,10 @@ allocate(data_beads(Nbeads,TNstep), source=0.0d0)
 call read_coor
 
 ! Choose "job type"
-!  1 : -1D histgram                 (atom1-atom2)
+!  1 : -1D histgram of bond         (atom1-atom2)
 !  2 : -Angle histgram              (atom1-atom2-atom3)
 !  3 : -Dihedral angle              (atom1-atom2-atom3-atom4)
+!  9 : -1D histgram from External
 ! 11 : -Multi bond calc all
 ! 12 : -Multi bond sort
 ! 13 : -Multi bond diff              (atom1-atom2  -  atom3-atom4)
@@ -51,6 +53,8 @@ select case(jobtype)
     call calc_angle
   case(3)
     call calc_dihedral
+  case(9)
+    call external_1Dhist
   case(11:13)
     call multi_bond
   case(21:28)

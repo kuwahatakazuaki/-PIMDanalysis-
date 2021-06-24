@@ -1,8 +1,9 @@
 module calc_histogram1D
   use calc_parameter, only: r, data_beads !, data_dev
-  use input_parameter, &
-      only: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond, &
-            hist_min, hist_max, hist_margin, Usave, out_hist
+  use input_parameter
+!  use input_parameter, &
+!      only: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond, &
+!            hist_min, hist_max, hist_margin, Usave, out_hist
   implicit none
   integer, private :: j, k, l
   real(8), private :: Dhist
@@ -10,6 +11,46 @@ module calc_histogram1D
 
 contains
 ! NEED: data_beads(Nbeads,TNstep)
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  subroutine external_1Dhist
+    integer :: Nunit
+
+  block ! Check the number of line between Finput1 and Finput2
+    integer :: Nline1, Nline2, Nline
+    real(8) :: dummyD
+    open(newunit=Nunit, file=FNameBinary1, form='unformatted', access='stream', status='old', err=901)
+      Nline = 0
+      do
+        read(Nunit, end=800) dummyD
+        Nline = Nline + 1
+      end do
+      800 continue
+    close(Nunit)
+    Nline1 = Nline
+
+    open(newunit=Nunit, file=FNameBinary2, form='unformatted', access='stream', status='old', err=902)
+      Nline = 0
+      do
+        read(Nunit, end=801) dummyD
+        Nline = Nline + 1
+      end do
+      801 continue
+    close(Nunit)
+    Nline2 = Nline
+
+    if ( Nline1 /= Nline2 ) then
+      print *, "The number of lines are different between ", FNameBinary1, " and ", FNameBinary2
+      stop "ERROR!!"
+    end if
+  end block
+
+! +++ HERE +++
+
+    901 stop "ERROR!! Tere is no binary input1 file"
+    902 stop "ERROR!! Tere is no binary input2 file"
+  end subroutine external_1Dhist
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_1Dhist(hist_min_ex, hist_max_ex, out_hist_ex)

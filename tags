@@ -13,13 +13,17 @@
 105	read_inp.f90	/^  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
-800	hist2D.f90	/^      800 continue$/;"	l	subroutine:external_2Dhits	file:
-801	hist2D.f90	/^      801 continue$/;"	l	subroutine:external_2Dhits	file:
+800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
+800	hist2D.f90	/^        800 continue$/;"	l	subroutine:external_2Dhits	file:
+801	hist1D.f90	/^      801 continue$/;"	l	subroutine:external_1Dhist	file:
+801	hist2D.f90	/^        801 continue$/;"	l	subroutine:external_2Dhits	file:
 900	charge_analysis.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
 900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat'; stop$/;"	l	file:
 901	charge_analysis.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
-901	hist2D.f90	/^901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
-902	hist2D.f90	/^902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	file:
+901	hist1D.f90	/^    901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	subroutine:external_1Dhist	file:
+901	hist2D.f90	/^  901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
+902	hist1D.f90	/^    902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	module:calc_histogram1D	file:
+902	hist2D.f90	/^  902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	file:
 902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_binary	file:
 902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_format	file:
 904	read_coor.f90	/^  904 print *, "ERROR!!: The number of atom or beads is wrong"; stop$/;"	l	subroutine:read_coor_format	file:
@@ -49,12 +53,15 @@ atom	parameters.f90	/^  character(len=2), save, allocatable :: atom(/;"	v	module
 atom_dummy	parameters.f90	/^  integer, save :: definition_dummy, atom_dummy(/;"	v	module:input_parameter
 atom_multi	parameters.f90	/^  integer, save, allocatable :: atom_multi(/;"	v	module:input_parameter
 atom_num	parameters.f90	/^  integer, save, allocatable :: atom_num(/;"	v	module:input_parameter
+beads_all	beads_expansion.f90	/^  subroutine beads_all$/;"	s	subroutine:beads_expansion
+beads_bin	beads_expansion.f90	/^  subroutine beads_bin$/;"	s	subroutine:beads_expansion
 beads_expansion	beads_expansion.f90	/^subroutine beads_expansion$/;"	s
+beads_projection	beads_expansion.f90	/^  subroutine beads_projection$/;"	s	subroutine:beads_expansion
 bond_dev2D	hist2D.f90	/^  real(8), save :: hist2D_ave(2), bond_dev2D(/;"	v	module:calc_histogram2D
-calc_1Dhist	hist1D.f90	/^  subroutine calc_1Dhist(/;"	s	module:calc_histogram1D
-calc_1Dhist_sub	hist1D.f90	/^  subroutine calc_1Dhist_sub$/;"	s	module:calc_histogram1D
-calc_2Dhist	hist2D.f90	/^subroutine calc_2Dhist$/;"	s	module:calc_histogram2D
-calc_2Dhist_sub	hist2D.f90	/^subroutine calc_2Dhist_sub(/;"	s	module:calc_histogram2D
+calc_1Dhist	hist1D.f90	/^  subroutine calc_1Dhist(/;"	s
+calc_1Dhist_sub	hist1D.f90	/^  subroutine calc_1Dhist_sub$/;"	s
+calc_2Dhist	hist2D.f90	/^  subroutine calc_2Dhist$/;"	s	module:calc_histogram2D
+calc_2Dhist_sub	hist2D.f90	/^  subroutine calc_2Dhist_sub(/;"	s	module:calc_histogram2D
 calc_angle	angle.f90	/^subroutine calc_angle$/;"	s
 calc_angle_sub	angle.f90	/^subroutine calc_angle_sub(/;"	s
 calc_bond	bond.f90	/^subroutine calc_bond$/;"	s
@@ -79,7 +86,8 @@ data_min_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent,/;"	v
 data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	module:calc_parameter
 definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
 dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
-external_2Dhits	hist2D.f90	/^subroutine external_2Dhits$/;"	s	module:calc_histogram2D
+external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
+external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
 fc	Makefile	/^fc = gfortran$/;"	m
 fcopt	Makefile	/^fcopt =  -Wall -O3 -fbacktrace -fbounds-check$/;"	m
 graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
