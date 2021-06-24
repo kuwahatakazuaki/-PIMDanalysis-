@@ -19,10 +19,11 @@ implicit none
 
 contains
 
-! +++ HERE +++
   subroutine beads_bin
     real(8) :: beads_ave1(3,TNstep), beads_dev1(TNstep)
-    integer :: atom1
+    real(8) :: beads_temp(Nbeads,TNstep)
+    integer :: atom1, Ounit, step
+
     atom1 = atom_num(1,1)  ! atom_num(Iatom,Ifile)
 
     beads_ave1(:,:) = 0.0d0
@@ -32,20 +33,31 @@ contains
     end do
     beads_ave1(:,:) = beads_ave1(:,:) / Nbeads
 
-    do j = 1, Nbeads
-      do k = 1, TNstep
-        beads_dev1(k) = beads_dev1(k)
+    do k = 1, TNstep
+      do j = 1, Nbeads
+        beads_dev1(k) = beads_dev1(k) + dot_product( r(:,atom1,j,k)-beads_ave1(:,k) , r(:,atom1,j,k)-beads_ave1(:,k) )
       end do
     end do
+    beads_dev1(:) = dsqrt( beads_dev1(:) / Nbeads )
+    do step = 1, TNstep
+      beads_temp(:,step) = beads_dev1(step)
+    end do
 
+    open(newunit=Ounit,file=FNameBinary1, form='unformatted', access='stream', status='replace')
+      do step = 1, TNstep
+        do j = 1, Nbeads
+ !         write(Ounit) beads_dev1(step)
+          write(Ounit) beads_temp(j,step)
+        end do
+      end do
+    close(Ounit)
   end subroutine beads_bin
-! +++ HERE +++
 
 
   subroutine beads_all
     integer :: Nbeads_back
     character(len=19) :: out_expan
-    character(len=2) :: dummy = "C"
+!    character(len=2) :: dummy = "C"
     real(8) :: beads_ave(3,Natom,TNstep), beads_dev(Natom,TNstep)
     real(8) :: data_dev
 
@@ -58,15 +70,15 @@ contains
     end do
     beads_ave(:,:,:) = beads_ave(:,:,:) / Nbeads
 
-    do j = 1, Nbeads
-      do i = 1, Natom
-        do k = 1, TNstep
-          beads_dev(i,k) = beads_dev(i,k) + norm(r(:,i,j,k)-beads_ave(:,i,k))**2
+    do i = 1, Natom
+      do k = 1, TNstep
+        do j = 1, Nbeads
+!          beads_dev(i,k) = beads_dev(i,k) + norm(r(:,i,j,k)-beads_ave(:,i,k))**2
+          beads_dev(i,k) = beads_dev(i,k) + dot_product( r(:,i,j,k)-beads_ave(:,i,k) , r(:,i,j,k)-beads_ave(:,i,k) )
         end do
       end do
     end do
-    beads_dev(:,:) = beads_dev(:,:)/Nbeads
-    beads_dev(:,:) = dsqrt(beads_dev(:,:))
+    beads_dev(:,:) = dsqrt( beads_dev(:,:) / Nbeads )
 
     deallocate(data_beads)
     allocate(data_beads(1,TNstep))

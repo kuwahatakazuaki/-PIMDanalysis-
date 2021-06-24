@@ -25,7 +25,7 @@ open(20,file=input_file,status='old',err=900)
 
 ! --- Reading job type ---
 block
-character(len=100) :: FNtemp1, FNtemp2
+character(len=100) :: FNtemp1 = "bin1.bin", FNtemp2 = "bin2.bin"
   rewind(20)
   do
     read(20,'(a)',end=101) line
@@ -43,11 +43,13 @@ character(len=100) :: FNtemp1, FNtemp2
       else
         read(20,*) FNtemp1
       end if
-      FNameBinary1 = trim(FNtemp1)
-      FNameBinary2 = trim(FNtemp2)
     elseif (index(trim(line), "# end job type") > 0)  then; exit
     end if
   end do
+! +++ Default options +++
+  FNameBinary1 = trim(FNtemp1)
+  FNameBinary2 = trim(FNtemp2)
+! +++ End Default options +++
 end block
 ! --- End Reading job type ---
 

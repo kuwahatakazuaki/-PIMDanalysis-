@@ -14,7 +14,9 @@
 # 41 : -dummy atom (x) for bond      (atom1-atomx)
 # 42 : -dummy atom (x) for angle     (atom1-atom2-atomx)
 # 43 : -dummy atom (x) for angle     (atom1-atom2-atomx-atom4)
-# 51 : -beads expansion
+# 51 : -Beads expansion   (all atoms)
+# 52 : -Beads expansion   (export binary of atom1)
+# 53 : -Beads expansion   (atom1 projected to atom2-atom3)
 # job type
 -Nfile
 1
