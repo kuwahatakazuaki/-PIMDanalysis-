@@ -116,7 +116,7 @@ subroutine multi_bond_all
 !        write(22,*) k, data_step(k)
       end do
     close(22)
-    call calc_1Dhist(0.0d0,0.0d0) ! you need "data_beads"
+    call calc_1Dhist(0.0d0,0.0d0,out_hist_ex=out_hist) ! you need "data_beads"
   end do
 end subroutine multi_bond_all
 ! +++ End jobtype == 11 +++

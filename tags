@@ -97,6 +97,7 @@ hist2D_max	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(/;"	v	modul
 hist2D_min	hist2D.f90	/^  real(8), save :: hist2D_min(/;"	v	module:calc_histogram2D
 hist_axis	hist2D.f90	/^  real(8), save, allocatable :: hist_data(:,:), hist_axis(/;"	v	module:calc_histogram2D
 hist_data	hist2D.f90	/^  real(8), save, allocatable :: hist_data(/;"	v	module:calc_histogram2D
+hist_data1D	hist2D.f90	/^  real(8), allocatable  :: hist_data1D(/;"	v	module:calc_histogram2D
 hist_margin	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(2)=0.0d0, hist_margin /;"	v	module:input_parameter
 hist_max	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(/;"	v	module:input_parameter
 hist_min	parameters.f90	/^  real(8), save :: hist_min(/;"	v	module:input_parameter
