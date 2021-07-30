@@ -1,13 +1,56 @@
 module mod_other_quantities
   use input_parameter
   implicit none
-  character(len=:), allocatable :: path_charge
+  real(8), allocatable :: charge(:,:), dipole(:,:,:)
+  integer, private :: Uinp, ierr
 
 contains
+
+  subroutine  other_quantities
+    select case(jobtype)
+      case(61)
+        call charge_analysis
+      case(62)
+        call dipole_analysis
+    end select
+  end subroutine other_quantities
 
   subroutine charge_analysis
     call read_charge
   end subroutine charge_analysis
+
+  subroutine dipole_analysis
+    integer :: i,j,k,Istep
+    allocate(dipole(3,Nbeads,TNstep))
+
+    open(newunit=Uinp, file=other_path,status='old',iostat=ierr)
+      if ( ierr > 0 ) then
+        print *, 'Check the path : ', other_path
+        stop 'ERROR!!: There is no "dipole.dat"'
+      end if
+
+      do k = 1, Nstart(1)-1
+        read(Uinp, '()')
+        do j = 1, Nbeads
+          read(Uinp,*) dipole(:,j,k)
+        end do
+      end do
+
+      Istep = 0
+      do k = Nstart(1), Nstep(1)
+        Istep = Istep + 1
+        read(Uinp, '()')
+        do j = 1, Nbeads
+          read(Uinp,*) dipole(:,j,Istep)
+        end do
+      end do
+    close(Uinp)
+    do j = 1, Nbeads
+      print *, dipole(:,j,1)
+    end do
+    stop "HERE"
+    return
+  end subroutine dipole_analysis
 
 
   subroutine read_charge

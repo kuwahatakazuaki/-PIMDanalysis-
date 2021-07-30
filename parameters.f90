@@ -16,7 +16,9 @@ module input_parameter
   logical :: Lfolding = .False.
   logical :: save_beads = .False.
   character(len=:), allocatable :: FNameBinary1, FNameBinary2
-character(:), allocatable :: input_file
+  character(:), allocatable :: input_file
+  integer :: other_type
+  character(:), allocatable :: other_path
 end module input_parameter
 
 module calc_parameter

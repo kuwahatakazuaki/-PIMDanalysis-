@@ -11,17 +11,18 @@
 103	read_inp.f90	/^  103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop$/;"	l	file:
 104	read_inp.f90	/^  104 print *, 'ERROR!!: There is no "# multi bond"'; stop$/;"	l	file:
 105	read_inp.f90	/^  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop$/;"	l	file:
+106	read_inp.f90	/^  106 print *, 'ERROR!!: There is no "# other type"'; stop$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
 800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
 800	hist2D.f90	/^        800 continue$/;"	l	subroutine:external_2Dhits	file:
 801	hist1D.f90	/^      801 continue$/;"	l	subroutine:external_1Dhist	file:
 801	hist2D.f90	/^        801 continue$/;"	l	subroutine:external_2Dhits	file:
-900	charge_analysis.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
+900	other_quantities.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
 900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat'; stop$/;"	l	file:
-901	charge_analysis.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
 901	hist1D.f90	/^    901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	subroutine:external_1Dhist	file:
 901	hist2D.f90	/^  901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
+901	other_quantities.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
 902	hist1D.f90	/^    902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	module:calc_histogram1D	file:
 902	hist2D.f90	/^  902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	file:
 902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_binary	file:
@@ -77,7 +78,7 @@ calc_dihedral_sub	dihedral.f90	/^subroutine calc_dihedral_sub(/;"	s
 calc_histogram1D	hist1D.f90	/^module calc_histogram1D$/;"	m
 calc_histogram2D	hist2D.f90	/^module calc_histogram2D$/;"	m
 calc_parameter	parameters.f90	/^module calc_parameter$/;"	m
-charge_analysis	charge_analysis.f90	/^  subroutine charge_analysis$/;"	s	module:mod_charge_analysis
+charge_analysis	other_quantities.f90	/^  subroutine charge_analysis$/;"	s	module:mod_other_quantities
 data_ave_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent, data_ave_cent$/;"	v	module:calc_centoroid
 data_beads	parameters.f90	/^  real(8), save, allocatable :: data_step(:), data_beads(/;"	v	module:calc_parameter
 data_cent	cent.f90	/^  real(8), public, allocatable :: data_cent(/;"	v	module:calc_centoroid
@@ -85,6 +86,7 @@ data_max_cent	cent.f90	/^  real(8), public :: data_max_cent,/;"	v	module:calc_ce
 data_min_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent,/;"	v	module:calc_centoroid
 data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	module:calc_parameter
 definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
+dipole_analysis	other_quantities.f90	/^  subroutine dipole_analysis$/;"	s	module:mod_other_quantities
 dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
 external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
@@ -104,7 +106,7 @@ hist_min	parameters.f90	/^  real(8), save :: hist_min(/;"	v	module:input_paramet
 histogram	hist1D.f90	/^  real(8), public, save, allocatable :: histogram(/;"	v	module:calc_histogram1D
 i	cent.f90	/^  in/;"	v	module:calc_centoroid
 i	hist2D.f90	/^  in/;"	v	module:calc_histogram2D
-input_file	parameters.f90	/^character(:), allocatable :: input_file$/;"	v	module:input_parameter
+input_file	parameters.f90	/^  character(:), allocatable :: input_file$/;"	v	module:input_parameter
 input_parameter	parameters.f90	/^module input_parameter$/;"	m
 j	cent.f90	/^  integer, private :: i, j,/;"	v	module:calc_centoroid
 j	hist1D.f90	/^  integer, private :: j,/;"	v	module:calc_histogram1D
@@ -116,7 +118,7 @@ k	hist2D.f90	/^  integer, private :: i, j, k,/;"	v	module:calc_histogram2D
 l	cent.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_centoroid
 l	hist1D.f90	/^  integer, private :: j, k, l$/;"	v	module:calc_histogram1D
 l	hist2D.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_histogram2D
-mod_charge_analysis	charge_analysis.f90	/^module mod_charge_analysis$/;"	m
+mod_other_quantities	other_quantities.f90	/^module mod_other_quantities$/;"	m
 module	Makefile	/^module =              \\$/;"	m
 multi_bond	multi_bond.f90	/^subroutine multi_bond$/;"	s
 multi_bond_all	multi_bond.f90	/^subroutine multi_bond_all$/;"	s
@@ -124,14 +126,17 @@ multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
 multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
 norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
 objs	Makefile	/^objs = \\$/;"	m
+other_path	parameters.f90	/^  character(:), allocatable :: other_path$/;"	v	module:input_parameter
+other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	module:mod_other_quantities
+other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
 out_hist	parameters.f90	/^  character(len=128) :: out_hist /;"	v	module:input_parameter
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
-path_charge	charge_analysis.f90	/^  character(len=:), allocatable :: path_charge$/;"	v	module:mod_charge_analysis
+path_other	other_quantities.f90	/^  character(len=:), allocatable :: path_other$/;"	v	module:mod_other_quantities
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
 program	Makefile	/^program = run.exe$/;"	m
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
-read_charge	charge_analysis.f90	/^  subroutine read_charge$/;"	s	module:mod_charge_analysis
+read_charge	other_quantities.f90	/^  subroutine read_charge$/;"	s	module:mod_other_quantities
 read_coor	read_coor.f90	/^subroutine read_coor /;"	s
 read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
 read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor

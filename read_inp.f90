@@ -156,9 +156,24 @@ end block
     elseif (index(trim(line) ,"# end"       ) > 0)          then; exit
     end if
   end do
-
 ! --- End Reading dummy atom ---
 
+! --- Reading other type ---
+  rewind(20)
+  do
+    read(20,'(a)',end=106) line
+      if (index(trim(line),'# other type') > 0) exit
+  end do
+  do
+    read(20,'(a)',end=100) line
+    if     (index(trim(line) ,"-type") > 0 ) then; read(20,*) other_type
+    elseif (index(trim(line) ,"-path") > 0)  then
+      read(20,'(a)') line
+      other_path = trim(line)
+    elseif (index(trim(line) ,"# end") > 0)  then; exit
+    end if
+  end do
+! --- End Reading other type ---
 
 ! --- Erro Check !! ---
   if     ( Natom < 0) then; print *, "ERROR!!: Write Natom!!";  stop
@@ -211,8 +226,9 @@ return
   103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop
   104 print *, 'ERROR!!: There is no "# multi bond"'; stop
   105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
+  106 print *, 'ERROR!!: There is no "# other type"'; stop
   111 print *, 'ERROR!!: "-Binary" must be T or F'; stop
   120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop
-  900 print *, 'ERROR!!: There is no "input.dat'; stop
+  900 print *, 'ERROR!!: There is no "input.dat"'; stop
 end subroutine read_input
 

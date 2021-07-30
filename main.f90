@@ -22,7 +22,12 @@ allocate(data_step(TNstep), source=0.0d0)
 allocate(data_beads(Nbeads,TNstep), source=0.0d0)
 
 ! +++ Reading coordinate +++
-call read_coor
+select case(jobtype)
+  case(1:60)
+    call read_coor
+  case(61:69)
+    print *, "Skip reading coor.xyz"
+end select
 
 ! Choose "job type"
 !  1 : -1D histgram of bond         (atom1-atom2)
@@ -69,8 +74,8 @@ select case(jobtype)
     call dummy_atom
   case(51:54)
     call beads_expansion
-  case(61)
-    call charge_analysis
+  case(61:62)
+    call other_quantities
   case default
     stop 'ERROR!!! wrong "Job type" option'
 end select
