@@ -173,6 +173,7 @@ end block
     elseif (index(trim(line) ,"# end") > 0)  then; exit
     end if
   end do
+106 continue
 ! --- End Reading other type ---
 
 ! --- Erro Check !! ---
@@ -226,7 +227,7 @@ return
   103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop
   104 print *, 'ERROR!!: There is no "# multi bond"'; stop
   105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
-  106 print *, 'ERROR!!: There is no "# other type"'; stop
+!  106 print *, 'ERROR!!: There is no "# other type"'; stop
   111 print *, 'ERROR!!: "-Binary" must be T or F'; stop
   120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop
   900 print *, 'ERROR!!: There is no "input.dat"'; stop
