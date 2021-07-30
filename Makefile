@@ -12,7 +12,7 @@ fcopt =  -Wall -O3 -fbacktrace -fbounds-check
 # +++ End ifort +++
 objs = \
 parameters.o       \
-charge_analysis.o  \
+other_quantities.o  \
 utility.o          \
 hist1D.o           \
 hist2D.o           \
@@ -34,7 +34,7 @@ calc_histogram2d.mod  \
 calc_parameter.mod    \
 input_parameter.mod   \
 utility.mod           \
-mod_charge_analysis.mod \
+mod_other_quantities.mod \
 
 %.mod : %.f90 %.o
 	@true

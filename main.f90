@@ -9,7 +9,7 @@ use calc_parameter
 use calc_centoroid
 use calc_histogram1D
 use calc_histogram2D
-use mod_charge_analysis
+use mod_other_quantities
 implicit none
 
 ! +++ Reading the input file +++
@@ -44,6 +44,8 @@ call read_coor
 ! 51 : -Beads expansion   (all atoms)
 ! 52 : -Beads expansion   (export binary of atom1)
 ! 53 : -Beads expansion   (atom1 projected to atom2-atom3)
+! 61 : -charge_analysis
+! 62 : -dipole_analysis
 !!! 91 : -Specific purpose (Dihedral of NH4+(H2O))
 
 select case(jobtype)
