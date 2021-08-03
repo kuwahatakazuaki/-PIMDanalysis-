@@ -50,17 +50,13 @@ contains
     abs_dipole = 0.0d0
     do Istep = 1, TNstep
       do j = 1, Nbeads
-        abs_dipole = abs_dipole + dot_product(dipole(:,j,Istep),dipole(:,j,Istep))
+        abs_dipole = abs_dipole + dsqrt( dot_product(dipole(:,j,Istep),dipole(:,j,Istep)) )
       end do
     end do
-    abs_dipole = dsqrt(abs_dipole/dble(TNstep*Nbeads))
+    abs_dipole = abs_dipole/dble(TNstep*Nbeads)
     print '(a)', "The absolute dipole moment"
     print *, abs_dipole, " D "
 
-!    do j = 1, Nbeads
-!      print *, dipole(:,j,1)
-!    end do
-!    stop "HERE"
     return
   end subroutine dipole_analysis
 
