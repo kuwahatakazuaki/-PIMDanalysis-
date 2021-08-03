@@ -21,6 +21,7 @@ contains
 
   subroutine dipole_analysis
     integer :: i,j,k,Istep
+    real(8) :: abs_dipole
     allocate(dipole(3,Nbeads,TNstep))
 
     open(newunit=Uinp, file=other_path,status='old',iostat=ierr)
@@ -45,10 +46,21 @@ contains
         end do
       end do
     close(Uinp)
-    do j = 1, Nbeads
-      print *, dipole(:,j,1)
+
+    abs_dipole = 0.0d0
+    do Istep = 1, TNstep
+      do j = 1, Nbeads
+        abs_dipole = abs_dipole + dot_product(dipole(:,j,Istep),dipole(:,j,Istep))
+      end do
     end do
-    stop "HERE"
+    abs_dipole = dsqrt(abs_dipole/dble(TNstep*Nbeads))
+    print '(a)', "The absolute dipole moment"
+    print *, abs_dipole, " D "
+
+!    do j = 1, Nbeads
+!      print *, dipole(:,j,1)
+!    end do
+!    stop "HERE"
     return
   end subroutine dipole_analysis
 
