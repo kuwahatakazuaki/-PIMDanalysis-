@@ -29,6 +29,8 @@
 T
 -name_binary
 bin1 bin2
+-umbrella_sampling
+F
 # end job type
 
 # input file 1

@@ -11,7 +11,7 @@
 103	read_inp.f90	/^  103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop$/;"	l	file:
 104	read_inp.f90	/^  104 print *, 'ERROR!!: There is no "# multi bond"'; stop$/;"	l	file:
 105	read_inp.f90	/^  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop$/;"	l	file:
-106	read_inp.f90	/^  106 print *, 'ERROR!!: There is no "# other type"'; stop$/;"	l	file:
+106	read_inp.f90	/^106 continue$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
 800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
@@ -19,7 +19,7 @@
 801	hist1D.f90	/^      801 continue$/;"	l	subroutine:external_1Dhist	file:
 801	hist2D.f90	/^        801 continue$/;"	l	subroutine:external_2Dhits	file:
 900	other_quantities.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
-900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat'; stop$/;"	l	file:
+900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat"'; stop$/;"	l	file:
 901	hist1D.f90	/^    901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	subroutine:external_1Dhist	file:
 901	hist2D.f90	/^  901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
 901	other_quantities.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
@@ -47,6 +47,7 @@ Nhist	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist,/;"	v	mod
 Nstart	parameters.f90	/^  integer, save, allocatable :: Nstep(:), Nstart(/;"	v	module:input_parameter
 Nstep	parameters.f90	/^  integer, save, allocatable :: Nstep(/;"	v	module:input_parameter
 TNstep	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep,/;"	v	module:input_parameter
+Uinp	other_quantities.f90	/^  integer, private :: Uinp,/;"	v	module:mod_other_quantities
 Uprint	parameters.f90	/^  integer, save :: Usave = 20, Uprint /;"	v	module:input_parameter
 Usave	parameters.f90	/^  integer, save :: Usave /;"	v	module:input_parameter
 analysis	main.f90	/^program analysis$/;"	p
@@ -78,6 +79,7 @@ calc_dihedral_sub	dihedral.f90	/^subroutine calc_dihedral_sub(/;"	s
 calc_histogram1D	hist1D.f90	/^module calc_histogram1D$/;"	m
 calc_histogram2D	hist2D.f90	/^module calc_histogram2D$/;"	m
 calc_parameter	parameters.f90	/^module calc_parameter$/;"	m
+charge	other_quantities.f90	/^  real(8), allocatable :: charge(/;"	v	module:mod_other_quantities
 charge_analysis	other_quantities.f90	/^  subroutine charge_analysis$/;"	s	module:mod_other_quantities
 data_ave_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent, data_ave_cent$/;"	v	module:calc_centoroid
 data_beads	parameters.f90	/^  real(8), save, allocatable :: data_step(:), data_beads(/;"	v	module:calc_parameter
@@ -86,6 +88,7 @@ data_max_cent	cent.f90	/^  real(8), public :: data_max_cent,/;"	v	module:calc_ce
 data_min_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent,/;"	v	module:calc_centoroid
 data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	module:calc_parameter
 definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
+dipole	other_quantities.f90	/^  real(8), allocatable :: charge(:,:), dipole(/;"	v	module:mod_other_quantities
 dipole_analysis	other_quantities.f90	/^  subroutine dipole_analysis$/;"	s	module:mod_other_quantities
 dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
@@ -106,6 +109,7 @@ hist_min	parameters.f90	/^  real(8), save :: hist_min(/;"	v	module:input_paramet
 histogram	hist1D.f90	/^  real(8), public, save, allocatable :: histogram(/;"	v	module:calc_histogram1D
 i	cent.f90	/^  in/;"	v	module:calc_centoroid
 i	hist2D.f90	/^  in/;"	v	module:calc_histogram2D
+ierr	other_quantities.f90	/^  integer, private :: Uinp, ierr$/;"	v	module:mod_other_quantities
 input_file	parameters.f90	/^  character(:), allocatable :: input_file$/;"	v	module:input_parameter
 input_parameter	parameters.f90	/^module input_parameter$/;"	m
 j	cent.f90	/^  integer, private :: i, j,/;"	v	module:calc_centoroid
@@ -131,7 +135,6 @@ other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	mod
 other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
 out_hist	parameters.f90	/^  character(len=128) :: out_hist /;"	v	module:input_parameter
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
-path_other	other_quantities.f90	/^  character(len=:), allocatable :: path_other$/;"	v	module:mod_other_quantities
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
 program	Makefile	/^program = run.exe$/;"	m
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
