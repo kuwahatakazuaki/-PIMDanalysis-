@@ -67,7 +67,7 @@ contains
     if (present(out_hist_ex)) out_hist = out_hist_ex
     allocate(histogram(Nhist,2))
 
-    print '(" *****START calculation 1D histgram******")'
+    print '(" ***** START calculation 1D histgram ******")'
 
     data_max = maxval(data_beads)
     data_min = minval(data_beads)
@@ -96,7 +96,8 @@ contains
       real(8) :: poten, normalization
       beta = 1 / ( temperature * KtoAU )
       do l = 1, Nhist
-        poten = umbrella_force * AUtoAng * histogram(l,1)**2
+!        poten = umbrella_force / (AngtoAU*AngtoAU) * (histogram(l,1)*AUtoAng)**2
+        poten = umbrella_force / (AngtoAU*AngtoAU*AngtoAU) * histogram(l,1)**2
         hist_umbre(l) = histogram(l,2) * dexp(beta*poten)
       end do
       normalization = sum(hist_umbre(:)) * (histogram(Nhist,1) - histogram(1,1)) / dble(Nhist-1)
@@ -131,7 +132,7 @@ contains
     close(Usave)
     deallocate(histogram)
     print '(a,a,/)', "    Hist data is saved in ", '"'//trim(out_hist)//'"'
-    print '(a,/)', " *****END calculation 1D histgram*****"
+    print '(a,/)', " ***** END calculation 1D histgram *****"
   end subroutine calc_1Dhist
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
