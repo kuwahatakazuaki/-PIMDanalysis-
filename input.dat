@@ -18,6 +18,8 @@
 # 51 : -Beads expansion   (all atoms)
 # 52 : -Beads expansion   (export binary of atom1)
 # 53 : -Beads expansion   (atom1 projected to atom2-atom3)
+# 61 : -charge_analysis
+# 62 : -dipole_analysis
 # job type
 -Nfile
 1
@@ -29,8 +31,6 @@
 T
 -name_binary
 bin1 bin2
--umbrella_sampling
-F
 # end job type
 
 # input file 1
@@ -117,5 +117,24 @@ hello.out
 -atom_temp2
 8
 # end dummy atom
+
+# umbrella sampling
+-type   # 1:atom1-atom2 2:atom1-atom2-atom3
+1
+-atom1
+1
+-atom2
+2
+# end umbrella sampling
+
+# other type
+-type   # 1:charge, 2:dipole
+2
+-path
+/Users/kuwahatakazuaki/PIMD/Result/Oxalic_acid/Hyd/Gas/dipole.dat
+# end other type
+
+
+
 
 

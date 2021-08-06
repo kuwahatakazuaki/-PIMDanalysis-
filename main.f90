@@ -23,9 +23,9 @@ allocate(data_beads(Nbeads,TNstep), source=0.0d0)
 
 ! +++ Reading coordinate +++
 select case(jobtype)
-  case(1:60)
+  case(1:59)
     call read_coor
-  case(61:69)
+  case(60:69)
     print *, "Skip reading coor.xyz"
 end select
 

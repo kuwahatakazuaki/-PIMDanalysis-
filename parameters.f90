@@ -19,6 +19,7 @@ module input_parameter
   character(:), allocatable :: input_file
   integer :: other_type
   character(:), allocatable :: other_path
+  integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
 end module input_parameter
 
 module calc_parameter

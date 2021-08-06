@@ -12,6 +12,7 @@
 104	read_inp.f90	/^  104 print *, 'ERROR!!: There is no "# multi bond"'; stop$/;"	l	file:
 105	read_inp.f90	/^  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop$/;"	l	file:
 106	read_inp.f90	/^106 continue$/;"	l	file:
+107	read_inp.f90	/^107 continue$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
 800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
@@ -147,4 +148,8 @@ read_input	read_inp.f90	/^subroutine read_input$/;"	s
 save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter
 step	cent.f90	/^  integer, private :: i, j, k, l, Ifile, step /;"	v	module:calc_centoroid
 step	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile, step!/;"	v	module:calc_histogram2D
+umbrella_atom1	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1,/;"	v	module:input_parameter
+umbrella_atom2	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2,/;"	v	module:input_parameter
+umbrella_atom3	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3$/;"	v	module:input_parameter
+umbrella_type	parameters.f90	/^  integer :: umbrella_type,/;"	v	module:input_parameter
 utility	utility.f90	/^module utility$/;"	m

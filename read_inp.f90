@@ -23,35 +23,39 @@ end block
 
 open(20,file=input_file,status='old',err=900)
 
-! --- Reading job type ---
-block
-character(len=100) :: FNtemp1 = "bin1.bin", FNtemp2 = "bin2.bin"
-  rewind(20)
-  do
-    read(20,'(a)',end=101) line
-      if (trim(line(1:10)) == "# job type" )  exit
-  end do
-  do  ! Reading job type (1:1D, 2:2D, 3:Angle)
-    read(20,'(a)',end=100) line
-    if     (index(trim(line), "-Nfile") > 0)          then; read(20,*) Nfile
-    elseif (index(trim(line), "-Job type") > 0)       then; read(20,*) jobtype
-    elseif (index(trim(line), "-graph_step") > 0)     then; read(20,*) graph_step
-    elseif (index(trim(line), "-save_beads") > 0)     then; read(20,*) save_beads
-    elseif (index(trim(line), "-name_binary") > 0)    then
-      if (jobtype == 29 ) then
-        read(20,*) FNtemp1, FNtemp2
-      else
-        read(20,*) FNtemp1
+! ========================
+! === Reading job type ===
+! ========================
+  block
+  character(len=100) :: FNtemp1 = "bin1.bin", FNtemp2 = "bin2.bin"
+    rewind(20)
+    do
+      read(20,'(a)',end=101) line
+        if (trim(line(1:10)) == "# job type" )  exit
+    end do
+    do  ! Reading job type (1:1D, 2:2D, 3:Angle)
+      read(20,'(a)',end=100) line
+      if     (index(trim(line), "-Nfile") > 0)          then; read(20,*) Nfile
+      elseif (index(trim(line), "-Job type") > 0)       then; read(20,*) jobtype
+      elseif (index(trim(line), "-graph_step") > 0)     then; read(20,*) graph_step
+      elseif (index(trim(line), "-save_beads") > 0)     then; read(20,*) save_beads
+      elseif (index(trim(line), "-name_binary") > 0)    then
+        if (jobtype == 29 ) then
+          read(20,*) FNtemp1, FNtemp2
+        else
+          read(20,*) FNtemp1
+        end if
+      elseif (index(trim(line), "# end job type") > 0)  then; exit
       end if
-    elseif (index(trim(line), "# end job type") > 0)  then; exit
-    end if
-  end do
-! +++ Default options +++
-  FNameBinary1 = trim(FNtemp1)
-  FNameBinary2 = trim(FNtemp2)
-! +++ End Default options +++
-end block
-! --- End Reading job type ---
+    end do
+  ! +++ Default options +++
+    FNameBinary1 = trim(FNtemp1)
+    FNameBinary2 = trim(FNtemp2)
+  ! +++ End Default options +++
+  end block
+! ============================
+! === End Reading job type ===
+! ============================
 
   allocate(FileName(Nfile))
   allocate(Nstep(Nfile))
@@ -63,7 +67,9 @@ end block
   Nstep(:) = -1
   atom_num(:,1) = 0
 
+! ================================
 ! --- Reading input parameters ---
+! ================================
   rewind(20)
   do j = 1, Nfile
     do
@@ -94,9 +100,14 @@ end block
       if (atom_num(k,j) == 0) atom_num(k,j) = atom_num(k,1)
     end do
   end do
+! ====================================
 ! --- End Reading input parameters ---
+! ====================================
 
+
+! ===================================
 ! --- Reading histgram parameters ---
+! ===================================
   rewind(20)
   do
     read(20,'(a)',end=103) line
@@ -116,7 +127,9 @@ end block
     elseif (index(trim(line) ,"# end"       ) > 0) then; exit
     end if
   end do
+! ===============================
 ! --- End histgram parameters ---
+! ===============================
 
 
 ! --- Reading multi bond ---
@@ -158,7 +171,9 @@ end block
   end do
 ! --- End Reading dummy atom ---
 
+! ==========================
 ! --- Reading other type ---
+! ==========================
   rewind(20)
   do
     read(20,'(a)',end=106) line
@@ -174,7 +189,32 @@ end block
     end if
   end do
 106 continue
+! ==============================
 ! --- End Reading other type ---
+! ==============================
+
+! =================================
+! === Reading umbrella sampling ===
+! =================================
+  rewind(20)
+  do
+    read(20,'(a)',end=107) line
+      if (index(trim(line),'# umbrella sampling') > 0) exit
+  end do
+  do
+    read(20,'(a)',end=100) line
+    if     (index(trim(line) ,"-type")  > 0 ) then; read(20,*) umbrella_type
+    elseif (index(trim(line) ,"-atom1") > 0)  then; read(20,*) umbrella_atom1
+    elseif (index(trim(line) ,"-atom2") > 0)  then; read(20,*) umbrella_atom2
+    elseif (index(trim(line) ,"-atom3") > 0)  then; read(20,*) umbrella_atom3
+    elseif (index(trim(line) ,"# end") > 0)  then; exit
+    end if
+  end do
+107 continue
+! ==============================
+! === End  umbrella sampling ===
+! ==============================
+
 
 ! --- Erro Check !! ---
   if     ( Natom < 0) then; print *, "ERROR!!: Write Natom!!";  stop
@@ -228,6 +268,7 @@ return
   104 print *, 'ERROR!!: There is no "# multi bond"'; stop
   105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
 !  106 print *, 'ERROR!!: There is no "# other type"'; stop
+!  107 print *, 'ERROR!!: There is no "# umbrella sampling"'; stop
   111 print *, 'ERROR!!: "-Binary" must be T or F'; stop
   120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop
   900 print *, 'ERROR!!: There is no "input.dat"'; stop
