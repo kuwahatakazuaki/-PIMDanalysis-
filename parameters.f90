@@ -20,11 +20,17 @@ module input_parameter
   integer :: other_type
   character(:), allocatable :: other_path
   integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
+  real(8) :: umbrella_force, temperature
 end module input_parameter
 
 module calc_parameter
   real(8), save, allocatable :: r(:,:,:,:) ! r(xyz,i=atom,j=beads,k=step)
   real(8), save, allocatable :: data_step(:), data_beads(:,:) ! step(TNstep), beads(Nbeads,TNstep)
+
+  real(8), parameter :: KtoAU     = 1.98624d-3/627.51d0  ! Boltzmann constant K to AU (kcal/K hartree/kcal)
+  real(8), parameter :: AUtoK     = 627.51d0/1.98624d-3  ! Boltzmann constant K to AU
+  real(8), parameter :: AngtoAU   = 1/0.529177249d0
+  real(8), parameter :: AUtoAng   = 0.529177249d0
 end module calc_parameter
 
 

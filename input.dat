@@ -119,12 +119,16 @@ hello.out
 # end dummy atom
 
 # umbrella sampling
+-temperature
+300
 -type   # 1:atom1-atom2 2:atom1-atom2-atom3
 1
 -atom1
 1
 -atom2
 2
+-force constant
+1d-2
 # end umbrella sampling
 
 # other type

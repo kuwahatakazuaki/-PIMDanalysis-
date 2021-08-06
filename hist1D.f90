@@ -1,5 +1,5 @@
 module calc_histogram1D
-  use calc_parameter, only: r, data_beads !, data_dev
+  use calc_parameter, only: r, data_beads, KtoAU, AngtoAU, AUtoAng
   use input_parameter
 !  use input_parameter, &
 !      only: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond, &
@@ -8,6 +8,7 @@ module calc_histogram1D
   integer, private :: j, k, l
   real(8), private :: Dhist
   real(8), public, save, allocatable :: histogram(:,:) ! 1:Xaxis, 2:Yaxis
+  real(8), private :: beta
 
 contains
 ! NEED: data_beads(Nbeads,TNstep)
@@ -58,6 +59,8 @@ contains
     real(8), intent(in), optional :: hist_min_ex, hist_max_ex
     character(len=128), intent(in), optional :: out_hist_ex
     real(8) :: data_max, data_min, data_ave, data_dev, data_err
+    real(8) :: hist_umbre(Nhist)
+
 
     if (present(hist_min_ex)) hist_min(1) = hist_min_ex
     if (present(hist_max_ex)) hist_max(1) = hist_max_ex
@@ -87,6 +90,21 @@ contains
     call calc_1Dhist_sub
     call calc_deviation(data_dev, data_err)
 
+! ************* HERE **************
+    if ( umbrella_type > 0 ) then
+    block
+      real(8) :: poten, normalization
+      beta = 1 / ( temperature * KtoAU )
+      do l = 1, Nhist
+        poten = umbrella_force * AUtoAng * histogram(l,1)**2
+        hist_umbre(l) = histogram(l,2) * dexp(beta*poten)
+      end do
+      normalization = sum(hist_umbre(:)) * (histogram(Nhist,1) - histogram(1,1)) / dble(Nhist-1)
+      hist_umbre(:) = hist_umbre(:) / normalization
+    end block
+    end if
+! ************* HERE **************
+
     open(Usave, file=trim(out_hist), status='replace')
       write(Usave,'(" # ", a)') trim(out_hist)
       write(Usave,'(" # Maximum hist =", F13.6)')  data_max
@@ -100,9 +118,16 @@ contains
       write(Usave,'(" # Number hist  =", I8)'   )  Nhist
       write(Usave,'(" # Delta hist   =", F13.6)')  Dhist
 
-      do l = 1, Nhist
-        write(Usave,'(F13.6,E13.4)') histogram(l,:)
-      end do
+      if ( umbrella_type == 0 ) then
+        do l = 1, Nhist
+          write(Usave,'(F13.6,E13.4)') histogram(l,:)
+        end do
+      else if ( umbrella_type == 1 ) then
+        do l = 1, Nhist
+          write(Usave,'(F13.6,2E13.4)') histogram(l,:), hist_umbre(l)
+        end do
+      end if
+
     close(Usave)
     deallocate(histogram)
     print '(a,a,/)', "    Hist data is saved in ", '"'//trim(out_hist)//'"'

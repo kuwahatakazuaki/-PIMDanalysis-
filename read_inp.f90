@@ -204,9 +204,11 @@ open(20,file=input_file,status='old',err=900)
   do
     read(20,'(a)',end=100) line
     if     (index(trim(line) ,"-type")  > 0 ) then; read(20,*) umbrella_type
+    elseif (index(trim(line) ,"-temperature") > 0)  then; read(20,*) temperature
     elseif (index(trim(line) ,"-atom1") > 0)  then; read(20,*) umbrella_atom1
     elseif (index(trim(line) ,"-atom2") > 0)  then; read(20,*) umbrella_atom2
     elseif (index(trim(line) ,"-atom3") > 0)  then; read(20,*) umbrella_atom3
+    elseif (index(trim(line) ,"-force") > 0)  then; read(20,*) umbrella_force
     elseif (index(trim(line) ,"# end") > 0)  then; exit
     end if
   end do
