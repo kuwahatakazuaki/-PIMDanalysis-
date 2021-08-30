@@ -19,6 +19,7 @@ module input_parameter
   character(:), allocatable :: input_file
   integer :: other_type
   character(:), allocatable :: other_path
+  integer :: other_atom1, other_atom2
   integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
   real(8) :: umbrella_force, temperature
 end module input_parameter

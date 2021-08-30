@@ -1,4 +1,3 @@
-
 subroutine read_coor !(Ifile,step)
   use input_parameter, only : Natom, Nbeads, Nstep, Nfile, FileName, Nstart, atom, FIbinary
   use calc_parameter,  only : r !r(xyz,Natom_Nbead,Nstep)

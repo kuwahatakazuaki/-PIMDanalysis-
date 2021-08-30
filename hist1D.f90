@@ -11,7 +11,6 @@ module calc_histogram1D
   real(8), private :: beta
 
 contains
-! NEED: data_beads(Nbeads,TNstep)
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine external_1Dhist
@@ -46,7 +45,6 @@ contains
     end if
   end block
 
-! +++ HERE +++
 
     901 stop "ERROR!! Tere is no binary input1 file"
     902 stop "ERROR!! Tere is no binary input2 file"
@@ -96,8 +94,8 @@ contains
       real(8) :: poten, normalization
       beta = 1 / ( temperature * KtoAU )
       do l = 1, Nhist
-!        poten = umbrella_force / (AngtoAU*AngtoAU) * (histogram(l,1)*AUtoAng)**2
-        poten = umbrella_force / (AngtoAU*AngtoAU*AngtoAU) * histogram(l,1)**2
+        poten = umbrella_force * histogram(l,1)**2
+!        poten = umbrella_force * ( histogram(l,1) * AngtoAU )**2
         hist_umbre(l) = histogram(l,2) * dexp(beta*poten)
       end do
       normalization = sum(hist_umbre(:)) * (histogram(Nhist,1) - histogram(1,1)) / dble(Nhist-1)

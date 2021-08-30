@@ -1,12 +1,16 @@
 module mod_other_quantities
   use input_parameter
   implicit none
-  real(8), allocatable :: charge(:,:), dipole(:,:,:)
+  real(8), allocatable :: charge(:,:,:), dipole(:,:,:)
   integer, private :: Uinp, ierr
+  integer :: atom1, atom2
 
 contains
 
   subroutine  other_quantities
+    atom1 = other_atom1
+    atom2 = other_atom2
+
     select case(jobtype)
       case(61)
         call charge_analysis
@@ -16,7 +20,52 @@ contains
   end subroutine other_quantities
 
   subroutine charge_analysis
-    call read_charge
+    integer :: Istep, i, j, k
+    real(8) :: average(Natom)
+    print *, other_path
+    allocate(charge(Natom,Nbeads,TNstep))
+    open(newunit=Uinp, file=other_path, status='old', iostat=ierr)
+      if ( ierr > 0 ) then
+        print *, 'Check the path : ', other_path
+        stop 'ERROR!!: There is no "charge.dat"'
+      end if
+
+      read(Uinp,'()')
+      do Istep = 1, Nstart(1)-1
+        read(Uinp,'()')
+        do j = 1, Nbeads
+          read(Uinp,'()')
+        end do
+      end do
+
+      Istep = 0
+      do k = Nstart(1), Nstart(1)
+        Istep = Istep + 1
+        read(Uinp,'()')
+        do j = 1, Nbeads
+          read(Uinp,*) charge(:,j,Istep)
+        end do
+      end do
+    close(Uinp)
+
+!    print *, shape(charge)
+!    print *, Nbeads, TNstep
+!    print *, sum(charge(1,:,:)) / dble(Nbeads)
+
+    average(:) = 0.0d0
+    do i = 1, Natom
+      do j = 1, Nbeads
+        average(i) = average(i) + sum(charge(i,j,:))
+      end do
+      average(i) = average(i) / dble(Nbeads)
+    end do
+    do i = 1, Natom
+      print '(I3,F12.7)', i, average(i)
+    end do
+
+!    do i = 1, Natom
+!      print *, sum(charge(i,:,:)) / dble(TNstep*Nbeads)
+!    end do
   end subroutine charge_analysis
 
   subroutine dipole_analysis
@@ -61,41 +110,23 @@ contains
   end subroutine dipole_analysis
 
 
-  subroutine read_charge
-    integer :: i, j, k, Uinp
-    character(len=128) :: line
-!    character(:), allocatable :: input_file
+!  subroutine read_charge
+!    integer :: i, j, k, Uinp
+!    character(len=128) :: line
 !
-!    print '(" *****START reading parameters*****")'
-!    block ! Reading input file
-!      integer :: Nargu, leng
-!      Nargu = command_argument_count()
-!      if ( Nargu == 0) then
-!        print '(a)',   "   There is no argument"
-!        print '(a,/)', '   Reading from "input.dat"'
-!        allocate(character(9) :: input_file)
-!        write(input_file,'(a)') "input.dat"
-!      else
-!        call get_command_argument(1, length=leng)
-!          allocate(character(leng) :: input_file)
-!          call get_command_argument(1, input_file)
-!        print '(a,a,/)', "   Reading from ", '"'//input_file//'"'
-!      end if
-!    end block ! End Reading input file
-
-! --- Rereading input file for charge analysis ---
-    print '(" *****reading input file for charge analysis*****")'
-    open(newunit=Uinp,file=input_file,status='old', err=900)
-      do
-        read(Uinp,'(a)',end=901) line
-        if ( index(trim(line), "# charge analysis") > 0 ) exit
-      end do
-    close(Uinp)
-! --- Rereading input file for charge analysis ---
-  return
-  900 print *, 'ERROR!!: There is no "# job type"'; stop
-  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop
-  end subroutine read_charge
+!! --- Rereading input file for charge analysis ---
+!    print '(" *****reading input file for charge analysis*****")'
+!    open(newunit=Uinp,file=input_file,status='old', err=900)
+!      do
+!        read(Uinp,'(a)',end=901) line
+!        if ( index(trim(line), "# charge analysis") > 0 ) exit
+!      end do
+!    close(Uinp)
+!! --- Rereading input file for charge analysis ---
+!  return
+!  900 print *, 'ERROR!!: There is no "# job type"'; stop
+!  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop
+!  end subroutine read_charge
 
 end module mod_other_quantities
 ! you can change text to line

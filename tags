@@ -31,6 +31,9 @@
 904	read_coor.f90	/^  904 print *, "ERROR!!: The number of atom or beads is wrong"; stop$/;"	l	subroutine:read_coor_format	file:
 911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_binary	file:
 911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_format	file:
+AUtoAng	parameters.f90	/^  real(8), parameter :: AUtoAng /;"	v	module:calc_parameter
+AUtoK	parameters.f90	/^  real(8), parameter :: AUtoK /;"	v	module:calc_parameter
+AngtoAU	parameters.f90	/^  real(8), parameter :: AngtoAU /;"	v	module:calc_parameter
 Dhist	hist1D.f90	/^  real(8), private :: Dhist$/;"	v	module:calc_histogram1D
 Dhist	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(2), Dhist(/;"	v	module:calc_histogram2D
 FIbinary	parameters.f90	/^  logical :: FIbinary$/;"	v	module:input_parameter
@@ -39,6 +42,7 @@ FNameBinary2	parameters.f90	/^  character(len=:), allocatable :: FNameBinary1, F
 FileName	parameters.f90	/^  character(len=128), save, allocatable :: FileName(/;"	v	module:input_parameter
 Ifile	cent.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_centoroid
 Ifile	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_histogram2D
+KtoAU	parameters.f90	/^  real(8), parameter :: KtoAU /;"	v	module:calc_parameter
 Lfolding	parameters.f90	/^  logical :: Lfolding /;"	v	module:input_parameter
 Natom	parameters.f90	/^  integer, save :: Natom,/;"	v	module:input_parameter
 Nbeads	parameters.f90	/^  integer, save :: Natom, Nbeads,/;"	v	module:input_parameter
@@ -60,6 +64,7 @@ beads_all	beads_expansion.f90	/^  subroutine beads_all$/;"	s	subroutine:beads_ex
 beads_bin	beads_expansion.f90	/^  subroutine beads_bin$/;"	s	subroutine:beads_expansion
 beads_expansion	beads_expansion.f90	/^subroutine beads_expansion$/;"	s
 beads_projection	beads_expansion.f90	/^  subroutine beads_projection$/;"	s	subroutine:beads_expansion
+beta	hist1D.f90	/^  real(8), private :: beta$/;"	v	module:calc_histogram1D
 bond_dev2D	hist2D.f90	/^  real(8), save :: hist2D_ave(2), bond_dev2D(/;"	v	module:calc_histogram2D
 calc_1Dhist	hist1D.f90	/^  subroutine calc_1Dhist(/;"	s
 calc_1Dhist_sub	hist1D.f90	/^  subroutine calc_1Dhist_sub$/;"	s
@@ -148,8 +153,10 @@ read_input	read_inp.f90	/^subroutine read_input$/;"	s
 save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter
 step	cent.f90	/^  integer, private :: i, j, k, l, Ifile, step /;"	v	module:calc_centoroid
 step	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile, step!/;"	v	module:calc_histogram2D
+temperature	parameters.f90	/^  real(8) :: umbrella_force, temperature$/;"	v	module:input_parameter
 umbrella_atom1	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1,/;"	v	module:input_parameter
 umbrella_atom2	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2,/;"	v	module:input_parameter
 umbrella_atom3	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3$/;"	v	module:input_parameter
+umbrella_force	parameters.f90	/^  real(8) :: umbrella_force,/;"	v	module:input_parameter
 umbrella_type	parameters.f90	/^  integer :: umbrella_type,/;"	v	module:input_parameter
 utility	utility.f90	/^module utility$/;"	m

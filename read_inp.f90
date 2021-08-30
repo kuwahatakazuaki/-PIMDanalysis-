@@ -185,6 +185,8 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-path") > 0)  then
       read(20,'(a)') line
       other_path = trim(line)
+    elseif (index(trim(line) ,"-atom1") > 0)  then; read(20,*) other_atom1
+    elseif (index(trim(line) ,"-atom2") > 0)  then; read(20,*) other_atom2
     elseif (index(trim(line) ,"# end") > 0)  then; exit
     end if
   end do
