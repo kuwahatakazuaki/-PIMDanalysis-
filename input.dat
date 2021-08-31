@@ -18,8 +18,9 @@
 # 51 : -Beads expansion   (all atoms)
 # 52 : -Beads expansion   (export binary of atom1)
 # 53 : -Beads expansion   (atom1 projected to atom2-atom3)
-# 61 : -charge_analysis
-# 62 : -dipole_analysis
+# 61 : -charge_analysis   (all atoms)
+# 62 : -charge_analysis   (atom1)
+# 63 : -dipole_analysis
 # job type
 -Nfile
 1

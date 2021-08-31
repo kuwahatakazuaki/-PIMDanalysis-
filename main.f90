@@ -49,8 +49,9 @@ end select
 ! 51 : -Beads expansion   (all atoms)
 ! 52 : -Beads expansion   (export binary of atom1)
 ! 53 : -Beads expansion   (atom1 projected to atom2-atom3)
-! 61 : -charge_analysis
-! 62 : -dipole_analysis
+! 61 : -charge_analysis   (all atoms)
+! 62 : -charge_analysis   (atom1)
+! 63 : -dipole_analysis
 !!! 91 : -Specific purpose (Dihedral of NH4+(H2O))
 
 select case(jobtype)
@@ -74,7 +75,7 @@ select case(jobtype)
     call dummy_atom
   case(51:54)
     call beads_expansion
-  case(61:62)
+  case(61:63)
     call other_quantities
   case default
     stop 'ERROR!!! wrong "Job type" option'

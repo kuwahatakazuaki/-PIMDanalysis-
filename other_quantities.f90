@@ -12,9 +12,9 @@ contains
     atom2 = other_atom2
 
     select case(jobtype)
-      case(61)
+      case(61:62)
         call charge_analysis
-      case(62)
+      case(63)
         call dipole_analysis
     end select
   end subroutine other_quantities
@@ -48,9 +48,18 @@ contains
       end do
     close(Uinp)
 
-!    print *, shape(charge)
-!    print *, Nbeads, TNstep
-!    print *, sum(charge(1,:,:)) / dble(Nbeads)
+    block
+      integer :: Ounit
+      if ( save_beads .eqv. .True. ) then
+        open(newunit=Ounit, file=FNameBinary1, form='unformatted', access='stream', status='replace')
+          do Istep = 1, TNstep
+            do j = 1, Nbeads
+              write(Ounit) charge(atom1,j,Istep)
+            end do
+          end do
+        close(Ounit)
+      end if
+    end block
 
     average(:) = 0.0d0
     do i = 1, Natom

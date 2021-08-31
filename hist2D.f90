@@ -16,6 +16,8 @@ module calc_histogram2D
 contains
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ calc_2Dhist +++
+! +++++++++++++++++++
   subroutine calc_2Dhist
     integer :: temp1(2,Nfile), temp2(2,Nfile)
     character(len=128) name_axis(2)
@@ -118,8 +120,12 @@ contains
   ! --- END Calculating 2D histgram --- !
   end subroutine calc_2Dhist
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ calc_2Dhist +++
+! +++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ calc_2Dhist_sub +++
+! +++++++++++++++++++++++
   subroutine calc_2Dhist_sub(hist2D_beads)
   !  implicit none
     integer :: coun(2)
@@ -144,7 +150,6 @@ contains
       end do
     end do
 
-! +++++++ HERE ++++++++
 ! +++++++ hist_data1D ++++++
     hist_data(:,:) = 0.0d0
     do j = 1, TNstep
@@ -171,6 +176,8 @@ contains
     hist_data(:,:) = hist_data(:,:) / (dble(TNstep*Nbeads)*Dhist(1)*Dhist(2))
   end subroutine calc_2Dhist_sub
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ calc_2Dhist_sub +++
+! +++++++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine external_2Dhits
