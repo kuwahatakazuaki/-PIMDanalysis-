@@ -1,5 +1,7 @@
 module mod_other_quantities
   use input_parameter
+  use calc_parameter, only: data_beads, data_step
+  use calc_histogram1D
   implicit none
   real(8), allocatable :: charge(:,:,:), dipole(:,:,:)
   integer, private :: Uinp, ierr
@@ -8,8 +10,10 @@ module mod_other_quantities
 contains
 
   subroutine  other_quantities
-    atom1 = other_atom1
-    atom2 = other_atom2
+!    atom1 = other_atom1
+!    atom2 = other_atom2
+    atom1 = atom_num(1,1)
+    atom2 = atom_num(2,1)
 
     select case(jobtype)
       case(61:62)
@@ -50,6 +54,7 @@ contains
 
     block
       integer :: Ounit
+      character(len=128) :: name_out
       if ( save_beads .eqv. .True. ) then
         open(newunit=Ounit, file=FNameBinary1, form='unformatted', access='stream', status='replace')
           do Istep = 1, TNstep
@@ -59,6 +64,11 @@ contains
           end do
         close(Ounit)
       end if
+      write(*,*) "***** atomic charge of ", atom1, "is saved *****"
+      write(*,*) "***** in ", FNameBinary1, " *****"
+      data_beads = charge(1,:,:)
+      name_out = "hist_charge"
+      call calc_1Dhist(out_hist_ex=name_out)
     end block
 
     average(:) = 0.0d0

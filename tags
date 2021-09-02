@@ -19,11 +19,9 @@
 800	hist2D.f90	/^        800 continue$/;"	l	subroutine:external_2Dhits	file:
 801	hist1D.f90	/^      801 continue$/;"	l	subroutine:external_1Dhist	file:
 801	hist2D.f90	/^        801 continue$/;"	l	subroutine:external_2Dhits	file:
-900	other_quantities.f90	/^  900 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	subroutine:read_charge	file:
 900	read_inp.f90	/^  900 print *, 'ERROR!!: There is no "input.dat"'; stop$/;"	l	file:
 901	hist1D.f90	/^    901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	subroutine:external_1Dhist	file:
 901	hist2D.f90	/^  901 stop "ERROR!! Tere is no binary input1 file"$/;"	l	file:
-901	other_quantities.f90	/^  901 print *, 'ERROR!!: There is no "# charge analysis"'; stop$/;"	l	subroutine:read_charge	file:
 902	hist1D.f90	/^    902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	module:calc_histogram1D	file:
 902	hist2D.f90	/^  902 stop "ERROR!! Tere is no binary input2 file"$/;"	l	file:
 902	read_coor.f90	/^  902 print *, "ERROR!!: There is no coordinate file"; stop$/;"	l	subroutine:read_coor_binary	file:
@@ -57,6 +55,8 @@ Uprint	parameters.f90	/^  integer, save :: Usave = 20, Uprint /;"	v	module:input
 Usave	parameters.f90	/^  integer, save :: Usave /;"	v	module:input_parameter
 analysis	main.f90	/^program analysis$/;"	p
 atom	parameters.f90	/^  character(len=2), save, allocatable :: atom(/;"	v	module:input_parameter
+atom1	other_quantities.f90	/^  integer :: atom1,/;"	v	module:mod_other_quantities
+atom2	other_quantities.f90	/^  integer :: atom1, atom2$/;"	v	module:mod_other_quantities
 atom_dummy	parameters.f90	/^  integer, save :: definition_dummy, atom_dummy(/;"	v	module:input_parameter
 atom_multi	parameters.f90	/^  integer, save, allocatable :: atom_multi(/;"	v	module:input_parameter
 atom_num	parameters.f90	/^  integer, save, allocatable :: atom_num(/;"	v	module:input_parameter
@@ -94,8 +94,8 @@ data_max_cent	cent.f90	/^  real(8), public :: data_max_cent,/;"	v	module:calc_ce
 data_min_cent	cent.f90	/^  real(8), public :: data_max_cent, data_min_cent,/;"	v	module:calc_centoroid
 data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	module:calc_parameter
 definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
-dipole	other_quantities.f90	/^  real(8), allocatable :: charge(:,:), dipole(/;"	v	module:mod_other_quantities
-dipole_analysis	other_quantities.f90	/^  subroutine dipole_analysis$/;"	s	module:mod_other_quantities
+dipole	other_quantities.f90	/^  real(8), allocatable :: charge(:,:,:), dipole(/;"	v	module:mod_other_quantities
+dipole_analysis	other_quantities.f90	/^  subroutine dipole_analysis$/;"	s
 dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
 external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
@@ -136,6 +136,8 @@ multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
 multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
 norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
 objs	Makefile	/^objs = \\$/;"	m
+other_atom1	parameters.f90	/^  integer :: other_atom1,/;"	v	module:input_parameter
+other_atom2	parameters.f90	/^  integer :: other_atom1, other_atom2$/;"	v	module:input_parameter
 other_path	parameters.f90	/^  character(:), allocatable :: other_path$/;"	v	module:input_parameter
 other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	module:mod_other_quantities
 other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
@@ -145,7 +147,6 @@ pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
 program	Makefile	/^program = run.exe$/;"	m
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
-read_charge	other_quantities.f90	/^  subroutine read_charge$/;"	s	module:mod_other_quantities
 read_coor	read_coor.f90	/^subroutine read_coor /;"	s
 read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
 read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor
