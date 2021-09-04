@@ -25,9 +25,10 @@ contains
 
   subroutine charge_analysis
     integer :: Istep, i, j, k
-    real(8) :: average(Natom)
+!    real(8) :: average(Natom)
     print *, other_path
     allocate(charge(Natom,Nbeads,TNstep))
+
     open(newunit=Uinp, file=other_path, status='old', iostat=ierr)
       if ( ierr > 0 ) then
         print *, 'Check the path : ', other_path
@@ -43,7 +44,7 @@ contains
       end do
 
       Istep = 0
-      do k = Nstart(1), Nstart(1)
+      do k = Nstart(1), Nstep(1)
         Istep = Istep + 1
         read(Uinp,'()')
         do j = 1, Nbeads
@@ -52,6 +53,7 @@ contains
       end do
     close(Uinp)
 
+    if ( jobtype == 62 ) then
     block
       integer :: Ounit
       character(len=128) :: name_out
@@ -66,25 +68,34 @@ contains
       end if
       write(*,*) "***** atomic charge of ", atom1, "is saved *****"
       write(*,*) "***** in ", FNameBinary1, " *****"
-      data_beads = charge(1,:,:)
-      name_out = "hist_charge"
+      data_beads = charge(atom1,:,:)
+      name_out = "hist_charge.out"
       call calc_1Dhist(out_hist_ex=name_out)
+
+
+      open(newunit=Ounit,file="step_charge.out",status='replace')
+        do k = 1, TNstep
+          if (mod(k,graph_step) == 0 ) write(Ounit,'(I7,F10.5)') k, sum(charge(atom1,:,k))/dble(Nbeads)
+        end do
+      close(Ounit)
     end block
+    end if
 
-    average(:) = 0.0d0
-    do i = 1, Natom
-      do j = 1, Nbeads
-        average(i) = average(i) + sum(charge(i,j,:))
-      end do
-      average(i) = average(i) / dble(Nbeads)
-    end do
-    do i = 1, Natom
-      print '(I3,F12.7)', i, average(i)
-    end do
-
+!    average(:) = 0.0d0
 !    do i = 1, Natom
-!      print *, sum(charge(i,:,:)) / dble(TNstep*Nbeads)
+!      do j = 1, Nbeads
+!        average(i) = average(i) + sum(charge(i,j,:))
+!      end do
+!      average(i) = average(i) / dble(Nbeads)
 !    end do
+!    do i = 1, Natom
+!      print '(I3,F12.7)', i, average(i)
+!    end do
+
+    do i = 1, Natom
+      print '(I3,F12.7)', i, sum(charge(i,:,:)) / dble(TNstep*Nbeads)
+    end do
+
   end subroutine charge_analysis
 
   subroutine dipole_analysis

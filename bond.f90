@@ -2,7 +2,7 @@
 ! and as histogram in 'out_hist', and cumulative averages in 'out_cumulative'
 
 subroutine calc_bond
-  use input_parameter,  only: atom, atom_num, out_hist, Usave, Nfile, TNstep, Uprint, save_beads, Nbeads, FNameBinary1
+  use input_parameter,  only: atom, atom_num, out_hist, Usave, Nfile, TNstep, Uprint, save_beads, Nbeads, FNameBinary1, graph_step
   use calc_parameter,   only: data_beads, data_step
   use calc_histogram1D, only: calc_1Dhist
   use utility,          only: calc_deviation, calc_cumulative
@@ -51,7 +51,7 @@ end block
     write(Usave,'(a,F13.6)') " # St. deviation = ", data_dev
     write(Usave,'(a,F13.6)') " # St. error     = ", data_err
     do k = 1, TNstep
-      if (mod(k,10) == 0) then
+      if (mod(k,graph_step) == 0) then
         write(Usave,'(I7,F10.5)') k, data_step(k)
       end if
     end do
