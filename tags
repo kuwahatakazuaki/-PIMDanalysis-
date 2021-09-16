@@ -136,8 +136,6 @@ multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
 multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
 norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
 objs	Makefile	/^objs = \\$/;"	m
-other_atom1	parameters.f90	/^  integer :: other_atom1,/;"	v	module:input_parameter
-other_atom2	parameters.f90	/^  integer :: other_atom1, other_atom2$/;"	v	module:input_parameter
 other_path	parameters.f90	/^  character(:), allocatable :: other_path$/;"	v	module:input_parameter
 other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	module:mod_other_quantities
 other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
@@ -145,6 +143,7 @@ out_hist	parameters.f90	/^  character(len=128) :: out_hist /;"	v	module:input_pa
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
 program	Makefile	/^program = run.exe$/;"	m
+projection	projection.f90	/^subroutine projection$/;"	s
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
 read_coor	read_coor.f90	/^subroutine read_coor /;"	s

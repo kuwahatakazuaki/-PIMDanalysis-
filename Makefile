@@ -12,10 +12,10 @@ fcopt =  -Wall -O3 -fbacktrace -fbounds-check
 # +++ End ifort +++
 objs = \
 parameters.o       \
-other_quantities.o  \
 utility.o          \
 hist1D.o           \
 hist2D.o           \
+other_quantities.o  \
 beads_expansion.o  \
 angle.o            \
 bond.o             \
@@ -26,6 +26,7 @@ read_coor.o        \
 read_inp.o         \
 dummy_atom.o       \
 dihedral.o         \
+projection.o         \
 
 module =              \
 calc_centoroid.mod    \

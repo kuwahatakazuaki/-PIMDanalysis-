@@ -6,6 +6,7 @@
 # 11 : -multi bond calc all
 # 12 : -multi bond sort
 # 13 : -multi bond diff              (atom1-atom2  -  atom3-atom4)
+# 14 : -Multi bond diff              (atom1-atom2  +  atom3-atom4)
 # 21 : -2d histogram_bond            (atom1-atom2 and atom3-atom4)
 # 22 : -2d histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
 # 29 : -2D histogram from External

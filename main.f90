@@ -23,10 +23,10 @@ allocate(data_beads(Nbeads,TNstep), source=0.0d0)
 
 ! +++ Reading coordinate +++
 select case(jobtype)
-  case(1:59)
-    call read_coor
   case(60:69)
     print *, "Skip reading coor.xyz"
+  case default
+    call read_coor
 end select
 
 ! Choose "job type"
@@ -37,6 +37,7 @@ end select
 ! 11 : -Multi bond calc all
 ! 12 : -Multi bond sort
 ! 13 : -Multi bond diff              (atom1-atom2  -  atom3-atom4)
+! 14 : -Multi bond diff              (atom1-atom2  +  atom3-atom4)
 ! 21 : -2D histogram_bond            (atom1-atom2 and atom3-atom4)
 ! 22 : -2D histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
 ! 29 : -2D histogram from External   (Normal)
@@ -52,6 +53,7 @@ end select
 ! 61 : -charge_analysis   (all atoms)
 ! 62 : -charge_analysis   (atom1)
 ! 63 : -dipole_analysis
+! 71 : -projection        (atom1-atom2  T  atom3-atom4)
 !!! 91 : -Specific purpose (Dihedral of NH4+(H2O))
 
 select case(jobtype)
@@ -63,7 +65,7 @@ select case(jobtype)
     call calc_dihedral
   case(9)
     call external_1Dhist
-  case(11:13)
+  case(11:14)
     call multi_bond
   case(21:22)
     call calc_2Dhist
@@ -77,6 +79,8 @@ select case(jobtype)
     call beads_expansion
   case(61:63)
     call other_quantities
+  case(71)
+    call projection
   case default
     stop 'ERROR!!! wrong "Job type" option'
 end select

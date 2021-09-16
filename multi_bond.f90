@@ -18,7 +18,7 @@ subroutine multi_bond
       call multi_bond_all
     case(12)
       call multi_bond_sort
-    case(13)
+    case(13:14)
       call multi_bond_diff
     case default
       stop 'ERROR!!! wrong "Job type" option'
@@ -63,9 +63,16 @@ subroutine multi_bond_diff
   data_multi(:,:,2) = data_beads(:,:)
   data_step_multi(:,2) = data_step(:)
 
-  data_beads(:,:) = data_multi(:,:,1) - data_multi(:,:,2)
-  data_step(:)    = data_step_multi(:,1) - data_step_multi(:,2)
-  write(out_hist,'("hist_diff.out")')
+  select case(jobtype)
+    case(13)
+      data_beads(:,:) = data_multi(:,:,1) - data_multi(:,:,2)
+      data_step(:)    = data_step_multi(:,1) - data_step_multi(:,2)
+      write(out_hist,'("hist_diff.out")')
+    case(14)
+      data_beads(:,:) = data_multi(:,:,1) + data_multi(:,:,2)
+      data_step(:)    = data_step_multi(:,1) + data_step_multi(:,2)
+      write(out_hist,'("hist_sum.out")')
+  end select
 
   if ( Lfolding .eqv. .True. ) then
     data_beads(:,:) = abs( data_beads(:,:) )
@@ -75,7 +82,6 @@ subroutine multi_bond_diff
   write(out_bond, '("bond_multi_sort.out")')
   open(22,file=trim(out_bond),status='replace')
     do i = 1, TNstep
-!      write(22,'(I7,10F10.5)') i, data_step_multi(i,:)
       write(22,'(I7,10F10.5)') i, data_step(i)
     end do
   close(22)
@@ -165,11 +171,6 @@ subroutine multi_bond_sort
     call calc_1Dhist(hist_min_ex, hist_max_ex, out_hist_ex=out_hist)
   end do
 
-!! --- Making here
-!! --- save the data_beads ---
-!  data_beads(:,:) = data_multi(:,:,1)
-!  call save_beads
-!! --- End save the data_beads ---
 end subroutine multi_bond_sort
 ! +++ End jobtype == 12 +++
 
