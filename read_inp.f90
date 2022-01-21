@@ -57,6 +57,7 @@ open(20,file=input_file,status='old',err=900)
 ! === End Reading job type ===
 ! ============================
 
+  allocate(DirResult(Nfile))
   allocate(FileName(Nfile))
   allocate(Nstep(Nfile))
   allocate(Nstart(Nfile))
@@ -78,7 +79,8 @@ open(20,file=input_file,status='old',err=900)
     end do
     do
       read(20,'(a)',end=100) line
-      if     (index(trim(line),"-FileName") > 0) then; read(20,'(a)') FileName(j)
+      if     (index(trim(line),"-FileName") > 0)  then; read(20,'(a)') FileName(j)
+      elseif (index(trim(line),"-DirResult") > 0) then; read(20,'(a)') DirResult(j)
       elseif (index(trim(line),"-Binary" ) > 0) then; read(20,*,err=111) FIbinary
       elseif (index(trim(line),"-Natom" ) > 0)  then; read(20,*) Natom
       elseif (index(trim(line),"-Nbeads") > 0)  then; read(20,*) Nbeads
@@ -93,6 +95,7 @@ open(20,file=input_file,status='old',err=900)
       end if
     end do
   end do
+
 
   ! if (atom(:) = 0); then atom(j) = atom(1) (j>=2)
   do j = 2, Nfile

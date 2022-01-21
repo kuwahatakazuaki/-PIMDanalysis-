@@ -30,10 +30,10 @@ subroutine projection
     do k = Nstart(Ifile), Nstep(Ifile)
     step = step + 1
     do j = 1, Nbeads
-      e(:) = r(:,atom1,j,step) - r(:,atom2,j,step)
+      e(:) = r(:,atom4,j,step) - r(:,atom3,j,step)
       e(:) = e(:) / dsqrt( dot_product(e(:),e(:)))
 
-      r2(:) = r(:,atom3,j,step) - r(:,atom4,j,step)
+      r2(:) = r(:,atom2,j,step) - r(:,atom1,j,step)
       rt(:) = r2(:) - dot_product(r2(:),e(:)) * e(:)
 
       data_beads(j,step) = dsqrt( dot_product(rt(:),rt(:)) )

@@ -12,6 +12,7 @@ module input_parameter
   character(len=128) :: out_hist = "0"
   character(len=2), save, allocatable :: atom(:) ! the element of atom
   character(len=128), save, allocatable :: FileName(:)
+  character(len=128), save, allocatable :: DirResult(:)
   logical :: FIbinary
   logical :: Lfolding = .False.
   logical :: save_beads = .False.

@@ -22,6 +22,7 @@
 # 61 : -charge_analysis   (all atoms)
 # 62 : -charge_analysis   (atom1)
 # 63 : -dipole_analysis
+# 71 : -binary add (bin1 + bin2)
 # job type
 -Nfile
 1
@@ -36,6 +37,8 @@ bin1 bin2
 # end job type
 
 # input file 1
+-DirResult
+../Data
 -FileName
 ../Data/coor_binary
 -Binary  # Choose T(rue) or F(alse)
