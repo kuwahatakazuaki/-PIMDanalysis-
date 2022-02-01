@@ -129,12 +129,27 @@ contains
     abs_dipole = 0.0d0
     do Istep = 1, TNstep
       do j = 1, Nbeads
-        abs_dipole = abs_dipole + dsqrt( dot_product(dipole(:,j,Istep),dipole(:,j,Istep)) )
+        ! abs_dipole = abs_dipole + dsqrt( dot_product(dipole(:,j,Istep),dipole(:,j,Istep)) )
+        data_beads(j,Istep) = dsqrt( dot_product(dipole(:,j,Istep),dipole(:,j,Istep)) )
       end do
     end do
-    abs_dipole = abs_dipole/dble(TNstep*Nbeads)
+    ! abs_dipole = abs_dipole/dble(TNstep*Nbeads)
+    abs_dipole = sum(data_beads)/dble(TNstep*Nbeads)
     print '(a)', "The absolute dipole moment"
     print *, abs_dipole, " D "
+
+block
+  integer :: Ounit
+  if ( save_beads .eqv. .True. ) then
+    open(newunit=Ounit,file=FNameBinary1, form='unformatted', access='stream', status='replace')
+      do Istep = 1, TNstep
+        do i = 1, Nbeads
+          write(Ounit) data_beads(i,Istep)
+        end do
+      end do
+    close(Ounit)
+  end if
+end block
 
     return
   end subroutine dipole_analysis
