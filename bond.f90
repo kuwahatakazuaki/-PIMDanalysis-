@@ -15,7 +15,7 @@ subroutine calc_bond
 
   write(bond_name, '(a,I0,"-",a,I0)')   trim(atom(atom_num(1,1))), atom_num(1,1), trim(atom(atom_num(2,1))), atom_num(2,1)
   write(out_bond, '("bond_",a,".out")') trim(bond_name)
-  write(out_cumulative, '("cumu_",a,".out")') trim(bond_name)
+!  write(out_cumulative, '("cumu_",a,".out")') trim(bond_name)
 
   if ( trim(out_hist) == "0") write(out_hist, '("hist_",a,".out")') trim(bond_name)
 
@@ -68,7 +68,7 @@ end block
   write(Uprint, '("    St. error    =", F13.6)') data_err
   write(Uprint,*) ""
   call calc_1Dhist(out_hist_ex=out_hist) ! you need "data_beads"
-  call calc_cumulative(out_cumulative)
+!  call calc_cumulative(out_cumulative)
 end subroutine calc_bond
 
 subroutine calc_bond_sub(Ifile,atom1,atom2,step)
