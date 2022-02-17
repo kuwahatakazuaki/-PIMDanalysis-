@@ -34,6 +34,7 @@ AUtoK	parameters.f90	/^  real(8), parameter :: AUtoK /;"	v	module:calc_parameter
 AngtoAU	parameters.f90	/^  real(8), parameter :: AngtoAU /;"	v	module:calc_parameter
 Dhist	hist1D.f90	/^  real(8), private :: Dhist$/;"	v	module:calc_histogram1D
 Dhist	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(2), Dhist(/;"	v	module:calc_histogram2D
+DirResult	parameters.f90	/^  character(len=128), save, allocatable :: DirResult(/;"	v	module:input_parameter
 FIbinary	parameters.f90	/^  logical :: FIbinary$/;"	v	module:input_parameter
 FNameBinary1	parameters.f90	/^  character(len=:), allocatable :: FNameBinary1,/;"	v	module:input_parameter
 FNameBinary2	parameters.f90	/^  character(len=:), allocatable :: FNameBinary1, FNameBinary2$/;"	v	module:input_parameter
@@ -102,6 +103,7 @@ external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_hist
 fc	Makefile	/^fc = gfortran$/;"	m
 fcopt	Makefile	/^fcopt =  -Wall -O3 -fbacktrace -fbounds-check$/;"	m
 graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
+hfcc	other_quantities.f90	/^  real(8), allocatable :: charge(:,:,:), dipole(:,:,:), hfcc(/;"	v	module:mod_other_quantities
 hist2D_ave	hist2D.f90	/^  real(8), save :: hist2D_ave(/;"	v	module:calc_histogram2D
 hist2D_beads	hist2D.f90	/^  real(8), save, allocatable :: hist2D_beads(/;"	v	module:calc_histogram2D
 hist2D_max	hist2D.f90	/^  real(8), save :: hist2D_min(2), hist2D_max(/;"	v	module:calc_histogram2D
