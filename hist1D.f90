@@ -78,6 +78,7 @@ contains
     else
       print *, "   Using the hist_X_min and hist_X_max"
     end if
+
     Dhist = (hist_max(1) - hist_min(1)) / dble(Nhist)
 
     print '("    X range max =", F13.6)', hist_max(1)
@@ -136,12 +137,14 @@ contains
 
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ Start calc_1Dhist_sub ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_1Dhist_sub
     histogram(:,:) = 0.0d0
     do l = 1, Nhist
       histogram(l,1) = hist_min(1) + Dhist*dble(l)
     end do
-  
+
     do k = 1, TNstep
       do j = 1, Nbeads
         do l = 1, Nhist
