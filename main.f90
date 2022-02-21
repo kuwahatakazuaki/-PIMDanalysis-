@@ -77,7 +77,7 @@ select case(jobtype)
     call dummy_atom
   case(51:54)
     call beads_expansion
-  case(61:63)
+  case(61:64)
     call other_quantities
   case(71)
     call projection

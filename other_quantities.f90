@@ -21,7 +21,7 @@ contains
       case(63)
         call dipole_analysis
       case(64)
-        call HFCC_analysis
+        call hfcc_analysis
     end select
   end subroutine other_quantities
 
@@ -42,7 +42,7 @@ contains
       end if
 
       read(Uinp,'()')
-      do Istep = 1, Nstart(1)-1
+      do i = 1, Nstart(1)-1
         read(Uinp,'()')
         do j = 1, Nbeads
           read(Uinp,'()')
@@ -158,12 +158,13 @@ end block
 ! +++++++++++++++++++++++++++
 
 ! +++++++++++++++++++++
-! +++ HFCC_analysis +++
+! +++ hfcc_analysis +++
 ! +++++++++++++++++++++
-  subroutine HFCC_analysis
+  subroutine hfcc_analysis
     integer :: i,j,k,Istep
 !    real(8) :: abs_dipole
     allocate(hfcc(Natom,Nbeads,TNstep))
+
 
     open(newunit=Uinp, file=other_path, status='old', iostat=ierr)
       if ( ierr > 0 ) then
@@ -171,8 +172,8 @@ end block
         stop 'ERROR!!: There is no "hfcc.dat"'
       end if
 
-      read(Uinp,'()')
-      do Istep = 1, Nstart(1)-1
+      read(Uinp,'()')   ! Skip Header
+      do i = 1, Nstart(1)-1
         read(Uinp,'()')
         do j = 1, Nbeads
           read(Uinp,'()')
@@ -184,12 +185,11 @@ end block
         Istep = Istep + 1
         read(Uinp,'()')
         do j = 1, Nbeads
-          read(Uinp,*) charge(:,j,Istep)
+          read(Uinp,*) hfcc(:,j,Istep)
         end do
       end do
     close(Uinp)
 
-    if ( jobtype == 62 ) then
     block
       integer :: Ounit
       character(len=128) :: name_out
@@ -197,34 +197,35 @@ end block
         open(newunit=Ounit, file=FNameBinary1, form='unformatted', access='stream', status='replace')
           do Istep = 1, TNstep
             do j = 1, Nbeads
-              write(Ounit) charge(atom1,j,Istep)
+              write(Ounit) hfcc(atom1,j,Istep)
             end do
           end do
         close(Ounit)
       end if
-      write(*,*) "***** atomic charge of ", atom1, "is saved *****"
-      write(*,*) "***** in ", FNameBinary1, " *****"
-      data_beads = charge(atom1,:,:)
-      name_out = "hist_charge.out"
+      write(*,'(" ***** HFCC of ",I3, " is saved *****")')  atom1
+      write(*,*) "***** Binary data is saved in  ", FNameBinary1, " *****"
+      data_beads = hfcc(atom1,:,:)
+      name_out = "hist_hfcc.out"
+
       call calc_1Dhist(out_hist_ex=name_out)
 
-
-      open(newunit=Ounit,file="step_charge.out",status='replace')
+      open(newunit=Ounit,file="step_hfcc.out",status='replace')
         do k = 1, TNstep
-          if (mod(k,graph_step) == 0 ) write(Ounit,'(I7,F10.5)') k, sum(charge(atom1,:,k))/dble(Nbeads)
+          if (mod(k,graph_step) == 0 ) write(Ounit,'(I7,F10.5)') k, sum(hfcc(atom1,:,k))/dble(Nbeads)
         end do
       close(Ounit)
     end block
-    end if
 
+    write(*,*) "*** All the HFCCs are as follows ***"
+    write(*,*) "Num. HFCC"
     do i = 1, Natom
-      print '(I3,F12.7)', i, sum(charge(i,:,:)) / dble(TNstep*Nbeads)
+      print '(I4,F12.7)', i, sum(hfcc(i,:,:)) / dble(TNstep*Nbeads)
     end do
 
     return
-  end subroutine HFCC_analysis
+  end subroutine hfcc_analysis
 ! +++++++++++++++++++++++++
-! +++ end HFCC_analysis +++
+! +++ end hfcc_analysis +++
 ! +++++++++++++++++++++++++
 
 

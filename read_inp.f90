@@ -41,7 +41,8 @@ open(20,file=input_file,status='old',err=900)
       elseif (index(trim(line), "-save_beads") > 0)     then; read(20,*) save_beads
       elseif (index(trim(line), "-name_binary") > 0)    then
         if (jobtype == 29 ) then
-          read(20,*) FNtemp1, FNtemp2
+          read(20,*) FNtemp1
+          read(20,*) FNtemp2
         else
           read(20,*) FNtemp1
         end if
@@ -184,8 +185,8 @@ open(20,file=input_file,status='old',err=900)
   end do
   do
     read(20,'(a)',end=100) line
-    if     (index(trim(line) ,"-type") > 0 ) then; read(20,*) other_type
-    elseif (index(trim(line) ,"-path") > 0)  then
+    if     (index(trim(line) ,"-type") == 1 ) then; read(20,*) other_type
+    elseif (index(trim(line) ,"-path") == 1)  then
       read(20,'(a)') line
       other_path = trim(line)
 !    elseif (index(trim(line) ,"-atom1") > 0)  then; read(20,*) other_atom1
@@ -269,7 +270,7 @@ print '(a,/)', " *****END reading parameters*****"
 return
 !  100 print *, 'ERROR!!: Miss much of "# End ~~"'; stop
   100 print *, 'ERROR!!: There is no "# End ~~"'; stop
-  101 print *, 'ERROR!!: There is no "# job type"'; stop
+  101 print *, 'ERROR!!: There is no "# job type", check -name_binary'; stop
   102 print *, 'ERROR!!: There is no "# input file"'; stop
   103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop
   104 print *, 'ERROR!!: There is no "# multi bond"'; stop

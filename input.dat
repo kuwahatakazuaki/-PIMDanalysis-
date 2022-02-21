@@ -9,7 +9,7 @@
 # 14 : -Multi bond diff              (atom1-atom2  +  atom3-atom4)
 # 21 : -2d histogram_bond            (atom1-atom2 and atom3-atom4)
 # 22 : -2d histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
-# 29 : -2D histogram from External
+# 29 : -2D histogram from Binary data
 # 31 : -1d histogram for centroid
 # 32 : -2d histogram for centroid
 # 33 : -angle histgram for centroid
@@ -22,12 +22,13 @@
 # 61 : -charge_analysis   (all atoms)
 # 62 : -charge_analysis   (atom1)
 # 63 : -dipole_analysis
+# 64 : -hfcc_analysis     (atom1)
 # 71 : -binary add (bin1 + bin2)
 # job type
 -Nfile
 1
 -Job type
-29
+64
 -graph_step
 10
 -save_beads
@@ -53,7 +54,7 @@ F
 -Nstep
 5000
 -atom1
-5
+1
 -atom2
 1
 -atom3
@@ -127,7 +128,7 @@ hello.out
 -temperature
 300
 -type   # 1:atom1-atom2 2:atom1-atom2-atom3
-1
+0
 -atom1
 1
 -atom2
@@ -137,10 +138,10 @@ hello.out
 # end umbrella sampling
 
 # other type
--type   # 1:charge, 2:dipole
-2
+# -type   # 1:charge, 2:dipole
+# 2
 -path
-/Users/kuwahatakazuaki/PIMD/Result/Oxalic_acid/Hyd/Gas/dipole.dat
+/Users/kuwahatakazuaki/PIMD/Result/Muon/Oxy/muo/Result/hfcc.dat
 # end other type
 
 
