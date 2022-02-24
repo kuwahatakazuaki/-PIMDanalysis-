@@ -64,9 +64,8 @@ end block
   print '("    Deviation     = ", F13.6)', data_dev
   print '("    St. error     = ", F13.6)', data_err
   print '("    Data is saved in ",a,/)', '"'//trim(out_angle)//'"'
-!  call calc_1Dhist ! you need "data_beads"
   call calc_1Dhist(out_hist_ex=out_hist) ! you need "data_beads"
-  call calc_cumulative(out_cumulative)
+!  call calc_cumulative(out_cumulative)
 end subroutine calc_angle
 
 subroutine calc_angle_sub(Ifile,atom_temp1,atom_temp2,atom_temp3,step)

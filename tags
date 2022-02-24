@@ -6,7 +6,7 @@
 !_TAG_PROGRAM_VERSION	5.8	//
 100	hist1D.f90	/^        100 continue$/;"	l	subroutine:calc_1Dhist_sub	file:
 100	read_inp.f90	/^  100 print *, 'ERROR!!: There is no "# End ~~"'; stop$/;"	l	file:
-101	read_inp.f90	/^  101 print *, 'ERROR!!: There is no "# job type"'; stop$/;"	l	file:
+101	read_inp.f90	/^  101 print *, 'ERROR!!: There is no "# job type", check -name_binary'; stop$/;"	l	file:
 102	read_inp.f90	/^  102 print *, 'ERROR!!: There is no "# input file"'; stop$/;"	l	file:
 103	read_inp.f90	/^  103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop$/;"	l	file:
 104	read_inp.f90	/^  104 print *, 'ERROR!!: There is no "# multi bond"'; stop$/;"	l	file:

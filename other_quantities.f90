@@ -166,6 +166,7 @@ end block
     allocate(hfcc(Natom,Nbeads,TNstep))
 
 
+    print '(" *** START HFCC analysis ***")'
     open(newunit=Uinp, file=other_path, status='old', iostat=ierr)
       if ( ierr > 0 ) then
         print *, 'Check the path : ', other_path

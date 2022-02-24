@@ -41,8 +41,8 @@ open(20,file=input_file,status='old',err=900)
       elseif (index(trim(line), "-save_beads") > 0)     then; read(20,*) save_beads
       elseif (index(trim(line), "-name_binary") > 0)    then
         if (jobtype == 29 ) then
-          read(20,*) FNtemp1
-          read(20,*) FNtemp2
+          read(20,'(a)') FNtemp1
+          read(20,'(a)') FNtemp2
         else
           read(20,*) FNtemp1
         end if
