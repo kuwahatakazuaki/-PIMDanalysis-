@@ -6,7 +6,8 @@ subroutine calc_dihedral
   use calc_parameter,  only: data_step, data_beads
   use calc_histogram1D, only: calc_1Dhist
   use utility, only: calc_deviation, calc_cumulative
-  integer :: k ! r(xyz,i=atom,j=beads,k=step)
+  implicit none
+  integer :: i, k ! r(xyz,i=atom,j=beads,k=step)
   integer :: Ifile, step
   character(len=128) :: out_angle, angle_name, out_cumulative
   real(8) :: data_max, data_min, data_ave, data_dev
@@ -60,9 +61,8 @@ end block
   print '("    Average angle = ", F13.6)', data_ave
   print '("    Deviation     = ", F13.6)', data_dev
   print '("    Data is saved in ",a,/)', '"'//trim(out_angle)//'"'
-! call calc_1Dhist ! you need "data_beads"
   call calc_1Dhist(out_hist_ex=out_hist) ! you need "data_beads"
-  call calc_cumulative(out_cumulative)
+!  call calc_cumulative(out_cumulative)
 end subroutine calc_dihedral
 
 

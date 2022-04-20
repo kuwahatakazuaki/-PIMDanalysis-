@@ -1,9 +1,10 @@
 subroutine calc_angle
-  use input_parameter,  only: atom, atom_num, out_hist, TNstep, Nfile, save_beads, FNameBinary1
+  use input_parameter,  only: atom, atom_num, out_hist, TNstep, Nfile, save_beads, FNameBinary1, Nbeads
   use calc_parameter,   only: data_step, data_beads
   use calc_histogram1D, only: calc_1Dhist
   use utility,          only: calc_deviation, calc_cumulative
-  integer :: Ifile, step, k ! i=atom, j=beads, k=step
+  implicit none
+  integer :: Ifile, step, i, k ! i=atom, j=beads, k=step
   character(len=128) :: out_angle, angle_name, out_cumulative
   real(8) :: data_max, data_min, data_ave, data_dev, data_err
 !  integer :: atom1(Nfile),atom2(Nfile),atom3(Nfile),atom4(Nfile),atom5(Nfile)
