@@ -31,22 +31,23 @@ open(20,file=input_file,status='old',err=900)
     rewind(20)
     do
       read(20,'(a)',end=101) line
-        if (trim(line(1:10)) == "# job type" )  exit
+        if (index(trim(line),"# job type") == 1 )  exit
     end do
     do  ! Reading job type (1:1D, 2:2D, 3:Angle)
       read(20,'(a)',end=100) line
-      if     (index(trim(line), "-Nfile") > 0)          then; read(20,*) Nfile
-      elseif (index(trim(line), "-Job type") > 0)       then; read(20,*) jobtype
-      elseif (index(trim(line), "-graph_step") > 0)     then; read(20,*) graph_step
-      elseif (index(trim(line), "-save_beads") > 0)     then; read(20,*) save_beads
-      elseif (index(trim(line), "-name_binary") > 0)    then
+      if     (index(trim(line), "-Nfile")       == 1) then; read(20,*) Nfile
+      elseif (index(trim(line), "-Job type")    == 1) then; read(20,*) jobtype
+      elseif (index(trim(line), "-graph_step")  == 1) then; read(20,*) graph_step
+      elseif (index(trim(line), "-save_beads")  == 1) then; read(20,*) save_beads
+      else if (index(trim(line),"-folding")     == 1) then; read(20,*) Lfolding
+      elseif (index(trim(line), "-name_binary") == 1) then
         if (jobtype == 29 ) then
           read(20,'(a)') FNtemp1
           read(20,'(a)') FNtemp2
         else
           read(20,*) FNtemp1
         end if
-      elseif (index(trim(line), "# end job type") > 0)  then; exit
+      elseif (index(trim(line), "# end job type") == 1)  then; exit
       end if
     end do
   ! +++ Default options +++
@@ -80,19 +81,19 @@ open(20,file=input_file,status='old',err=900)
     end do
     do
       read(20,'(a)',end=100) line
-      if     (index(trim(line),"-FileName") > 0)  then; read(20,'(a)') FileName(j)
-      elseif (index(trim(line),"-DirResult") > 0) then; read(20,'(a)') DirResult(j)
-      elseif (index(trim(line),"-Binary" ) > 0) then; read(20,*,err=111) FIbinary
-      elseif (index(trim(line),"-Natom" ) > 0)  then; read(20,*) Natom
-      elseif (index(trim(line),"-Nbeads") > 0)  then; read(20,*) Nbeads
-      elseif (index(trim(line),"-Nstart") > 0)  then; read(20,*) Nstart(j)
-      elseif (index(trim(line),"-Nstep" ) > 0)  then; read(20,*) Nstep(j)
-      elseif (index(trim(line),"-atom1" ) > 0)  then; read(20,*) atom_num(1,j)
-      elseif (index(trim(line),"-atom2" ) > 0)  then; read(20,*) atom_num(2,j)
-      elseif (index(trim(line),"-atom3" ) > 0)  then; read(20,*) atom_num(3,j)
-      elseif (index(trim(line),"-atom4" ) > 0)  then; read(20,*) atom_num(4,j)
-      elseif (index(trim(line),"-atom5" ) > 0)  then; read(20,*) atom_num(5,j)
-      elseif (index(trim(line),"# end file")>0) then; exit
+      if     (index(trim(line),"-FileName")  == 1) then; read(20,'(a)') FileName(j)
+      elseif (index(trim(line),"-DirResult") == 1) then; read(20,'(a)') DirResult(j)
+      elseif (index(trim(line),"-Binary" )   == 1) then; read(20,*,err=111) FIbinary
+      elseif (index(trim(line),"-Natom" )    == 1) then; read(20,*) Natom
+      elseif (index(trim(line),"-Nbeads")    == 1) then; read(20,*) Nbeads
+      elseif (index(trim(line),"-Nstart")    == 1) then; read(20,*) Nstart(j)
+      elseif (index(trim(line),"-Nstep" )    == 1) then; read(20,*) Nstep(j)
+      elseif (index(trim(line),"-atom1" )    == 1) then; read(20,*) atom_num(1,j)
+      elseif (index(trim(line),"-atom2" )    == 1) then; read(20,*) atom_num(2,j)
+      elseif (index(trim(line),"-atom3" )    == 1) then; read(20,*) atom_num(3,j)
+      elseif (index(trim(line),"-atom4" )    == 1) then; read(20,*) atom_num(4,j)
+      elseif (index(trim(line),"-atom5" )    == 1) then; read(20,*) atom_num(5,j)
+      elseif (index(trim(line),"# end file") == 1) then; exit
       end if
     end do
   end do
@@ -121,14 +122,14 @@ open(20,file=input_file,status='old',err=900)
   hist_max(:) = 0.0d0
   do
     read(20,'(a)',end=120) line
-    if     (index(trim(line) ,"-Nhist") > 0 )      then; read(20,*) Nhist
-    elseif (index(trim(line) ,"-Xrange_min" ) > 0) then; read(20,*) hist_min(1)
-    elseif (index(trim(line) ,"-Xrange_max" ) > 0) then; read(20,*) hist_max(1)
-    elseif (index(trim(line) ,"-Yrange_min" ) > 0) then; read(20,*) hist_min(2)
-    elseif (index(trim(line) ,"-Yrange_max" ) > 0) then; read(20,*) hist_max(2)
-    elseif (index(trim(line) ,"-hist_margin") > 0) then; read(20,*) hist_margin
-    elseif (index(trim(line) ,"-Output_name") > 0) then; read(20,*) out_hist
-    elseif (index(trim(line) ,"# end"       ) > 0) then; exit
+    if     (index(trim(line) ,"-Nhist")       == 1) then; read(20,*) Nhist
+    elseif (index(trim(line) ,"-Xrange_min" ) == 1) then; read(20,*) hist_min(1)
+    elseif (index(trim(line) ,"-Xrange_max" ) == 1) then; read(20,*) hist_max(1)
+    elseif (index(trim(line) ,"-Yrange_min" ) == 1) then; read(20,*) hist_min(2)
+    elseif (index(trim(line) ,"-Yrange_max" ) == 1) then; read(20,*) hist_max(2)
+    elseif (index(trim(line) ,"-hist_margin") == 1) then; read(20,*) hist_margin
+    elseif (index(trim(line) ,"-Output_name") == 1) then; read(20,*) out_hist
+    elseif (index(trim(line) ,"# end"       ) == 1) then; exit
     end if
   end do
 ! ===============================
@@ -142,7 +143,6 @@ open(20,file=input_file,status='old',err=900)
     read(20,'(a)',end=104) line
       if (index(trim(line) ,'# multi bond') > 0) exit
   end do
-
   do
     read(20,'(a)',end=100) line
     if (trim(line) == "-Nbond" ) then; read(20,*) Nbond
@@ -151,9 +151,8 @@ open(20,file=input_file,status='old',err=900)
       do i = 1, Nbond
         read(20,*) atom_multi(:,i)
       end do
-!      exit
-    else if (index(trim(line),"-folding") > 0 ) then; read(20,*) Lfolding
-    else if (index(trim(line),"# end"   ) > 0 ) then; exit
+    else if (index(trim(line),"-folding") == 1) then; read(20,*) Lfolding
+    else if (index(trim(line),"# end"   ) == 1) then; exit
     end if
   end do
 ! --- End Reading multi bond ---
@@ -189,8 +188,6 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-path") == 1)  then
       read(20,'(a)') line
       other_path = trim(line)
-!    elseif (index(trim(line) ,"-atom1") > 0)  then; read(20,*) other_atom1
-!    elseif (index(trim(line) ,"-atom2") > 0)  then; read(20,*) other_atom2
     elseif (index(trim(line) ,"# end") > 0)  then; exit
     end if
   end do
@@ -215,7 +212,7 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-atom2") > 0)  then; read(20,*) umbrella_atom2
     elseif (index(trim(line) ,"-atom3") > 0)  then; read(20,*) umbrella_atom3
     elseif (index(trim(line) ,"-force") > 0)  then; read(20,*) umbrella_force
-    elseif (index(trim(line) ,"# end") > 0)  then; exit
+    elseif (index(trim(line) ,"# end")  > 0)  then; exit
     end if
   end do
 107 continue

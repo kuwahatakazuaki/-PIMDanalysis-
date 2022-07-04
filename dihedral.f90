@@ -61,7 +61,7 @@ end block
   print '("    Average angle = ", F13.6)', data_ave
   print '("    Deviation     = ", F13.6)', data_dev
   print '("    Data is saved in ",a,/)', '"'//trim(out_angle)//'"'
-  call calc_1Dhist(out_hist_ex=out_hist) ! you need "data_beads"
+  call calc_1Dhist(out_hist_ex=out_hist)
 !  call calc_cumulative(out_cumulative)
 end subroutine calc_dihedral
 
@@ -77,7 +77,6 @@ subroutine calc_dihedral_sub(Ifile, Tatom1, Tatom2, Tatom3, Tatom4, step)
 !  real(8) :: pi = atan(1.0d0)*4.0d0
   real(8) :: r12(3), r23(3), r34(3)
   real(8) :: vec123(3), vec234(3)
-!  stop "HERE"
 
   do k = Nstart(Ifile), Nstep(Ifile)
     step = step+1
@@ -96,7 +95,6 @@ subroutine calc_dihedral_sub(Ifile, Tatom1, Tatom2, Tatom3, Tatom4, step)
       data_beads(j,step) = data_beads(j,step) *180.0/pi
     end do
     data_step(step) = sum(data_beads(:,step))/dble(Nbeads)
-!    print *, data_step(step)
   end do
 end subroutine calc_dihedral_sub
 

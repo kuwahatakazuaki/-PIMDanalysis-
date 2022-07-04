@@ -52,11 +52,12 @@ contains
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++ Start calc_1Dhist ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++ Start calc_1Dhist                                                            +++
 ! +++ Need "data_beads(Nbond,TNstep)" and "data_step"                              +++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_1Dhist(hist_min_ex, hist_max_ex, out_hist_ex)
     use utility
+    integer :: i
     real(8), intent(in), optional :: hist_min_ex, hist_max_ex
     character(len=128), intent(in), optional :: out_hist_ex
     real(8) :: data_max, data_min, data_ave, data_dev, data_err
@@ -90,6 +91,20 @@ contains
     print '("    Delta hist  =", F13.6)', Dhist
 
     call calc_1Dhist_sub
+    block
+      real(8) :: temp(Nhist,2)
+      if ( Lfolding .eqv. .True. ) then
+        do i = 1, Nhist
+          temp(i,2) = histogram(i,2) + histogram(Nhist-i+1,2)
+        end do
+        histogram(:,2) = temp(:,2) * 0.5d0
+      end if
+    end block
+!print *, ""
+!do i = 1, Nhist
+!  print *, histogram(i,2)
+!end do
+!stop "HERE"
     call calc_deviation(data_dev, data_err)
 
 ! ************* HERE **************
