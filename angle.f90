@@ -7,12 +7,6 @@ subroutine calc_angle
   integer :: Ifile, step, i, k ! i=atom, j=beads, k=step
   character(len=128) :: out_angle, angle_name, out_cumulative
   real(8) :: data_max, data_min, data_ave, data_dev, data_err
-!  integer :: atom1(Nfile),atom2(Nfile),atom3(Nfile),atom4(Nfile),atom5(Nfile)
-!  atom1(:) = atom_num(1,:)
-!  atom2(:) = atom_num(2,:)
-!  atom3(:) = atom_num(3,:)
-!  atom4(:) = atom_num(4,:)
-!  atom5(:) = atom_num(5,:)
 
   write(angle_name,'(a,I0,"-",a,I0,"-",a,I0)') &
     trim(atom(atom_num(1,1))),atom_num(1,1), trim(atom(atom_num(2,1))),atom_num(2,1), trim(atom(atom_num(3,1))),atom_num(3,1)

@@ -1,29 +1,31 @@
 # choose "job type"
-#  1 : -1d histgram of bond         (atom1-atom2)
-#  2 : -angle histgram              (atom1-atom2-atom3)
-#  3 : -dihedral angle              (atom1-atom2-atom3-atom4)
-#  9 : -1D histgram from External
-# 11 : -multi bond calc all
-# 12 : -multi bond sort
-# 13 : -multi bond diff              (atom1-atom2  -  atom3-atom4)
-# 14 : -Multi bond diff              (atom1-atom2  +  atom3-atom4)
-# 21 : -2d histogram_bond            (atom1-atom2 and atom3-atom4)
-# 22 : -2d histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
-# 29 : -2D histogram from Binary data
-# 31 : -1d histogram for centroid
-# 32 : -2d histogram for centroid
-# 33 : -angle histgram for centroid
-# 41 : -dummy atom (x) for bond      (atom1-atomx)
-# 42 : -dummy atom (x) for angle     (atom1-atom2-atomx)
-# 43 : -dummy atom (x) for angle     (atom1-atom2-atomx-atom4)
-# 51 : -Beads expansion   (all atoms)
-# 52 : -Beads expansion   (export binary of atom1)
-# 53 : -Beads expansion   (atom1 projected to atom2-atom3)
-# 61 : -charge_analysis   (all atoms)
-# 62 : -charge_analysis   (atom1)
-# 63 : -dipole_analysis
-# 64 : -hfcc_analysis     (atom1)
-# 71 : -binary add (bin1 + bin2)
+#  1 : 1d histgram of bond         (atom1-atom2)
+#  2 : angle histgram              (atom1-atom2-atom3)
+#  3 : dihedral angle              (atom1-atom2-atom3-atom4)
+#  9 : 1D histgram from External
+# 11 : multi bond calc all
+# 12 : multi bond sort
+# 13 : multi bond diff              (atom1-atom2  -  atom3-atom4)
+# 14 : Multi bond diff              (atom1-atom2  +  atom3-atom4)
+# 21 : 2d histogram_bond            (atom1-atom2 and atom3-atom4)
+# 22 : 2d histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
+# 29 : 2D histogram from Binary data
+# 31 : 1d histogram for centroid
+# 32 : 2d histogram for centroid
+# 33 : angle histgram for centroid
+# 41 : dummy atom (x) for bond      (atom1-atomx)
+# 42 : dummy atom (x) for angle     (atom1-atom2-atomx)
+# 43 : dummy atom (x) for angle     (atom1-atom2-atomx-atom4)
+# 51 : Beads expansion   (all atoms)
+# 52 : Beads expansion   (export binary of atom1)
+# 53 : Beads expansion   (atom1 projected to atom2-atom3)
+# 61 : charge_analysis   (all atoms)
+# 62 : charge_analysis   (atom1)
+# 63 : dipole_analysis
+# 64 : hfcc_analysis     (atom1)
+# 71 : projection        (atom1-atom2  T  atom3-atom4)
+### 81 : binary add        (bin1 + bin2)
+# 91 : Out of plane      (atom2-atom1-atom3 -> atom4)
 # job type
 -Nfile
 1

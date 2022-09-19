@@ -16,6 +16,7 @@ utility.o          \
 hist1D.o           \
 hist2D.o           \
 other_quantities.o  \
+special_case.o      \
 beads_expansion.o  \
 angle.o            \
 bond.o             \
@@ -36,6 +37,7 @@ calc_parameter.mod    \
 input_parameter.mod   \
 utility.mod           \
 mod_other_quantities.mod \
+mod_special_case.mod    \
 
 %.mod : %.f90 %.o
 	@true

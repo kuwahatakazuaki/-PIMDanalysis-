@@ -10,8 +10,6 @@ module mod_other_quantities
 contains
 
   subroutine  other_quantities
-!    atom1 = other_atom1
-!    atom2 = other_atom2
     atom1 = atom_num(1,1)
     atom2 = atom_num(2,1)
 
@@ -162,7 +160,6 @@ end block
 ! +++++++++++++++++++++
   subroutine hfcc_analysis
     integer :: i,j,k,Istep
-!    real(8) :: abs_dipole
     allocate(hfcc(Natom,Nbeads,TNstep))
 
 
@@ -175,7 +172,7 @@ end block
 
       read(Uinp,'()')   ! Skip Header
       do i = 1, Nstart(1)-1
-        read(Uinp,'()')
+        read(Uinp,'()',end=900)
         do j = 1, Nbeads
           read(Uinp,'()')
         end do
@@ -184,7 +181,7 @@ end block
       Istep = 0
       do k = Nstart(1), Nstep(1)
         Istep = Istep + 1
-        read(Uinp,'()')
+        read(Uinp,'()',end=900)
         do j = 1, Nbeads
           read(Uinp,*) hfcc(:,j,Istep)
         end do
@@ -224,11 +221,19 @@ end block
     end do
 
     return
+!900 stop 'ERROR!!: Reading line exceed the coor lines'
+900 call err_line_exceed(k*(Nbeads+1) + j, k)
   end subroutine hfcc_analysis
 ! +++++++++++++++++++++++++
 ! +++ end hfcc_analysis +++
 ! +++++++++++++++++++++++++
 
+subroutine err_line_exceed(Iline, Istep)
+  integer, intent(in) :: Iline, Istep
+  print *, 'The line is ', Iline
+  print *, 'The step is ', Istep
+  stop 'ERROR!!: Reading line exceed the coor lines'
+end subroutine err_line_exceed
 
 end module mod_other_quantities
 ! you can change text to line
