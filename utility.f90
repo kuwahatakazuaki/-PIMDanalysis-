@@ -3,15 +3,17 @@ module utility
   real(8) :: pi = atan(1.0d0)*4.0d0
 contains
 
-! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++++ Start calc_cumulative  +++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-  subroutine calc_cumulative(out_cumulative)
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start calc_cumulative NEW verions ++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  subroutine calc_cumulative()
     use input_parameter, only: TNstep, graph_step
     use calc_parameter,  only: data_step
     integer :: i, cumu_step = 100
     real(8) :: data_dev, data_err
-    character(len=128), intent(in) :: out_cumulative
+!    character(len=128), intent(in) :: out_cumulative
+    character(len=:), allocatable :: out_cumulative
+    out_cumulative="cumu_new.out"
 
     open(20, file=out_cumulative, status='replace')
     do i = 1, TNstep
@@ -21,7 +23,32 @@ contains
       end if
     end do
     close(20)
-  end subroutine
+  end subroutine calc_cumulative
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End calc_cumulative  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start calc_cumulative Older verions ++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  subroutine calc_cumulative_old()
+    use input_parameter, only: TNstep, graph_step
+    use calc_parameter,  only: data_step
+    integer :: i, cumu_step = 100
+    real(8) :: data_dev, data_err
+!    character(len=128), intent(in) :: out_cumulative
+    character(len=:), allocatable :: out_cumulative
+    out_cumulative="cumu_old.out"
+
+    open(20, file=out_cumulative, status='replace')
+    do i = 1, TNstep
+      if (mod(i,graph_step*cumu_step) == 0) then
+        call calc_deviation(data_dev, data_err, end_step=i)
+        write(20,'(I6,3F13.6)') i, sum(data_step(1:i))/dble(i), data_dev, data_err
+      end if
+    end do
+    close(20)
+  end subroutine calc_cumulative_old
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! +++++ End calc_cumulative  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -78,6 +105,8 @@ contains
 
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start outer_product ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   function outer_product(a,b) result(vec)
     real(8), intent(in) :: a(3), b(3)
     real(8) :: vec(3)
@@ -86,6 +115,8 @@ contains
     vec(2) = a(3) * b(1) - a(1) * b(3)
     vec(3) = a(1) * b(2) - a(2) * b(1)
   end function outer_product
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End outer_product ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 end module utility

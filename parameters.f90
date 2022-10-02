@@ -20,9 +20,10 @@ module input_parameter
   character(:), allocatable :: input_file
   integer :: other_type
   character(:), allocatable :: other_path
-!  integer :: other_atom1, other_atom2
   integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
   real(8) :: umbrella_force, temperature
+  real(8) :: Lbox(3)
+  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit
 end module input_parameter
 
 module calc_parameter

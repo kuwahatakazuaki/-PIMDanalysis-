@@ -136,8 +136,9 @@ open(20,file=input_file,status='old',err=900)
 ! --- End histgram parameters ---
 ! ===============================
 
-
+! ==========================
 ! --- Reading multi bond ---
+! ==========================
   rewind(20)
   do
     read(20,'(a)',end=104) line
@@ -155,10 +156,15 @@ open(20,file=input_file,status='old',err=900)
     else if (index(trim(line),"# end"   ) == 1) then; exit
     end if
   end do
+104 continue
+! ==============================
 ! --- End Reading multi bond ---
+! ==============================
 
 
+! ===========================
 ! --- Reading dummy atom ---
+! ===========================
   rewind(20)
   do
     read(20,'(a)',end=105) line
@@ -172,6 +178,7 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"# end"       ) > 0)          then; exit
     end if
   end do
+105 continue
 ! --- End Reading dummy atom ---
 
 ! ==========================
@@ -216,10 +223,36 @@ open(20,file=input_file,status='old',err=900)
     end if
   end do
 107 continue
-! ==============================
-! === End  umbrella sampling ===
-! ==============================
+! =============================
+! === End umbrella sampling ===
+! =============================
 
+! ========================
+! === Reading periodic ===
+! ========================
+  rewind(20)
+  do
+    read(20,'(a)',end=108) line
+      if (index(trim(line),'# periodic') > 0) exit
+  end do
+  do
+    read(20,'(a)',end=100) line
+    if     (index(trim(line) ,"-Lbox") > 0)      then
+      do j = 1, 3
+        read(20,*) Lbox(j)
+      end do
+    elseif (index(trim(line) ,"-Ielement1") > 0) then; read(20,*) Ielement1
+    elseif (index(trim(line) ,"-Felement1") > 0) then; read(20,*) Felement1
+    elseif (index(trim(line) ,"-Ielement2") > 0) then; read(20,*) Ielement2
+    elseif (index(trim(line) ,"-Felement2") > 0) then; read(20,*) Felement2
+    elseif (index(trim(line) ,"-Nunit") > 0)     then; read(20,*) Nunit
+    elseif (index(trim(line) ,"# end")  > 0)  then; exit
+    end if
+  end do
+108 continue
+! ====================
+! === End periodic ===
+! ====================
 
 ! --- Erro Check !! ---
   if     ( Natom < 0) then; print *, "ERROR!!: Write Natom!!";  stop
@@ -270,8 +303,8 @@ return
   101 print *, 'ERROR!!: There is no "# job type", check -name_binary'; stop
   102 print *, 'ERROR!!: There is no "# input file"'; stop
   103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop
-  104 print *, 'ERROR!!: There is no "# multi bond"'; stop
-  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
+!  104 print *, 'ERROR!!: There is no "# multi bond"'; stop
+!  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
 !  106 print *, 'ERROR!!: There is no "# other type"'; stop
 !  107 print *, 'ERROR!!: There is no "# umbrella sampling"'; stop
   111 print *, 'ERROR!!: "-Binary" must be T or F'; stop

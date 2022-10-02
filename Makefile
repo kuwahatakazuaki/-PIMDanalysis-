@@ -18,6 +18,7 @@ hist2D.o           \
 other_quantities.o  \
 special_case.o      \
 beads_expansion.o  \
+periodic.o         \
 angle.o            \
 bond.o             \
 cent.o             \
@@ -38,6 +39,7 @@ input_parameter.mod   \
 utility.mod           \
 mod_other_quantities.mod \
 mod_special_case.mod    \
+mod_periodic.mod    \
 
 %.mod : %.f90 %.o
 	@true
