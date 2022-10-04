@@ -30,7 +30,7 @@ contains
     real(8) :: r21(3), r31(3), r41(3), rt(3)
     real(8) :: data_max, data_min, data_ave, data_dev, data_err
 !    character(len=:), allocatable :: out_name
-    write(out_name,'("outplane_",a,I0,"-",a,I0,"-"a,I0,"->",a,I0)') &
+    write(out_name,'("outplane_",a,I0,"-",a,I0,"-"a,I0,"to",a,I0)') &
             & trim(atom(atom2)), atom2, trim(atom(atom1)), atom1, &
             & trim(atom(atom3)), atom3, trim(atom(atom4)), atom4
     if ( trim(out_hist) == "0") write(out_hist, '("hist_",a,".out")') trim(out_name)
@@ -72,7 +72,7 @@ block
     end if
 end block
 
-    open(Usave, file=out_name, status='replace')
+    open(Usave, file=trim(out_name)//'.out', status='replace')
       do Ifile = 1, Nfile
         write (Usave,'(" # From file",I0, " : "a)') Ifile,trim(out_name)
       end do
