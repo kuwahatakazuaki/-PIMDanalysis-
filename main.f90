@@ -1,5 +1,5 @@
 ! Analysing PIMD data
-! last modified 2020/05/24
+! last modified 2022/10/05
 ! program structure
 ! all of the data are stored in the 'data_beads', and this is analyzed according to the 'jobtype' option
 

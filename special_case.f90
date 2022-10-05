@@ -49,7 +49,7 @@ contains
           r41(:) = r41(:) / norm( r41(:) )
 
           rt(:) = outer_product(r21(:),r31(:))
-          data_beads(j,Istep) = ( pi - acos( dot_product(r41(:),rt(:)) ) ) * 180.0 / pi
+          data_beads(j,Istep) = (0.5 *  pi - acos( dot_product(r41(:),rt(:)) ) ) * 180.0 / pi
         end do
         data_step(Istep) = sum(data_beads(:,Istep))/dble(Nbeads)
       end do
