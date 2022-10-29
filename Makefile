@@ -29,6 +29,7 @@ read_inp.o         \
 dummy_atom.o       \
 dihedral.o         \
 projection.o         \
+rotation.o         \
 
 module =              \
 calc_centoroid.mod    \

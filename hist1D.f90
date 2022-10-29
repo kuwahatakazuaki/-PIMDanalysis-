@@ -91,23 +91,18 @@ contains
     print '("    Delta hist  =", F13.6)', Dhist
 
     call calc_1Dhist_sub
-    block
-      real(8) :: temp(Nhist,2)
       if ( Lfolding .eqv. .True. ) then
+      block
+        real(8) :: temp(Nhist,2)
         do i = 1, Nhist
           temp(i,2) = histogram(i,2) + histogram(Nhist-i+1,2)
         end do
         histogram(:,2) = temp(:,2) * 0.5d0
+      end block
       end if
-    end block
-!print *, ""
-!do i = 1, Nhist
-!  print *, histogram(i,2)
-!end do
-!stop "HERE"
     call calc_deviation(data_dev, data_err)
 
-! ************* HERE **************
+! ************* Umbrella **************
     if ( umbrella_type > 0 ) then
     block
       real(8) :: poten, normalization
@@ -121,7 +116,7 @@ contains
       hist_umbre(:) = hist_umbre(:) / normalization
     end block
     end if
-! ************* HERE **************
+! ************* Umbrella **************
 
     open(Usave, file=trim(out_hist), status='replace')
       write(Usave,'(" # ", a)') trim(out_hist)

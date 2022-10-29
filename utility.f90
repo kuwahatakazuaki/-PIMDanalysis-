@@ -3,6 +3,43 @@ module utility
   real(8) :: pi = atan(1.0d0)*4.0d0
 contains
 
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start Quaternion  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  function get_rot_mat(qua) result(rot)
+    real(8) :: qua(4)
+    real(8) :: rot(3,3)
+    real(8) :: q0, q1, q2, q3
+    q0 = qua(1)
+    q1 = qua(2)
+    q2 = qua(3)
+    q3 = qua(4)
+    rot(1,1) = 1.0d0 - 2.0d0 * ( q2**2 + q3**2)
+    rot(1,2) = 2.0d0 * ( q1*q2 - q0*q3 )
+    rot(1,3) = 2.0d0 * ( q1*q3 + q0*q2 )
+
+    rot(2,1) = 2.0d0 * ( q2*q1 + q0*q3 )
+    rot(2,2) = 1.0d0 - 2.0d0 * ( q3**2 + q1**2)
+    rot(2,3) = 2.0d0 * ( q1*q2 - q0*q1 )
+
+    rot(3,1) = 2.0d0 * ( q3*q1 - q0*q2 )
+    rot(3,2) = 2.0d0 * ( q3*q2 + q0*q1 )
+    rot(3,3) = 1.0d0 - 2.0d0 * ( q1**2 + q2**2)
+  end function get_rot_mat
+
+  function get_qua_theta(theta, direc)  result(qua)
+    real(8) :: theta, direc(3)
+    real(8) :: qua(4)
+    real(8) :: half
+    half = 0.5d0 * theta * pi / 180.0d0
+    qua(1) = dcos(half)
+    qua(2:4) = direc(:) * dsin(half)
+  end function
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End Quaternion  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! +++++ Start calc_cumulative NEW verions ++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -60,7 +97,6 @@ contains
   subroutine calc_deviation(data_dev, data_err, end_step)
     use input_parameter, only: Nbeads, TNstep
     use calc_parameter,  only: data_beads
-    implicit none
     integer i, j, Nstep
     real(8) :: data_ave
     integer, intent(in), optional :: end_step
@@ -92,14 +128,8 @@ contains
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   real(8) function norm(x)
     implicit none
-    integer i
-    real(8) :: x(3)
-
-    norm=0.0d0
-    do i = 1, 3
-      norm = norm + x(i)**2
-    end do
-    norm = dsqrt(norm)
+    real(8), intent(in) :: x(:)
+    norm = dsqrt( sum( x(:)*x(:)) )
   end function
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
