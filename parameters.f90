@@ -21,9 +21,10 @@ module input_parameter
   integer :: other_type
   character(:), allocatable :: other_path
   integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
-  real(8) :: umbrella_force, temperature
-  real(8) :: Lbox(3)
-  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit
+  real(8) :: umbrella_force, temperature, Lbox(3)
+  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit, Nhyd
+  integer, allocatable :: hyd(:)
+  real(8), allocatable :: r_ref(:,:), weight(:)  ! r_ref(xyz,Natom), weight(Natom)
 end module input_parameter
 
 module calc_parameter

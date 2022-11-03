@@ -4,6 +4,7 @@ use input_parameter
 implicit none
 integer :: i, j, k
 character(len=128) :: line
+character :: Cdummy
 
 print '(" *****START reading parameters*****")'
 block
@@ -202,6 +203,34 @@ open(20,file=input_file,status='old',err=900)
 ! ==============================
 ! --- End Reading other type ---
 ! ==============================
+
+! ========================
+! === Reading Rotation ===
+! ========================
+  rewind(20)
+  do
+    read(20,'(a)',end=109) line
+      if (index(trim(line),'# Rotation') > 0) exit
+  end do
+  do
+    read(20,'(a)',end=100) line
+    if     (index(trim(line) ,"-Nhyd")  > 0 ) then
+      read(20,*) umbrella_type
+      allocate(hyd(Nhyd), r_ref(3,Natom), weight(Natom))
+      do i = 1, Nhyd
+        read(20,*) hyd(i)
+      end do
+    elseif (index(trim(line) ,"coord")  > 0)  then; exit
+      do i = 1, Nhyd
+        read(20,*) Cdummy, weight(i), r_ref(:,i)
+      end do
+    elseif (index(trim(line) ,"# end")  > 0)  then; exit
+    end if
+  end do
+109 continue
+! ====================
+! === End Rotation ===
+! ====================
 
 ! =================================
 ! === Reading umbrella sampling ===

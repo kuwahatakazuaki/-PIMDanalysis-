@@ -108,6 +108,17 @@ hello.out
 -File1_external      # the form must (nimber) (data)
 # end histgram parameters
 
+# Rotation
+-Nhyd                # the number of hydrogen or muon
+4
+-Hatom (or Muon)
+2
+3
+4
+6
+-coord               # label weight xyz
+-end coord
+# end Rotation
 
 # multi bond
 -Nbond

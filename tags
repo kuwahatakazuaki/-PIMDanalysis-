@@ -16,6 +16,7 @@
 106	read_inp.f90	/^106 continue$/;"	l	file:
 107	read_inp.f90	/^107 continue$/;"	l	file:
 108	read_inp.f90	/^108 continue$/;"	l	file:
+109	read_inp.f90	/^109 continue$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop$/;"	l	file:
 800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
@@ -52,16 +53,17 @@ Ifile	cent.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_cento
 Ifile	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile,/;"	v	module:calc_histogram2D
 Ihist	periodic.f90	/^  integer :: i, j, k, l, Ihist$/;"	v	module:mod_periodic
 KtoAU	parameters.f90	/^  real(8), parameter :: KtoAU /;"	v	module:calc_parameter
-Lbox	parameters.f90	/^  real(8) :: Lbox(/;"	v	module:input_parameter
+Lbox	parameters.f90	/^  real(8) :: umbrella_force, temperature, Lbox(/;"	v	module:input_parameter
 Lfolding	parameters.f90	/^  logical :: Lfolding /;"	v	module:input_parameter
 Natom	parameters.f90	/^  integer, save :: Natom,/;"	v	module:input_parameter
 Nbeads	parameters.f90	/^  integer, save :: Natom, Nbeads,/;"	v	module:input_parameter
 Nbond	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond$/;"	v	module:input_parameter
 Nfile	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist, Nfile,/;"	v	module:input_parameter
 Nhist	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep, Nhist,/;"	v	module:input_parameter
+Nhyd	parameters.f90	/^  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit, Nhyd$/;"	v	module:input_parameter
 Nstart	parameters.f90	/^  integer, save, allocatable :: Nstep(:), Nstart(/;"	v	module:input_parameter
 Nstep	parameters.f90	/^  integer, save, allocatable :: Nstep(/;"	v	module:input_parameter
-Nunit	parameters.f90	/^  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit$/;"	v	module:input_parameter
+Nunit	parameters.f90	/^  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit,/;"	v	module:input_parameter
 RDF1	periodic.f90	/^  subroutine RDF1$/;"	s	module:mod_periodic
 RDF2	periodic.f90	/^  subroutine RDF2$/;"	s	module:mod_periodic
 TNstep	parameters.f90	/^  integer, save :: Natom, Nbeads, TNstep,/;"	v	module:input_parameter
@@ -121,6 +123,8 @@ dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 err_line_exceed	other_quantities.f90	/^subroutine err_line_exceed(/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
 external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
+fc	Makefile	/^fc = gfortran$/;"	m
+fcopt	Makefile	/^fcopt =  -Wall -O3 -fbacktrace -fbounds-check -lblas -llapack $/;"	m
 get_qua_theta	utility.f90	/^  function get_qua_theta(/;"	f	module:utility
 get_rot_mat	utility.f90	/^  function get_rot_mat(/;"	f	module:utility
 graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
@@ -136,6 +140,7 @@ hist_margin	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(2)=0
 hist_max	parameters.f90	/^  real(8), save :: hist_min(2)=0.0d0, hist_max(/;"	v	module:input_parameter
 hist_min	parameters.f90	/^  real(8), save :: hist_min(/;"	v	module:input_parameter
 histogram	hist1D.f90	/^  real(8), public, save, allocatable :: histogram(/;"	v	module:calc_histogram1D
+hyd	parameters.f90	/^  integer, allocatable :: hyd(/;"	v	module:input_parameter
 i	cent.f90	/^  in/;"	v	module:calc_centoroid
 i	hist2D.f90	/^  in/;"	v	module:calc_histogram2D
 i	periodic.f90	/^  in/;"	v	module:mod_periodic
@@ -156,14 +161,17 @@ l	cent.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_centoroid
 l	hist1D.f90	/^  integer, private :: j, k, l$/;"	v	module:calc_histogram1D
 l	hist2D.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_histogram2D
 l	periodic.f90	/^  integer :: i, j, k, l,/;"	v	module:mod_periodic
+make_matA	rotation.f90	/^  function make_matA(/;"	f	subroutine:rotation
 mod_other_quantities	other_quantities.f90	/^module mod_other_quantities$/;"	m
 mod_periodic	periodic.f90	/^module mod_periodic$/;"	m
 mod_special_case	special_case.f90	/^module mod_special_case$/;"	m
+module	Makefile	/^module =              \\$/;"	m
 multi_bond	multi_bond.f90	/^subroutine multi_bond$/;"	s
 multi_bond_all	multi_bond.f90	/^subroutine multi_bond_all$/;"	s
 multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
 multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
 norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
+objs	Makefile	/^objs = \\$/;"	m
 other_path	parameters.f90	/^  character(:), allocatable :: other_path$/;"	v	module:input_parameter
 other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	module:mod_other_quantities
 other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
@@ -172,9 +180,11 @@ out_plane	special_case.f90	/^  subroutine out_plane$/;"	s	module:mod_special_cas
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
 periodic	periodic.f90	/^  subroutine periodic$/;"	s	module:mod_periodic
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
+program	Makefile	/^program = run.exe$/;"	m
 projection	projection.f90	/^subroutine projection$/;"	s
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
+r_ref	parameters.f90	/^  real(8), allocatable :: r_ref(/;"	v	module:input_parameter
 read_coor	read_coor.f90	/^subroutine read_coor /;"	s
 read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
 read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor
@@ -184,10 +194,11 @@ save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter
 special_case	special_case.f90	/^  subroutine special_case$/;"	s	module:mod_special_case
 step	cent.f90	/^  integer, private :: i, j, k, l, Ifile, step /;"	v	module:calc_centoroid
 step	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile, step!/;"	v	module:calc_histogram2D
-temperature	parameters.f90	/^  real(8) :: umbrella_force, temperature$/;"	v	module:input_parameter
+temperature	parameters.f90	/^  real(8) :: umbrella_force, temperature,/;"	v	module:input_parameter
 umbrella_atom1	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1,/;"	v	module:input_parameter
 umbrella_atom2	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2,/;"	v	module:input_parameter
 umbrella_atom3	parameters.f90	/^  integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3$/;"	v	module:input_parameter
 umbrella_force	parameters.f90	/^  real(8) :: umbrella_force,/;"	v	module:input_parameter
 umbrella_type	parameters.f90	/^  integer :: umbrella_type,/;"	v	module:input_parameter
 utility	utility.f90	/^module utility$/;"	m
+weight	parameters.f90	/^  real(8), allocatable :: r_ref(:,:), weight(/;"	v	module:input_parameter
