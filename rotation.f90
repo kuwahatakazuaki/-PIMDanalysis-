@@ -1,6 +1,6 @@
 subroutine rotation
-  use input_parameter,  only: atom, atom_num, out_hist, Usave, Nfile, TNstep, save_beads, Nbeads, Natom, &
-      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref
+  use input_parameter,  only: atom, atom_num, out_hist, TNstep, save_beads, Nbeads, Natom, &
+      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label
   use calc_parameter,   only: r, data_beads, data_step
   use utility,          only: calc_deviation, calc_cumulative, get_rot_mat
   implicit none
@@ -11,8 +11,9 @@ subroutine rotation
   integer :: iwork(liwork)
   integer :: i, j, k, xyz, info
   real(8), allocatable :: rnew(:,:,:,:)
-  real(8) :: rot(3,3), qua(4), direc(3), rave(3), Tweight
+  real(8) :: rot(3,3), qua(4), rave(3), Tweight
   real(8) :: matA(4,4), matB(4,4), eigval(4)
+!  real(8) :: direc(3)
 
   allocate(rnew(3,Natom,Nbeads,TNstep))
   Tweight = sum(weight(:))
@@ -54,7 +55,28 @@ subroutine rotation
     end do
   end do
 
+  select case(jobtype)
+    case(75)
+      call save_movie
+!    case(76)
+!      call save_cube
+  end select
+
 contains
+
+  subroutine save_movie
+    integer :: Uout
+    open(newunit=Uout,file='std.out',status='replace')
+      do k = 1, TNstep, graph_step
+        write(Uout,'(I10)') k
+        do j = 1, Nbeads
+          do i = 1, Natom
+            write(Uout,*) label(i), rnew(:,i,j,k)
+          end do
+        end do
+      end do
+    close(Uout)
+  end subroutine save_movie
 
   function make_matA(x,y) result(mat)
     real(8) :: x(3), y(3)

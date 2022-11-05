@@ -62,8 +62,9 @@ end select
 !  81 : radial distribution  (element1)
 !  82 : radial distribution  (element1 to element2)
 !  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
-!!!! 101 : binary add        (bin1 + bin2)
+!!!! 101 : binary mask       (bin1 if (bin2) )
 !!!! 102 : binary add        (bin1 + bin2)
+!!!! 103 : binary diff       (bin1 - bin2)
 
 select case(jobtype)
   case(1)
