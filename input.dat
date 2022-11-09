@@ -1,32 +1,34 @@
-# choose "job type"
-#  1 : 1D histgram of bond         (atom1-atom2)
-#  2 : Angle histgram              (atom1-atom2-atom3)
-#  3 : Dihedral angle              (atom1-atom2-atom3-atom4)
-#  9 : 1D histgram from External
-# 11 : Multi bond calc all
-# 12 : Multi bond sort
-# 13 : Multi bond diff              (atom1-atom2  -  atom3-atom4)
-# 14 : Multi bond diff              (atom1-atom2  +  atom3-atom4)
-# 21 : 2D histogram_bond            (atom1-atom2 and atom3-atom4)
-# 22 : 2D histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
-# 29 : 2D histogram from External   (Normal)
-# 31 : 1D histogram for Centroid
-# 32 : 2D histogram for Centroid
-# 33 : Angle histgram for Centroid
-# 41 : Dummy atom (X) for bond      (atom1-atomX)
-# 42 : Dummy atom (X) for angle     (atom1-atom2-atomX)
-# 43 : Dummy atom (X) for dihedral  (atom1-atom2-atomX-atom4)
-# 51 : Beads expansion      (all atoms)
-# 52 : Beads expansion      (export binary of atom1)
-# 53 : Beads expansion      (atom1 projected to atom2-atom3)
-# 61 : charge_analysis      (all atoms)
-# 62 : charge_analysis      (atom1)
-# 63 : dipole_analysis
-# 64 : hfcc_analysis        (atom1)
-# 71 : projection           (atom1-atom2  T  atom3-atom4)
-# 81 : radial distribution  (element 1)
-# 82 : radial distribution  (element 2)
-# 91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
+# Choose "job type"
+#   1 : 1D histgram of bond         (atom1-atom2)
+#   2 : Angle histgram              (atom1-atom2-atom3)
+#   3 : Dihedral angle              (atom1-atom2-atom3-atom4)
+#   9 : 1D histgram from External
+#  11 : Multi bond calc all
+#  12 : Multi bond sort
+#  13 : Multi bond diff              (atom1-atom2  -  atom3-atom4)
+#  14 : Multi bond diff              (atom1-atom2  +  atom3-atom4)
+#  21 : 2D histogram_bond            (atom1-atom2 and atom3-atom4)
+#  22 : 2D histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
+#  29 : 2D histogram from External   (Normal)
+#  31 : 1D histogram for Centroid
+#  32 : 2D histogram for Centroid
+#  33 : Angle histgram for Centroid
+#  41 : Dummy atom (X) for bond      (atom1-atomX)
+#  42 : Dummy atom (X) for angle     (atom1-atom2-atomX)
+#  43 : Dummy atom (X) for dihedral  (atom1-atom2-atomX-atom4)
+#  51 : Beads expansion      (all atoms)
+#  52 : Beads expansion      (export binary of atom1)
+#  53 : Beads expansion      (atom1 projected to atom2-atom3)
+#  61 : charge_analysis      (all atoms)
+#  62 : charge_analysis      (atom1)
+#  63 : dipole_analysis
+#  64 : hfcc_analysis        (atom1)
+#  71 : projection           (atom1-atom2  T  atom3-atom4)
+#  75 : Rotation (movie)
+#  76 : Rotation (cube file)
+#  81 : radial distribution  (element1)
+#  82 : radial distribution  (element1 to element2)
+#  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
 # job type
 -Nfile
 1
@@ -110,13 +112,17 @@ hello.out
 
 # Rotation
 -Nhyd                # the number of hydrogen or muon
-4
+1
 -Hatom (or Muon)
-2
-3
-4
-6
+7
 -coord               # label weight xyz
+C   12.0000   0.000000    0.789057   -0.126549
+C   12.0000  -0.000000   -0.789057   -0.126549
+O   15.9949   0.000000    1.172279    1.138190
+O   15.9949   0.000000    1.496405   -1.137697
+O   15.9949  -0.000000   -1.172279    1.138190
+O   15.9949  -0.000000   -1.496405   -1.137697
+H    1.0078  -0.000000    0.000000    1.510704
 -end coord
 # end Rotation
 

@@ -1,7 +1,7 @@
 subroutine rotation
-  use input_parameter,  only: atom, atom_num, out_hist, TNstep, save_beads, Nbeads, Natom, &
+  use input_parameter,  only: atom, atom_num, TNstep, save_beads, Nbeads, Natom, &
       FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label
-  use calc_parameter,   only: r, data_beads, data_step
+  use calc_parameter,   only: r
   use utility,          only: calc_deviation, calc_cumulative, get_rot_mat
   implicit none
   real(8), parameter :: pi = 4.0d0*atan(1.0d0)
@@ -13,7 +13,6 @@ subroutine rotation
   real(8), allocatable :: rnew(:,:,:,:)
   real(8) :: rot(3,3), qua(4), rave(3), Tweight
   real(8) :: matA(4,4), matB(4,4), eigval(4)
-!  real(8) :: direc(3)
 
   allocate(rnew(3,Natom,Nbeads,TNstep))
   Tweight = sum(weight(:))
@@ -32,7 +31,6 @@ subroutine rotation
     rave(:) = rave(:) / (Tweight * dble(Nbeads))
     r(:,:,:,k) = r(:,:,:,k) - spread( spread(rave(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads )
   end do
-!  r(:,:,:,:) = r(:,:,:,:) - spread( spread( spread(rave(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads ),dim=4, ncopies=TNstep )
 
   do k = 1, TNstep
     matB(:,:) = 0.0d0
@@ -45,7 +43,7 @@ subroutine rotation
     matB(:,:) = matB(:,:) / (Tweight*dble(Nbeads))
 
     call dsyevd('V', 'U', N, matB, N, eigval, work, lwork, iwork, liwork, info)
-    print *, eigval(:)    ! ??????
+ !   print *, eigval(:)    ! ??????
     qua(:) = matB(:,1)
     rot(:,:) = get_rot_mat(qua(:))
     do j = 1, Nbeads
@@ -66,16 +64,19 @@ contains
 
   subroutine save_movie
     integer :: Uout
-    open(newunit=Uout,file='std.out',status='replace')
-      do k = 1, TNstep, graph_step
+    open(newunit=Uout,file='vmd.xyz',status='replace')
+      !do k = 1, TNstep, graph_step
+      do k = 1, TNstep
+        write(Uout,'(I10)') Natom*Nbeads
         write(Uout,'(I10)') k
         do j = 1, Nbeads
           do i = 1, Natom
-            write(Uout,*) label(i), rnew(:,i,j,k)
+            write(Uout,9999) label(i), rnew(:,i,j,k)
           end do
         end do
       end do
     close(Uout)
+9999 format(a,4F11.7)
   end subroutine save_movie
 
   function make_matA(x,y) result(mat)

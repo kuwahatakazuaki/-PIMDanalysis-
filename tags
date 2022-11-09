@@ -34,6 +34,7 @@
 904	read_coor.f90	/^  904 print *, "ERROR!!: The number of atom or beads is wrong"; stop$/;"	l	subroutine:read_coor_format	file:
 911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_binary	file:
 911	read_coor.f90	/^  911 print *, "ERROR!!: Reading line exceed the coor lines"; stop$/;"	l	subroutine:read_coor_format	file:
+9999	rotation.f90	/^9999 format(a,4F11.7)$/;"	l	subroutine:save_movie	file:
 AUtoAng	parameters.f90	/^  real(8), parameter :: AUtoAng /;"	v	module:calc_parameter
 AUtoK	parameters.f90	/^  real(8), parameter :: AUtoK /;"	v	module:calc_parameter
 AngtoAU	parameters.f90	/^  real(8), parameter :: AngtoAU /;"	v	module:calc_parameter
@@ -123,8 +124,6 @@ dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 err_line_exceed	other_quantities.f90	/^subroutine err_line_exceed(/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
 external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
-fc	Makefile	/^fc = gfortran$/;"	m
-fcopt	Makefile	/^fcopt =  -Wall -O3 -fbacktrace -fbounds-check -lblas -llapack $/;"	m
 get_qua_theta	utility.f90	/^  function get_qua_theta(/;"	f	module:utility
 get_rot_mat	utility.f90	/^  function get_rot_mat(/;"	f	module:utility
 graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
@@ -161,17 +160,16 @@ l	cent.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_centoroid
 l	hist1D.f90	/^  integer, private :: j, k, l$/;"	v	module:calc_histogram1D
 l	hist2D.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_histogram2D
 l	periodic.f90	/^  integer :: i, j, k, l,/;"	v	module:mod_periodic
+label	parameters.f90	/^  character(len=2), allocatable :: label(/;"	v	module:input_parameter
 make_matA	rotation.f90	/^  function make_matA(/;"	f	subroutine:rotation
 mod_other_quantities	other_quantities.f90	/^module mod_other_quantities$/;"	m
 mod_periodic	periodic.f90	/^module mod_periodic$/;"	m
 mod_special_case	special_case.f90	/^module mod_special_case$/;"	m
-module	Makefile	/^module =              \\$/;"	m
 multi_bond	multi_bond.f90	/^subroutine multi_bond$/;"	s
 multi_bond_all	multi_bond.f90	/^subroutine multi_bond_all$/;"	s
 multi_bond_diff	multi_bond.f90	/^subroutine multi_bond_diff$/;"	s
 multi_bond_sort	multi_bond.f90	/^subroutine multi_bond_sort$/;"	s
 norm	utility.f90	/^  real(8) function norm(/;"	f	module:utility
-objs	Makefile	/^objs = \\$/;"	m
 other_path	parameters.f90	/^  character(:), allocatable :: other_path$/;"	v	module:input_parameter
 other_quantities	other_quantities.f90	/^  subroutine  other_quantities$/;"	s	module:mod_other_quantities
 other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
@@ -180,7 +178,6 @@ out_plane	special_case.f90	/^  subroutine out_plane$/;"	s	module:mod_special_cas
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
 periodic	periodic.f90	/^  subroutine periodic$/;"	s	module:mod_periodic
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
-program	Makefile	/^program = run.exe$/;"	m
 projection	projection.f90	/^subroutine projection$/;"	s
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
@@ -191,6 +188,7 @@ read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:re
 read_input	read_inp.f90	/^subroutine read_input$/;"	s
 rotation	rotation.f90	/^subroutine rotation$/;"	s
 save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter
+save_movie	rotation.f90	/^  subroutine save_movie$/;"	s	subroutine:rotation
 special_case	special_case.f90	/^  subroutine special_case$/;"	s	module:mod_special_case
 step	cent.f90	/^  integer, private :: i, j, k, l, Ifile, step /;"	v	module:calc_centoroid
 step	hist2D.f90	/^  integer, private :: i, j, k, l, Ifile, step!/;"	v	module:calc_histogram2D
