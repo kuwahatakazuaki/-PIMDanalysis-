@@ -59,6 +59,7 @@ end select
 !  71 : projection           (atom1-atom2  T  atom3-atom4)
 !  75 : Rotation (movie)
 !  76 : Rotation (cube file)
+!  77 : Rotation (cube file from external)
 !  81 : radial distribution  (element1)
 !  82 : radial distribution  (element1 to element2)
 !  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
@@ -91,7 +92,7 @@ select case(jobtype)
     call other_quantities
   case(71)
     call projection
-  case(75:76)
+  case(75:77)
     call rotation
   case(81:82)
     call periodic

@@ -1,7 +1,8 @@
 program = run.exe
 # +++ gfortran +++
 fc = gfortran
-fcopt =  -Wall -O3 -fbacktrace -fbounds-check -lblas -llapack 
+fcopt =  -O2 -pipe -lblas -llapack
+#fcopt =  -Wall -O3 -fbacktrace -fbounds-check -lblas -llapack 
 #fcopt = -Wall -O3
 # +++ End gfortran +++
 

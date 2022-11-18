@@ -1,8 +1,8 @@
 subroutine rotation
   use input_parameter,  only: atom, atom_num, TNstep, save_beads, Nbeads, Natom, &
-      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label
+      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label, atom_density, Nhyd, hyd
   use calc_parameter,   only: r
-  use utility,          only: calc_deviation, calc_cumulative, get_rot_mat
+  use utility,          only: calc_deviation, calc_cumulative, get_rot_mat, lowerchr
   implicit none
   real(8), parameter :: pi = 4.0d0*atan(1.0d0)
   integer, parameter :: N = 4
@@ -56,11 +56,68 @@ subroutine rotation
   select case(jobtype)
     case(75)
       call save_movie
-!    case(76)
-!      call save_cube
+    case(76)
+      call save_cube
   end select
 
 contains
+
+  subroutine save_cube
+    integer :: Uout
+    integer, parameter :: Ndiv = 11
+    real(8), parameter :: Ledge = 10.0d0
+    real(8), parameter :: Bohr2Angs = 0.529177249
+    real(8), parameter :: Angs2Bohr = 1.8897259886
+    real(8) :: grid(Ndiv,Ndiv,Ndiv)
+    real(8) :: Lmin(3), Lmax(3)
+    real(8) :: dL(3), base_vec(3,3)
+    integer, allocatable :: coun(:,:,:,:)
+
+    rnew(:,:,:,:) = rnew(:,:,:,:) * Angs2Bohr
+    Lmin(:) = minval(rnew(:,atom_density,:,:))
+    Lmax(:) = maxval(rnew(:,atom_density,:,:))
+    dL(:) = (Lmax(:) - Lmin(:)) / dble(Ndiv-1)
+
+    base_vec(:,:) = 0.0d0
+    do i = 1, 3
+      base_vec(i,i) = dL(i)
+    end do
+
+    grid(:,:,:) = 0.0d0
+    allocate(coun(3,Natom,Nbeads,TNstep))
+    do k = 1, TNstep
+      coun(:,:,:,k) = rnew(:,:,:,k) - spread( spread(Lmin(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads)
+    end do
+    open(newunit=Uout,file='hyd.cube',status='replace')
+      write(Uout,*) "commnet"
+      write(Uout,*) "commnet"
+      write(Uout,9999) Natom-Nhyd, Lmin(:)
+      do i = 1, 3
+        write(Uout,9999) Ndiv, base_vec(i,:)
+      end do
+      j = 1
+      do i = 1, Natom-Nhyd
+        if ( i == hyd(j) ) then
+          j = j + 1
+          cycle
+        end if
+        write(Uout,9999) atom2num(trim(label(i))), dble(i), &
+                         [sum(rnew(1,i,:,:)),sum(rnew(2,i,:,:)),sum(rnew(3,i,:,:))]/dble(TNstep*Nbeads)
+      end do
+      do i = 1, Ndiv
+        do j = 1, Ndiv
+          do k = 1, Ndiv
+            write(Uout,'(E13.5)',advance='no') grid(i,j,k)
+            if ( mod(k,6) == 0 ) write(Uout,*)
+          end do
+          write(Uout,*)
+        end do
+      end do
+    close(Uout)
+
+  9998  format(I5,4F12.6)
+  9999  format(I5,4F12.6)
+  end subroutine save_cube
 
   subroutine save_movie
     integer :: Uout
@@ -76,7 +133,7 @@ contains
         end do
       end do
     close(Uout)
-9999 format(a,4F11.7)
+    9999 format(a,4F11.7)
   end subroutine save_movie
 
   function make_matA(x,y) result(mat)
@@ -88,56 +145,49 @@ contains
     mat(4,:) = [y(3),  -x(2),  x(1),  0.d0]
   end function make_matA
 
-!  integer :: i, j, k, Ifile ! i=atom, j=beads, k=step, l=hist, Ifile=file
-!  integer :: step
-!  character(len=128) :: out_name
-!  real(8) :: data_max, data_min, data_ave, data_dev, data_err
-!  real(8) :: e(3), r2(3), rt(3)
-!  integer :: atom1, atom2, atom3, atom4
-!
-!!  write(bond_name, '(a,I0,"-",a,I0)')   trim(atom(atom_num(1,1))), atom_num(1,1), trim(atom(atom_num(2,1))), atom_num(2,1)
-!!  write(out_bond, '("bond_",a,".out")') trim(bond_name)
-!!  write(out_cumulative, '("cumu_",a,".out")') trim(bond_name)
-!
-!  step = 0
-!  do Ifile = 1, Nfile
-!    atom1 = atom_num(1,Ifile)
-!    atom2 = atom_num(2,Ifile)
-!    atom3 = atom_num(3,Ifile)
-!    atom4 = atom_num(4,Ifile)
-!
-!    do k = Nstart(Ifile), Nstep(Ifile)
-!    step = step + 1
-!    do j = 1, Nbeads
-!      e(:) = r(:,atom4,j,step) - r(:,atom3,j,step)
-!      e(:) = e(:) / dsqrt( dot_product(e(:),e(:)))
-!
-!      r2(:) = r(:,atom2,j,step) - r(:,atom1,j,step)
-!      rt(:) = r2(:) - dot_product(r2(:),e(:)) * e(:)
-!
-!      data_beads(j,step) = dsqrt( dot_product(rt(:),rt(:)) )
-!    end do
-!    data_step(step) = sum(data_beads(:,step)) / dble(Nbeads)
-!    end do
-!  end do
-!
-!  data_max = maxval(data_beads)
-!  data_min = minval(data_beads)
-!  data_ave = sum(data_beads)/size(data_beads)
-!  call calc_deviation(data_dev, data_err)
-!
-!block
-!  integer :: Ounit
-!  if ( save_beads .eqv. .True. ) then
-!    open(newunit=Ounit,file=FNameBinary1, form='unformatted', access='stream', status='replace')
-!      do step = 1, TNstep
-!        do i = 1, Nbeads
-!          write(Ounit) data_beads(i,step)
-!        end do
-!      end do
-!    close(Ounit)
-!  end if
-!end block
+  function atom2num(cha) result(num)
+    character(*) :: cha
+    integer :: num
+    cha = lowerchr(cha)
+    num = 0
+    if     ( trim(cha) == 'h' ) then
+      num = 1
+    elseif ( trim(cha) == 'li' ) then
+      num = 3
+    elseif ( trim(cha) == 'b' ) then
+      num = 5
+    elseif ( trim(cha) == 'c' ) then
+      num = 6
+    elseif ( trim(cha) == 'n' ) then
+      num = 7
+    elseif ( trim(cha) == 'o' ) then
+      num = 8
+    elseif ( trim(cha) == 'f' ) then
+      num = 9
+    else
+      stop 'ERROR!! "atom2num" cannot chage '
+    end if
+  end function
+
+  character(len=2) function itoc(i)
+    integer :: i
+    select case(i)
+      case(1)
+        itoc = 'H'
+      case(3)
+        itoc = 'Li'
+      case(5)
+        itoc = 'B'
+      case(6)
+        itoc = 'C'
+      case(7)
+        itoc = 'N'
+      case(8)
+        itoc = 'O'
+      case(9)
+        itoc = 'F'
+    end select
+  end function itoc
 
 !  open(Usave, file=out_bond, status='replace')
 !    do Ifile = 1, Nfile

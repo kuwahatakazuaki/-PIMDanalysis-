@@ -1,8 +1,8 @@
 # Choose "job type"
-#   1 : 1D histgram of bond         (atom1-atom2)
-#   2 : Angle histgram              (atom1-atom2-atom3)
+#   1 : 1D histogram of bond         (atom1-atom2)
+#   2 : Angle histogram              (atom1-atom2-atom3)
 #   3 : Dihedral angle              (atom1-atom2-atom3-atom4)
-#   9 : 1D histgram from External
+#   9 : 1D histogram from External
 #  11 : Multi bond calc all
 #  12 : Multi bond sort
 #  13 : Multi bond diff              (atom1-atom2  -  atom3-atom4)
@@ -12,7 +12,7 @@
 #  29 : 2D histogram from External   (Normal)
 #  31 : 1D histogram for Centroid
 #  32 : 2D histogram for Centroid
-#  33 : Angle histgram for Centroid
+#  33 : Angle histogram for Centroid
 #  41 : Dummy atom (X) for bond      (atom1-atomX)
 #  42 : Dummy atom (X) for angle     (atom1-atom2-atomX)
 #  43 : Dummy atom (X) for dihedral  (atom1-atom2-atomX-atom4)
@@ -47,6 +47,7 @@ bin1 bin2
 ../Data
 -FileName
 ../Data/coor_binary
+../Data/temp.xyz
 -Binary  # Choose T(rue) or F(alse)
 T
 F
@@ -90,7 +91,7 @@ F
 0
 # end file 2
 
-# histgram parameters
+# histogram parameters
 -Xrange_min
 0
 -Xrange_max
@@ -106,14 +107,16 @@ F
 0.1d0
 -Output_name         # 0: automatically saved
 0
-hello.out
+temp.out
 -File1_external      # the form must (nimber) (data)
-# end histgram parameters
+# end histogram parameters
 
 # Rotation
 -Nhyd                # the number of hydrogen or muon
 1
 -Hatom (or Muon)
+7
+-Atom_density
 7
 -coord               # label weight xyz
 C   12.0000   0.000000    0.789057   -0.126549

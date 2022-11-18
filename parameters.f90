@@ -25,6 +25,7 @@ module input_parameter
   integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit, Nhyd
   character(len=2), allocatable :: label(:)
   integer, allocatable :: hyd(:)
+  integer :: atom_density
   real(8), allocatable :: r_ref(:,:), weight(:)  ! r_ref(xyz,Natom), weight(Natom)
 end module input_parameter
 

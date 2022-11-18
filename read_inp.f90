@@ -112,12 +112,23 @@ open(20,file=input_file,status='old',err=900)
 
 
 ! ===================================
-! --- Reading histgram parameters ---
+! --- Reading histogram parameters ---
 ! ===================================
   rewind(20)
   do
+    read(20,'(a)',end=110) line
+    if (trim(line) == "# histgram parameters" ) then
+      print *, 'Please change the "# histgram" to "# histogram"'
+      print *, 'Type the "%s/histgram/histogram/gc" in vim"'
+      stop "Error"
+    end if
+  end do
+110 continue
+
+  rewind(20)
+  do
     read(20,'(a)',end=103) line
-      if (trim(line) == "# histgram parameters" ) exit
+      if (trim(line) == "# histogram parameters" ) exit
   end do
   hist_min(:) = 0.0d0
   hist_max(:) = 0.0d0
@@ -134,7 +145,7 @@ open(20,file=input_file,status='old',err=900)
     end if
   end do
 ! ===============================
-! --- End histgram parameters ---
+! --- End histogram parameters ---
 ! ===============================
 
 ! ==========================
@@ -221,6 +232,8 @@ open(20,file=input_file,status='old',err=900)
       do i = 1, Nhyd
         read(20,*) hyd(i)
       end do
+    elseif (index(trim(line) ,"-Atom_density")  > 0)  then
+      read(20,*) atom_density
     elseif (index(trim(line) ,"-coord")  > 0)  then
       do i = 1, Natom
         read(20,*) label(i), weight(i), r_ref(:,i)
@@ -333,13 +346,13 @@ return
   100 print *, 'ERROR!!: There is no "# End ~~"'; stop
   101 print *, 'ERROR!!: There is no "# job type", check -name_binary'; stop
   102 print *, 'ERROR!!: There is no "# input file"'; stop
-  103 print *, 'ERROR!!: There is no "# histgram parameters"'; stop
+  103 print *, 'ERROR!!: There is no "# histogram parameters"'; stop
 !  104 print *, 'ERROR!!: There is no "# multi bond"'; stop
 !  105 print *, 'ERROR!!: There is no "# dummy atom"'; stop
 !  106 print *, 'ERROR!!: There is no "# other type"'; stop
 !  107 print *, 'ERROR!!: There is no "# umbrella sampling"'; stop
   111 print *, 'ERROR!!: "-Binary" must be T or F'; stop
-  120 print *, 'ERROR!!: There is no "# end histgram parameters"'; stop
+  120 print *, 'ERROR!!: There is no "# end histogram parameters"'; stop
   900 print *, 'ERROR!!: There is no "input.dat"'; stop
 end subroutine read_input
 
