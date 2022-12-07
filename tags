@@ -126,10 +126,12 @@ data_step	parameters.f90	/^  real(8), save, allocatable :: data_step(/;"	v	modul
 definition_dummy	parameters.f90	/^  integer, save :: definition_dummy,/;"	v	module:input_parameter
 dipole	other_quantities.f90	/^  real(8), allocatable :: charge(:,:,:), dipole(/;"	v	module:mod_other_quantities
 dipole_analysis	other_quantities.f90	/^  subroutine dipole_analysis$/;"	s
+distribution_oho	pbhpo4.f90	/^  subroutine distribution_oho$/;"	s	subroutine:pbhpo4
 dummy_atom	dummy_atom.f90	/^subroutine dummy_atom$/;"	s
 err_line_exceed	other_quantities.f90	/^subroutine err_line_exceed(/;"	s
 external_1Dhist	hist1D.f90	/^  subroutine external_1Dhist$/;"	s	module:calc_histogram1D
 external_2Dhits	hist2D.f90	/^  subroutine external_2Dhits$/;"	s	module:calc_histogram2D
+get_inv_mat	utility.f90	/^  subroutine get_inv_mat(/;"	s	module:utility
 get_qua_theta	utility.f90	/^  function get_qua_theta(/;"	f	module:utility
 get_rot_mat	utility.f90	/^  function get_rot_mat(/;"	f	module:utility
 graph_step	parameters.f90	/^  integer, save :: graph_step /;"	v	module:input_parameter
@@ -192,6 +194,8 @@ projection	projection.f90	/^subroutine projection$/;"	s
 r	parameters.f90	/^  re/;"	v	module:calc_parameter
 r_cent	cent.f90	/^  real(8), public, allocatable :: r_cent(/;"	v	module:calc_centoroid
 r_ref	parameters.f90	/^  real(8), allocatable :: r_ref(/;"	v	module:input_parameter
+rand3	utility.f90	/^  function rand3(/;"	f	module:utility
+random_seed_ini	utility.f90	/^  subroutine random_seed_ini$/;"	s	module:utility
 read_coor	read_coor.f90	/^subroutine read_coor /;"	s
 read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
 read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor

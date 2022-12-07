@@ -124,14 +124,14 @@ contains
 ! +++++ End calc_deviation  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
-  subroutine get_inv_mat(A,inv,n)
+  subroutine get_inv_mat(mat,inv,n)
     integer :: n
-    real(8), intent(in)  :: A(n,n)
+    real(8), intent(in)  :: mat(n,n)
     real(8), intent(out) :: inv(n,n)
     integer :: lwork, lda, info
     real(8), allocatable :: work(:)
     integer, allocatable :: ipiv(:)
-    inv(:,:) = A(:,:)
+    inv(:,:) = mat(:,:)
     lda = n
     lwork = 64*n
     allocate(work(lwork),ipiv(n))
