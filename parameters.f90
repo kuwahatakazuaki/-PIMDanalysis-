@@ -27,6 +27,7 @@ module input_parameter
   integer, allocatable :: hyd(:)
   integer :: atom_density
   real(8), allocatable :: r_ref(:,:), weight(:)  ! r_ref(xyz,Natom), weight(Natom)
+  real(8) :: lattice(3,3)
 end module input_parameter
 
 module calc_parameter

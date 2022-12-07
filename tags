@@ -20,6 +20,7 @@
 110	read_inp.f90	/^110 continue$/;"	l	file:
 111	read_inp.f90	/^  111 print *, 'ERROR!!: "-Binary" must be T or F'; stop$/;"	l	file:
 120	read_inp.f90	/^  120 print *, 'ERROR!!: There is no "# end histogram parameters"'; stop$/;"	l	file:
+131	read_inp.f90	/^131 continue$/;"	l	file:
 800	hist1D.f90	/^      800 continue$/;"	l	subroutine:external_1Dhist	file:
 800	hist2D.f90	/^        800 continue$/;"	l	subroutine:external_2Dhits	file:
 801	hist1D.f90	/^      801 continue$/;"	l	subroutine:external_1Dhist	file:
@@ -167,6 +168,7 @@ l	hist1D.f90	/^  integer, private :: j, k, l$/;"	v	module:calc_histogram1D
 l	hist2D.f90	/^  integer, private :: i, j, k, l,/;"	v	module:calc_histogram2D
 l	periodic.f90	/^  integer :: i, j, k, l,/;"	v	module:mod_periodic
 label	parameters.f90	/^  character(len=2), allocatable :: label(/;"	v	module:input_parameter
+lattice	parameters.f90	/^  real(8) :: lattice(/;"	v	module:input_parameter
 lowerchr	utility.f90	/^function lowerchr(/;"	f	module:utility
 make_matA	rotation.f90	/^  function make_matA(/;"	f	subroutine:rotation
 mod_other_quantities	other_quantities.f90	/^module mod_other_quantities$/;"	m
@@ -183,6 +185,7 @@ other_type	parameters.f90	/^  integer :: other_type$/;"	v	module:input_parameter
 out_hist	parameters.f90	/^  character(len=128) :: out_hist /;"	v	module:input_parameter
 out_plane	special_case.f90	/^  subroutine out_plane$/;"	s	module:mod_special_case
 outer_product	utility.f90	/^  function outer_product(/;"	f	module:utility
+pbhpo4	pbhpo4.f90	/^subroutine pbhpo4$/;"	s
 periodic	periodic.f90	/^  subroutine periodic$/;"	s	module:mod_periodic
 pi	utility.f90	/^  real(8) :: pi /;"	v	module:utility
 projection	projection.f90	/^subroutine projection$/;"	s

@@ -124,6 +124,36 @@ contains
 ! +++++ End calc_deviation  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+  subroutine get_inv_mat(A,inv,n)
+    integer :: n
+    real(8), intent(in)  :: A(n,n)
+    real(8), intent(out) :: inv(n,n)
+    integer :: lwork, lda, info
+    real(8), allocatable :: work(:)
+    integer, allocatable :: ipiv(:)
+    inv(:,:) = A(:,:)
+    lda = n
+    lwork = 64*n
+    allocate(work(lwork),ipiv(n))
+    call dgetrf(N, N, inv, lda, ipiv, info)
+    call dgetri(N, inv, lda, ipiv, work, lwork, info)
+  end subroutine get_inv_mat
+
+  function rand3() result(r3)
+    real(8) :: r3(3)
+    call random_number(r3(:))
+    r3(:) = r3(:) - 0.5d0
+  end function rand3
+
+  subroutine random_seed_ini
+    integer :: i, seedsize
+    integer, allocatable :: seed(:)
+
+    call random_seed(size=seedsize)
+    allocate(seed(seedsize))
+    seed(:) = 123
+    call random_seed(put=seed)
+  end subroutine random_seed_ini
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! +++++ Start norm +++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

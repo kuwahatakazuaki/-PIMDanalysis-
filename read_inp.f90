@@ -235,7 +235,7 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-Atom_density")  > 0)  then
       read(20,*) atom_density
     elseif (index(trim(line) ,"-coord")  > 0)  then
-      do i = 1, Natom
+      do i = 1, Natom - Nhyd
         read(20,*) label(i), weight(i), r_ref(:,i)
       end do
     elseif (index(trim(line) ,"-end coord")  > 0)  then
@@ -289,7 +289,6 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-Felement1") > 0) then; read(20,*) Felement1
     elseif (index(trim(line) ,"-Ielement2") > 0) then; read(20,*) Ielement2
     elseif (index(trim(line) ,"-Felement2") > 0) then; read(20,*) Felement2
-    elseif (index(trim(line) ,"-Nunit") > 0)     then; read(20,*) Nunit
     elseif (index(trim(line) ,"# end")  > 0)  then; exit
     end if
   end do
@@ -297,6 +296,29 @@ open(20,file=input_file,status='old',err=900)
 ! ====================
 ! === End periodic ===
 ! ====================
+
+! ======================
+! === Reading PbHPO4 ===
+! ======================
+  rewind(20)
+  do
+    read(20,'(a)',end=131) line
+      if (index(trim(line),'# PbHPO4') > 0) exit
+  end do
+  do
+    read(20,'(a)',end=100) line
+    if     (index(trim(line) ,"-Lattice") > 0)      then
+      do j = 1, 3
+        read(20,*) lattice(j,:)
+      end do
+    elseif (index(trim(line) ,"-Nunit") > 0)  then; read(20,*) Nunit
+    elseif (index(trim(line) ,"# end")  > 0)  then; exit
+    end if
+  end do
+131 continue
+! ==================
+! === End PbHPO4 ===
+! ==================
 
 ! --- Erro Check !! ---
   if     ( Natom < 0) then; print *, "ERROR!!: Write Natom!!";  stop

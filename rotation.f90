@@ -1,6 +1,7 @@
 subroutine rotation
   use input_parameter,  only: atom, atom_num, TNstep, save_beads, Nbeads, Natom, &
-      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label, atom_density, Nhyd, hyd
+      FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label, &
+      muon => atom_density, Nhyd, hyd
   use calc_parameter,   only: r
   use utility,          only: calc_deviation, calc_cumulative, get_rot_mat, lowerchr
   implicit none
@@ -64,29 +65,51 @@ contains
 
   subroutine save_cube
     integer :: Uout
-    integer, parameter :: Ndiv = 11
+    integer, parameter :: Ndiv = 20
     real(8), parameter :: Ledge = 10.0d0
     real(8), parameter :: Bohr2Angs = 0.529177249
     real(8), parameter :: Angs2Bohr = 1.8897259886
+    real(8), parameter :: margine = 1d-2
     real(8) :: grid(Ndiv,Ndiv,Ndiv)
     real(8) :: Lmin(3), Lmax(3)
     real(8) :: dL(3), base_vec(3,3)
-    integer, allocatable :: coun(:,:,:,:)
+    integer, allocatable :: coun(:,:,:)
+    integer :: cx,cy,cz
 
     rnew(:,:,:,:) = rnew(:,:,:,:) * Angs2Bohr
-    Lmin(:) = minval(rnew(:,atom_density,:,:))
-    Lmax(:) = maxval(rnew(:,atom_density,:,:))
-    dL(:) = (Lmax(:) - Lmin(:)) / dble(Ndiv-1)
+    do i = 1, 3
+    Lmin(i) = minval(rnew(i,muon,:,:)) - margine
+    Lmax(i) = maxval(rnew(i,muon,:,:)) + margine
+    end do
+    dL(:) = (Lmax(:) - Lmin(:)) / dble(Ndiv)
 
+print *, 'dL : ', dL(:)
+print *, 'Lmin:', Lmin(:)
     base_vec(:,:) = 0.0d0
     do i = 1, 3
       base_vec(i,i) = dL(i)
     end do
 
-    grid(:,:,:) = 0.0d0
-    allocate(coun(3,Natom,Nbeads,TNstep))
+    allocate(coun(3,Nbeads,TNstep))
+    !coun(:,:,:,:) = (rnew(:,:,:,:)-spread( spread( spread(Lmin(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads),dim=4,ncopies=TNstep))
     do k = 1, TNstep
-      coun(:,:,:,k) = rnew(:,:,:,k) - spread( spread(Lmin(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads)
+      do j = 1, Nbeads
+        coun(:,j,k) = int( ( rnew(:,muon,j,k)-Lmin(:) ) / dL(:) ) + 1
+      end do
+    end do
+!do k = 1, TNstep
+!  do j = 1, Nbeads
+!    print *, i,j,k, coun(:,j,k)
+!  end do
+!end do
+    grid(:,:,:) = 0.0d0
+    do k = 1, TNstep
+      do j = 1, Nbeads
+          cx = coun(1,j,k)
+          cy = coun(2,j,k)
+          cz = coun(3,j,k)
+          grid(cx,cy,cz) = grid(cx,cy,cz) + 1.0d0
+      end do
     end do
     open(newunit=Uout,file='hyd.cube',status='replace')
       write(Uout,*) "commnet"

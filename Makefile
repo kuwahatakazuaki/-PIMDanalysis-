@@ -31,6 +31,7 @@ dummy_atom.o       \
 dihedral.o         \
 projection.o         \
 rotation.o         \
+pbhpo4.o           \
 
 module =              \
 calc_centoroid.mod    \

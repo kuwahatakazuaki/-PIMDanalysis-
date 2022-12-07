@@ -29,6 +29,7 @@
 #  81 : radial distribution  (element1)
 #  82 : radial distribution  (element1 to element2)
 #  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
+# 191 : PbHPO4 (O - H - O distribution)
 # job type
 -Nfile
 1
@@ -173,8 +174,6 @@ H    1.0078  -0.000000    0.000000    1.510704
 17
 -Felement2
 24
--Nunit
-3
 # end periodic
 
 # other type
@@ -184,7 +183,14 @@ H    1.0078  -0.000000    0.000000    1.510704
 /Users/kuwahatakazuaki/PIMD/Result/Muon/Oxy/muo/Result/hfcc.dat
 # end other type
 
-
+# PbHPO4
+-Lattice
+ 4.8142385483         0.0000000000         0.0000000000
+ 0.0000000000         6.8708567619         0.0000000000
+-2.0384064352         0.0000000000        17.6854359383
+-Nunit
+3
+# end PbHPO4
 
 
 
