@@ -59,7 +59,7 @@ contains
     use utility
     integer :: i
     real(8), intent(in), optional :: hist_min_ex, hist_max_ex
-    character(len=128), intent(in), optional :: out_hist_ex
+    character(len=*), intent(in), optional :: out_hist_ex
     real(8) :: data_max, data_min, data_ave, data_dev, data_err
     real(8) :: hist_umbre(Nhist)
 
@@ -153,6 +153,7 @@ contains
 ! +++ Start calc_1Dhist_sub ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_1Dhist_sub
+    integer :: Ihist
     histogram(:,:) = 0.0d0
     do l = 1, Nhist
       histogram(l,1) = hist_min(1) + Dhist*dble(l)
@@ -160,13 +161,15 @@ contains
 
     do k = 1, TNstep
       do j = 1, Nbeads
-        do l = 1, Nhist
-          if (data_beads(j,k) <= histogram(l,1)) then
-            histogram(l,2) = histogram(l,2) + 1.0d0
-            goto 100
-          end if
-        end do
-        100 continue
+        Ihist = int( (data_beads(j,k)-hist_min(1)) / Dhist )+1
+        histogram(Ihist,2) = histogram(Ihist,2) + 1.0d0
+        !do l = 1, Nhist
+        !  if (data_beads(j,k) <= histogram(l,1)) then
+        !    histogram(l,2) = histogram(l,2) + 1.0d0
+        !    goto 100
+        !  end if
+        !end do
+        !100 continue
       end do
     end do
     histogram(:,1) = histogram(:,1) - 0.5d0 * Dhist

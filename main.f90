@@ -98,7 +98,7 @@ select case(jobtype)
     call periodic
   case(91)
     call special_case
-  case(191)
+  case(191:195)
     call pbhpo4
   case default
     stop 'ERROR!!! wrong "Job type" option'
