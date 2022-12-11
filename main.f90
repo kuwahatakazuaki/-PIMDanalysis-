@@ -62,6 +62,7 @@ end select
 !  77 : Rotation (cube file from external)
 !  81 : radial distribution  (element1)
 !  82 : radial distribution  (element1 to element2)
+!  83 : OHO distribution
 !  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
 !!!! 101 : binary mask       (bin1 if (bin2) )
 !!!! 102 : binary add        (bin1 + bin2)
@@ -94,7 +95,7 @@ select case(jobtype)
     call projection
   case(75:77)
     call rotation
-  case(81:82)
+  case(81:85)
     call periodic
   case(91)
     call special_case
@@ -104,10 +105,10 @@ select case(jobtype)
     stop 'ERROR!!! wrong "Job type" option'
 end select
 
-deallocate(r)
-deallocate(atom)
-deallocate(data_step)
-deallocate(data_beads)
+!deallocate(r)
+!deallocate(atom)
+!deallocate(data_step)
+!deallocate(data_beads)
 print '(a,/)', " Normal termination"
 stop
 end program analysis

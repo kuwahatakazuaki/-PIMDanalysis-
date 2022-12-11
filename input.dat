@@ -28,6 +28,7 @@
 #  76 : Rotation (cube file)
 #  81 : radial distribution  (element1)
 #  82 : radial distribution  (element1 to element2)
+#  83 : OHO distribution
 #  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
 # 191 : PbHPO4 (O - H - O distribution)
 # job type
@@ -112,23 +113,6 @@ temp.out
 -File1_external      # the form must (nimber) (data)
 # end histogram parameters
 
-# Rotation
--Nhyd                # the number of hydrogen or muon
-1
--Hatom (or Muon)
-7
--Atom_density
-7
--coord               # label weight xyz
-C   12.0000   0.000000    0.789057   -0.126549
-C   12.0000  -0.000000   -0.789057   -0.126549
-O   15.9949   0.000000    1.172279    1.138190
-O   15.9949   0.000000    1.496405   -1.137697
-O   15.9949  -0.000000   -1.172279    1.138190
-O   15.9949  -0.000000   -1.496405   -1.137697
-H    1.0078  -0.000000    0.000000    1.510704
--end coord
-# end Rotation
 
 # multi bond
 -Nbond
@@ -193,4 +177,21 @@ H    1.0078  -0.000000    0.000000    1.510704
 # end PbHPO4
 
 
+## Rotation
+#-Nhyd                # the number of hydrogen or muon
+#1
+#-Hatom (or Muon)
+#7
+#-Atom_density
+#7
+#-coord               # label weight xyz
+#C   12.0000   0.000000    0.789057   -0.126549
+#C   12.0000  -0.000000   -0.789057   -0.126549
+#O   15.9949   0.000000    1.172279    1.138190
+#O   15.9949   0.000000    1.496405   -1.137697
+#O   15.9949  -0.000000   -1.172279    1.138190
+#O   15.9949  -0.000000   -1.496405   -1.137697
+#H    1.0078  -0.000000    0.000000    1.510704
+#-end coord
+## end Rotation
 

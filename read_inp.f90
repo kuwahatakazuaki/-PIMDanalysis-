@@ -289,7 +289,17 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-Felement1") > 0) then; read(20,*) Felement1
     elseif (index(trim(line) ,"-Ielement2") > 0) then; read(20,*) Ielement2
     elseif (index(trim(line) ,"-Felement2") > 0) then; read(20,*) Felement2
-    elseif (index(trim(line) ,"# end")  > 0)  then; exit
+    elseif (index(trim(line) ,"-OHO distribution") > 0) then
+      read(20,'(a)') line
+      print *, "line : ", line
+        read(20,*) Noho
+        allocate(label_oho(3,Noho))
+      read(20,'(a)') line
+      print *, "line : ", line
+        do j = 1, Noho
+          read(20,*) label_oho(:,j)
+        end do
+    elseif (index(trim(line) ,"# end periodic")  > 0)  then; exit
     end if
   end do
 108 continue

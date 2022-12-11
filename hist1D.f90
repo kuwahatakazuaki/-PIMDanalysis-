@@ -153,14 +153,18 @@ contains
 ! +++ Start calc_1Dhist_sub ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_1Dhist_sub
-    integer :: Ihist
+    integer :: Ihist, UTNstep
+    UTNstep = ubound(data_beads,dim=2)
     histogram(:,:) = 0.0d0
     do l = 1, Nhist
       histogram(l,1) = hist_min(1) + Dhist*dble(l)
     end do
 
-    do k = 1, TNstep
-      do j = 1, Nbeads
+    !do k = 1, TNstep
+    !  do j = 1, Nbeads
+    !do k = 1, UTNstep
+    do k = 1, TNstep*10
+      do j = 1, ubound(data_beads, dim=1)
         Ihist = int( (data_beads(j,k)-hist_min(1)) / Dhist )+1
         histogram(Ihist,2) = histogram(Ihist,2) + 1.0d0
         !do l = 1, Nhist
@@ -173,7 +177,7 @@ contains
       end do
     end do
     histogram(:,1) = histogram(:,1) - 0.5d0 * Dhist
-    histogram(:,2) = histogram(:,2)/(dble(TNstep*Nbeads)*Dhist)
+    histogram(:,2) = histogram(:,2)/(dble(UTNstep*Nbeads)*Dhist)
   end subroutine calc_1Dhist_sub
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
