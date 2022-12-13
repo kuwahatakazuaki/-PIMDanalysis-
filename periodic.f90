@@ -55,7 +55,7 @@ contains
   subroutine oho_distribution
     integer :: i, j, k, Ioho, Uout
     real(8) :: r12(3), r23(3), r13(3), d12, d23, d13
-    real(8), allocatable :: oho_bead(:,:,:), oho_step(:,:), oo_bead(:,:,:), oo_step(:,:)
+    real(8), allocatable :: oho_bead(:,:,:), oho_step(:,:), oo_bead(:,:,:), oo_step(:,:), oh_bead(:,:,:)
     integer :: Nh, No
     Nh = Felement1 - Ielement1 + 1
     No = Felement2 - Ielement2 + 1
@@ -64,6 +64,7 @@ contains
     allocate(oho_step(Noho,TNstep))
     allocate(oo_bead(Noho,Nbeads,TNstep))
     allocate(oo_step(Noho,TNstep))
+    allocate(oh_bead(Noho,Nbeads,TNstep))
 
     deallocate(data_beads,data_step)
     allocate(data_beads(Nbeads,TNstep*Noho))
@@ -82,28 +83,52 @@ contains
           d13 = sqrt( sum(r13(:)*r13(:)) )
           oho_bead(Ioho,j,k) = d12 - d23
           oo_bead(Ioho,j,k) = d13
+          oh_bead(Ioho,j,k) = min(d12,d23)
         end do
       end do
     end do
 
-    open(newunit=Uout,file='oho_step.out')
-    do k = 1, TNstep
-      if (mod(k,graph_step)==0) then
-        do i =1, Noho
-          write(Uout,9999,advance='no') sum(oho_bead(i,:,k))/dble(Nbeads)
-        end do
-        write(Uout,*) ""
-      end if
-    end do
+    open(newunit=Uout,file='step_oho.out')
+      do k = 1, TNstep
+        if (mod(k,graph_step)==0) then
+          do i =1, Noho
+            write(Uout,9999,advance='no') sum(oho_bead(i,:,k))/dble(Nbeads)
+          end do
+          write(Uout,*) ""
+        end if
+      end do
     close(Uout)
 
+
     do i = 1, Noho
-      !data_beads(:,TNstep*(i-1)+1:TNstep*i) = oo_bead(i,:,:)
       data_beads(:,TNstep*(i-1)+1:TNstep*i) = oho_bead(i,:,:)
     end do
+    call calc_1Dhist(out_hist_ex="hist1D_oho.out")
 
-    out_hist="oho_1Dhist.out"
-    call calc_1Dhist(out_hist_ex=out_hist)
+    hist_max(1) = 0.0d0
+    hist_min(1) = 0.0d0
+    do i = 1, Noho
+      data_beads(:,TNstep*(i-1)+1:TNstep*i) = oo_bead(i,:,:)
+    end do
+    call calc_1Dhist(out_hist_ex="hist1D_oo.out")
+
+    hist_max(1) = 0.0d0
+    hist_min(1) = 0.0d0
+    do i = 1, Noho
+      data_beads(:,TNstep*(i-1)+1:TNstep*i) = oh_bead(i,:,:)
+    end do
+    call calc_1Dhist(out_hist_ex="hist1D_oh.out")
+
+    if ( save_beads .eqv. .True. ) then
+      open(newunit=Uout,file="oho.bin", form='unformatted', access='stream', status='replace')
+        write(Uout) oho_bead(:,:,:)
+      close(Uout)
+      open(newunit=Uout,file="oo.bin", form='unformatted', access='stream', status='replace')
+        write(Uout) oo_bead(:,:,:)
+      close(Uout)
+    end if
+
+
   9999 format(F10.5)
   end subroutine oho_distribution
 
