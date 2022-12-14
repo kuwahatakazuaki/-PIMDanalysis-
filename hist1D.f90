@@ -162,8 +162,7 @@ contains
 
     !do k = 1, TNstep
     !  do j = 1, Nbeads
-    !do k = 1, UTNstep
-    do k = 1, TNstep*10
+    do k = 1, UTNstep
       do j = 1, ubound(data_beads, dim=1)
         Ihist = int( (data_beads(j,k)-hist_min(1)) / Dhist )+1
         histogram(Ihist,2) = histogram(Ihist,2) + 1.0d0
