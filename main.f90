@@ -42,6 +42,7 @@ end select
 !  14 : Multi bond diff              (atom1-atom2  +  atom3-atom4)
 !  21 : 2D histogram_bond            (atom1-atom2 and atom3-atom4)
 !  22 : 2D histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
+!  28 : 2D histogram from External   (Arbitrary number line)
 !  29 : 2D histogram from External   (Normal)
 !  31 : 1D histogram for Centroid
 !  32 : 2D histogram for Centroid
@@ -81,7 +82,9 @@ select case(jobtype)
     call multi_bond
   case(21:22)
     call calc_2Dhist
-  case(27:29)
+  case(28)
+    call external_2Dhits_arbitrary
+  case(29)
     call external_2Dhits
   case(31:39)
     call calc_cent

@@ -1,4 +1,3 @@
-
 module calc_histogram2D
   use input_parameter, &
       only: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond, &
@@ -15,9 +14,9 @@ module calc_histogram2D
   integer, private :: i, j, k, l, Ifile, step! i=atom, j=beads, k=step, l=hist, Ifile=file
 contains
 
-! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++ calc_2Dhist +++
-! +++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start calc_2Dhist ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_2Dhist
     integer :: temp1(2,Nfile), temp2(2,Nfile)
     character(len=128) name_axis(2)
@@ -79,7 +78,7 @@ contains
     endif
 
     call calc_2Dhist_sub(hist2D_beads)
-  ! --- START Calculating 2D histgram --- !
+! --- START Calculating 2D histgram --- !
 
     open(Usave, file=trim(out_hist), status='replace')
       do i = 1, 2
@@ -120,17 +119,20 @@ contains
   ! --- END Calculating 2D histgram --- !
   end subroutine calc_2Dhist
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++ calc_2Dhist +++
-! +++++++++++++++++++
+! +++++ End calc_2Dhist ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++ calc_2Dhist_sub +++
-! +++++++++++++++++++++++
+! +++++ Start calc_2Dhist_sub ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine calc_2Dhist_sub(hist2D_beads)
   !  implicit none
     integer :: coun(2)
-    real(8), intent(in) :: hist2D_beads(Nbeads,TNstep,2)
+    real(8), intent(in) :: hist2D_beads(:,:,:)
+!    real(8), intent(in) :: hist2D_beads(Nbeads,TNstep,2)
     character :: axis(2) = (/"X","Y"/)
+
+!    print *, ubound(hist2D_beads)
 
     do i = 1, 2
       if ( hist_min(i) == 0.0d0 .and. hist_max(i) == 0.0d0 ) then
@@ -155,15 +157,17 @@ contains
     do j = 1, TNstep
       do k = 1, Nbeads
         do i = 1, 2
+          coun(i) = int( (hist2D_beads(k,j,i)-hist_min(i))/Dhist(i) ) + 1
+          coun(i) = int( (hist2D_beads(k,j,i)-hist_min(i))/Dhist(i) ) + 1
 
-          do l = 1, Nhist
-            if ( hist_axis(l,i) >= hist2D_beads(k,j,i) ) then
-              coun(i) = l
-              exit
-            else
-              cycle
-            end if
-          end do
+          !do l = 1, Nhist
+          !  if ( hist_axis(l,i) >= hist2D_beads(k,j,i) ) then
+          !    coun(i) = l
+          !    exit
+          !  else
+          !    cycle
+          !  end if
+          !end do
 
         end do
         hist_data(coun(1),coun(2)) = hist_data(coun(1),coun(2)) + 1.0d0
@@ -176,9 +180,11 @@ contains
     hist_data(:,:) = hist_data(:,:) / (dble(TNstep*Nbeads)*Dhist(1)*Dhist(2))
   end subroutine calc_2Dhist_sub
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-! +++ calc_2Dhist_sub +++
-! +++++++++++++++++++++++
+! +++++ End calc_2Dhist_sub ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start external_2Dhits  +++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
   subroutine external_2Dhits
     implicit none
@@ -218,6 +224,7 @@ contains
     allocate(hist_data1D(Nhist))
     allocate(hist_axis(Nhist,2))
     allocate(hist2D_beads(Nbeads,TNstep,2))
+
     open(newunit=Nunit, file=FNameBinary1, form='unformatted', access='stream', status='old', err=901)
       do j = 1, TNstep
         do i = 1, Nbeads
@@ -273,11 +280,155 @@ contains
     print '(" *****END 2D histgram*****",/)'
 
   return
-  901 stop "ERROR!! Tere is no binary input1 file"
-  902 stop "ERROR!! Tere is no binary input2 file"
+  901 stop "ERROR!! There is no binary input1 file"
+  902 stop "ERROR!! There is no binary input2 file"
   end subroutine external_2Dhits
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End external_2Dhits  +++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start external_2Dhits_arbitrary  +++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  subroutine external_2Dhits_arbitrary
+    implicit none
+    character :: axis(2) = (/"X","Y"/)
+    integer :: Nunit, Nline, coun(2), Ihist1, Ihist2
+    real(8), allocatable :: binary_data(:,:)
+
+    block ! Check the number of line between Finput1 and Finput2
+      integer :: Nline1, Nline2
+      real(8) :: dummyD
+      open(newunit=Nunit, file=FNameBinary1, form='unformatted', access='stream', status='old', err=901)
+        Nline = 0
+        do
+          read(Nunit, end=800) dummyD
+          Nline = Nline + 1
+        end do
+        800 continue
+      close(Nunit)
+      Nline1 = Nline
+
+      open(newunit=Nunit, file=FNameBinary2, form='unformatted', access='stream', status='old', err=902)
+        Nline = 0
+        do
+          read(Nunit, end=801) dummyD
+          Nline = Nline + 1
+        end do
+        801 continue
+      close(Nunit)
+      Nline2 = Nline
+
+      if ( Nline1 /= Nline2 ) then
+        print *, "The number of lines are different between ", FNameBinary1, " and ", FNameBinary2
+        stop "ERROR!!"
+      end if
+    end block
+
+    allocate(binary_data(Nline,2))
+    allocate(hist_axis(Nhist,2))
+    allocate(hist_data(Nhist,Nhist))
+
+!    allocate(hist_data1D(Nhist))
+!    allocate(hist2D_beads(Nbeads,TNstep,2))
+
+    open(newunit=Nunit, file=FNameBinary1, form='unformatted', access='stream', status='old', err=901)
+      do i = 1, Nline
+        read(Nunit) binary_data(i,1)
+      end do
+    close(Nunit)
+
+    open(newunit=Nunit, file=FNameBinary2, form='unformatted', access='stream', status='old', err=901)
+      do i = 1, Nline
+        read(Nunit) binary_data(i,2)
+      end do
+    close(Nunit)
+
+    do i = 1, 2
+      hist2D_max(i) = maxval(binary_data(:,i))
+      hist2D_min(i) = minval(binary_data(:,i))
+      hist2D_ave(i) = sum(binary_data(:,i))/dble(Nline)
+    end do
+
+! ----- Start call calc_2Dhist_sub -----
+!    call calc_2Dhist_sub(hist2D_beads)
+    do i = 1, 2
+      if ( hist_min(i) == 0.0d0 .and. hist_max(i) == 0.0d0 ) then
+        print '(a,a)', "    Using the margin parameter to ", axis(i)
+        hist_min(i) = hist2D_min(i) - hist_margin
+        hist_max(i) = hist2D_max(i) + hist_margin
+      else
+        print '("    Using the hist_min and hist_max")'
+      end if
+
+      Dhist(i) = (hist_max(i) - hist_min(i)) / dble(Nhist)
+    end do
+
+    do i = 1, 2
+      do l = 1, Nhist
+        hist_axis(l,i) = hist_min(i) + Dhist(i) * dble(l)
+      end do
+    end do
+
+    hist_data(:,:) = 0.0d0
+    do k = 1, Nline
+      do i = 1, 2
+        coun(i) = int( (binary_data(k,i)-hist_min(i))/Dhist(i) ) + 1
+        coun(i) = int( (binary_data(k,i)-hist_min(i))/Dhist(i) ) + 1
+        !do l = 1, Nhist
+        !  if ( hist_axis(l,i) >= binary_data(k,i) ) then
+        !    coun(i) = l
+        !    exit
+        !  end if
+        !end do
+      end do
+      hist_data(coun(1),coun(2)) = hist_data(coun(1),coun(2)) + 1.0d0
+    end do
+
+    do i = 1, 2
+      hist_axis(:,i) = hist_axis(:,i) - 0.5d0 * Dhist(i)
+    end do
+    hist_data(:,:) = hist_data(:,:) / (dble(Nline)*Dhist(1)*Dhist(2))
+! ----- End call calc_2Dhist_sub -----
+
+    open(Usave, file='hist_2D_external.out', status='replace')
+      do i = 1, 2
+        write(Usave,'(" # Maximum hist  ", F13.6)')  hist2D_max(i)
+        write(Usave,'(" # Minimum hist  ", F13.6)')  hist2D_min(i)
+        write(Usave,'(" # Average hist  ", F13.6)')  hist2D_ave(i)
+      end do
+
+      write(Usave,*) "# Hist parameter is as follows"
+      do i = 1, 2
+        write(Usave, '(" # Range max  ",a,F13.6)') axis(i), hist_max(i)
+        write(Usave, '(" # Range min  ",a,F13.6)') axis(i), hist_min(i)
+        write(Usave, '(" # Delta hist ",a,F13.6)') axis(i), Dhist(i)
+      end do
+      write(Usave, '(" # Number hist   ", I6)')     Nhist
+
+      do i = 1, Nhist
+        do j = 1, Nhist
+          write(Usave,'(2F11.5, E14.5)') hist_axis(i,1), hist_axis(j,2), hist_data(i,j)
+        end do
+        write(Usave,*) ""
+      end do
+    close(Usave)
+
+    do i = 1, 2
+      print '("    Range max  ",a,F13.6)', axis(i), hist_max(i)
+      print '("    Range min  ",a,F13.6)', axis(i), hist_min(i)
+      print '("    Delta hist ",a,F13.6)', axis(i),    Dhist(i)
+    end do
+    print '("    Data is saved in ",a)', '"'//trim(out_hist)//'"'
+    print '(" *****END 2D histgram*****",/)'
+
+  return
+  901 stop "ERROR!! There is no binary input1 file"
+  902 stop "ERROR!! There is no binary input2 file"
+  end subroutine external_2Dhits_arbitrary
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End external_2Dhits_arbitrary  +++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 end module calc_histogram2D
 
 

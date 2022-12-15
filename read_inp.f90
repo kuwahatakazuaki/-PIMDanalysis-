@@ -42,7 +42,7 @@ open(20,file=input_file,status='old',err=900)
       elseif (index(trim(line), "-save_beads")  == 1) then; read(20,*) save_beads
       else if (index(trim(line),"-folding")     == 1) then; read(20,*) Lfolding
       elseif (index(trim(line), "-name_binary") == 1) then
-        if (jobtype == 29 ) then
+        if (jobtype == 29 .or. jobtype == 28 ) then
           read(20,'(a)') FNtemp1
           read(20,'(a)') FNtemp2
         else
@@ -291,11 +291,9 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-Felement2") > 0) then; read(20,*) Felement2
     elseif (index(trim(line) ,"-OHO distribution") > 0) then
       read(20,'(a)') line
-      print *, "line : ", line
         read(20,*) Noho
         allocate(label_oho(3,Noho))
       read(20,'(a)') line
-      print *, "line : ", line
         do j = 1, Noho
           read(20,*) label_oho(:,j)
         end do
