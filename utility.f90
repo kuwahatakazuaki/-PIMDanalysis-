@@ -1,7 +1,59 @@
 module utility
+  use calc_parameter,   only: data_beads, data_step
   implicit none
   real(8) :: pi = atan(1.0d0)*4.0d0
 contains
+
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ Start Reblocking  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+  subroutine reblock_step()
+    integer :: Istep, j
+    integer :: Neach, Ndata, Uout
+    integer :: N1, N2
+    real(8) :: ave, var, dev, err
+    real(8), allocatable :: data1(:), data2(:)
+
+!    N1 = size(data_beads, dim=1)
+    N1 = size(data_step)
+    allocate(data1(N1),data2(N1))
+    data1(:) = data_step(:)
+    Neach = N1
+    Istep = 0
+
+    print '(a)', " ***** START Reblocking methods *****"
+    open(newunit=Uout,file='reblock.out')
+      do
+        Istep = Istep + 1
+        print *, 'Neach is :', Neach
+        if ( mod(Neach,2) == 0 ) then
+          Neach = Neach/2
+        else
+          Neach = (Neach-1)/2
+        end if
+        if ( Neach <= 1) exit
+        do j = 1, Neach
+          data2(j) = 0.5d0 * ( data1(2*j-1)+data1(2*j) )
+        end do
+
+        ave = sum(data2(1:Neach))/dble(Neach)
+        var = sum( data2(1:Neach)*data2(1:Neach) ) / dble(Neach) - ave**2
+        dev = dsqrt(var/dble(Neach-1))
+        err = dev / dsqrt(2.0d0*dble(Neach-1))
+        write(Uout,'(I10,2E13.5)') Istep, dev, err
+
+        data1(1:Neach) = data2(1:Neach)
+      end do
+    close(Uout)
+    print '(a)',
+    print '(a)', '   Reblocking data is saved in "reblock.out"'
+    print '(a)', '   Type "plot "reblock.out" with errorbar" in Gnuplot'
+    print '(a)', " ***** End Reblocking methods*****"
+    print '(a)',
+  end subroutine reblock_step
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! +++++ End Reblocking  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 ! ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ! +++++ Start Quaternion  ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++

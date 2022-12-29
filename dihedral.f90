@@ -5,7 +5,7 @@ subroutine calc_dihedral
   use input_parameter
   use calc_parameter,  only: data_step, data_beads
   use calc_histogram1D, only: calc_1Dhist
-  use utility, only: calc_deviation, calc_cumulative
+  use utility, only: calc_deviation, calc_cumulative, reblock_step
   implicit none
   integer :: i, k ! r(xyz,i=atom,j=beads,k=step)
   integer :: Ifile, step
@@ -62,6 +62,7 @@ end block
   print '("    Deviation     = ", F13.6)', data_dev
   print '("    Data is saved in ",a,/)', '"'//trim(out_angle)//'"'
   call calc_1Dhist(out_hist_ex=out_hist)
+  call reblock_step()
 !  call calc_cumulative(out_cumulative)
 end subroutine calc_dihedral
 

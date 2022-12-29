@@ -1,4 +1,3 @@
-! you can change text to line
 subroutine read_input
 use input_parameter
 implicit none
@@ -221,24 +220,24 @@ open(20,file=input_file,status='old',err=900)
   rewind(20)
   do
     read(20,'(a)',end=109) line
-      if (index(trim(line),'# Rotation') > 0) exit
+      if (index(trim(line),'# Rotation') == 1) exit
   end do
   do
     read(20,'(a)',end=100) line
-    if     (index(trim(line) ,"-Nhyd")  > 0 ) then
+    if     (index(trim(line) ,"-Nhyd")  == 1 ) then
       read(20,*) Nhyd
       allocate(hyd(Nhyd), r_ref(3,Natom), weight(Natom), label(Natom))
-    elseif (index(trim(line) ,"-Hatom")  > 0)  then
+    elseif (index(trim(line) ,"-Hatom")  == 1)  then
       do i = 1, Nhyd
         read(20,*) hyd(i)
       end do
-    elseif (index(trim(line) ,"-Atom_density")  > 0)  then
+    elseif (index(trim(line) ,"-Atom_density")  == 1)  then
       read(20,*) atom_density
-    elseif (index(trim(line) ,"-coord")  > 0)  then
+    elseif (index(trim(line) ,"-coord") == 1)  then
       do i = 1, Natom - Nhyd
         read(20,*) label(i), weight(i), r_ref(:,i)
       end do
-    elseif (index(trim(line) ,"-end coord")  > 0)  then
+    elseif (index(trim(line) ,"-end coord") == 1)  then
       exit
     end if
   end do

@@ -208,6 +208,7 @@ read_coor	read_coor.f90	/^subroutine read_coor /;"	s
 read_coor_binary	read_coor.f90	/^subroutine read_coor_binary(/;"	s	subroutine:read_coor
 read_coor_format	read_coor.f90	/^subroutine read_coor_format(/;"	s	subroutine:read_coor
 read_input	read_inp.f90	/^subroutine read_input$/;"	s
+reblock_step	utility.f90	/^  subroutine reblock_step(/;"	s	module:utility
 rms_oho	periodic.f90	/^  subroutine rms_oho$/;"	s	module:mod_periodic
 rotation	rotation.f90	/^subroutine rotation$/;"	s
 save_beads	parameters.f90	/^  logical :: save_beads /;"	v	module:input_parameter

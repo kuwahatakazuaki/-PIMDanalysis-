@@ -5,7 +5,7 @@ subroutine calc_bond
   use input_parameter,  only: atom, atom_num, out_hist, Usave, Nfile, TNstep, Uprint, save_beads, Nbeads, FNameBinary1, graph_step
   use calc_parameter,   only: data_beads, data_step
   use calc_histogram1D, only: calc_1Dhist
-  use utility,          only: calc_deviation, calc_cumulative
+  use utility,          only: calc_deviation, calc_cumulative, reblock_step
   implicit none
   integer :: i, k, Ifile ! i=atom, j=beads, k=step, l=hist, Ifile=file
   integer :: step
@@ -69,6 +69,7 @@ end block
   write(Uprint,*) ""
   call calc_1Dhist(out_hist_ex=out_hist) ! you need "data_beads"
 !  call calc_cumulative(out_cumulative)
+  call reblock_step()
 end subroutine calc_bond
 
 subroutine calc_bond_sub(Ifile,atom1,atom2,step)

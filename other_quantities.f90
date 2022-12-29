@@ -2,6 +2,7 @@ module mod_other_quantities
   use input_parameter
   use calc_parameter, only: data_beads, data_step
   use calc_histogram1D
+  use utility, only: reblock_step
   implicit none
   real(8), allocatable :: charge(:,:,:), dipole(:,:,:), hfcc(:,:,:)
   integer, private :: Uinp, ierr
@@ -204,12 +205,15 @@ end block
       write(*,*) "***** Binary data is saved in  ", FNameBinary1, " *****"
       data_beads = hfcc(atom1,:,:)
       name_out = "hist_hfcc.out"
+      do k = 1, TNstep
+        data_step(k) = sum(data_beads(:,k))/dble(Nbeads)
+      end do
 
       call calc_1Dhist(out_hist_ex=name_out)
 
       open(newunit=Ounit,file="step_hfcc.out",status='replace')
         do k = 1, TNstep
-          if (mod(k,graph_step) == 0 ) write(Ounit,'(I7,F10.5)') k, sum(hfcc(atom1,:,k))/dble(Nbeads)
+          if (mod(k,graph_step) == 0 ) write(Ounit,'(I7,F10.5)') k, data_step(k) !sum(hfcc(atom1,:,k))/dble(Nbeads)
         end do
       close(Ounit)
     end block
@@ -220,8 +224,9 @@ end block
       print '(I4,F12.7)', i, sum(hfcc(i,:,:)) / dble(TNstep*Nbeads)
     end do
 
+    call reblock_step()
+
     return
-!900 stop 'ERROR!!: Reading line exceed the coor lines'
 900 call err_line_exceed(k*(Nbeads+1) + j, k)
   end subroutine hfcc_analysis
 ! +++++++++++++++++++++++++
