@@ -234,7 +234,7 @@ open(20,file=input_file,status='old',err=900)
     elseif (index(trim(line) ,"-Atom_density")  == 1)  then
       read(20,*) atom_density
     elseif (index(trim(line) ,"-coord") == 1)  then
-      do i = 1, Natom - Nhyd
+      do i = 1, Natom
         read(20,*) label(i), weight(i), r_ref(:,i)
       end do
     elseif (index(trim(line) ,"-end coord") == 1)  then

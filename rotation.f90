@@ -1,3 +1,5 @@
+!
+! The weight of hydrogen atoms are change to zero 
 subroutine rotation
   use input_parameter,  only: atom, atom_num, TNstep, save_beads, Nbeads, Natom, &
       FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label, &
@@ -10,19 +12,27 @@ subroutine rotation
   integer, parameter :: liwork = 5*N+3,  lwork = 2*N*N+6*N+1
   real(8) :: work(lwork)
   integer :: iwork(liwork)
-  integer :: i, j, k, xyz, info
-  real(8), allocatable :: rnew(:,:,:,:)
+  integer :: i, j, k, xyz, info, Uout
+  real(8), allocatable :: rnew(:,:,:,:), eigenArray(:)
   real(8) :: rot(3,3), qua(4), rave(3), Tweight
-  real(8) :: matA(4,4), matB(4,4), eigval(4)
+  real(8) :: matA(4,4), matB(4,4), eigen(4)
 
   allocate(rnew(3,Natom,Nbeads,TNstep))
+  allocate(eigenArray(TNstep))
+
+  print '(a)',  " *****START Removing rotation freedom*****"
+  do j = 1, Nhyd
+    weight(hyd(j)) = 0.0d0
+  end do
+!  print '(10F10.5)', weight(:)
   Tweight = sum(weight(:))
   do xyz = 1, 3
     rave(xyz) = dot_product(r_ref(xyz,:), weight(:)) / (Tweight)
   end do
   r_ref(:,:) = r_ref(:,:) - spread(rave(:), dim=2, ncopies=Natom)
 
-  do k = 1, TNstep
+! --- Start Remove center of mass ---
+  step_loop1:do k = 1, TNstep
     rave(:) = 0.0d0
     do j = 1, Nbeads
       do xyz = 1, 3
@@ -31,9 +41,11 @@ subroutine rotation
     end do
     rave(:) = rave(:) / (Tweight * dble(Nbeads))
     r(:,:,:,k) = r(:,:,:,k) - spread( spread(rave(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads )
-  end do
+  end do step_loop1
+! --- End Remove center of mass ---
 
-  do k = 1, TNstep
+! --- Start Rotation to r_ref ---
+  step_loop2:do k = 1, TNstep
     matB(:,:) = 0.0d0
     do j = 1, Nbeads
       do i = 1, Natom
@@ -43,16 +55,27 @@ subroutine rotation
     end do
     matB(:,:) = matB(:,:) / (Tweight*dble(Nbeads))
 
-    call dsyevd('V', 'U', N, matB, N, eigval, work, lwork, iwork, liwork, info)
- !   print *, eigval(:)    ! ??????
+    call dsyevd('V', 'U', N, matB, N, eigen, work, lwork, iwork, liwork, info)
     qua(:) = matB(:,1)
+    eigenArray(k) = eigen(1)
     rot(:,:) = get_rot_mat(qua(:))
     do j = 1, Nbeads
       do i = 1, Natom
         rnew(:,i,j,k) = matmul(rot(:,:), r(:,i,j,k))
       end do
     end do
-  end do
+!print *, sum(rnew(2,1,:,k))/dble(Nbeads)
+!print *, [sum(rnew(1,1,:,k)),sum(rnew(2,1,:,k)),sum(rnew(3,1,:,k))]/dble(Nbeads)
+  end do step_loop2
+! --- End Rotation to r_ref ---
+
+  open(newunit=Uout,file='eigen.out')
+    do k = 1, TNstep
+      if ( mod(k,graph_step) == 0 ) then
+        write(Uout,9999) eigenArray(k)
+      end if
+    end do
+  close(Uout)
 
   select case(jobtype)
     case(75)
@@ -60,7 +83,9 @@ subroutine rotation
     case(76)
       call save_cube
   end select
+  print '(a)',  " *****END Removing rotation freedom*****"
 
+  9999 format(E12.5)
 contains
 
   subroutine save_cube
@@ -69,7 +94,7 @@ contains
     real(8), parameter :: Ledge = 10.0d0
     real(8), parameter :: Bohr2Angs = 0.529177249
     real(8), parameter :: Angs2Bohr = 1.8897259886
-    real(8), parameter :: margine = 1d-2
+    real(8), parameter :: margine = 1d-1
     real(8) :: grid(Ndiv,Ndiv,Ndiv)
     real(8) :: Lmin(3), Lmax(3)
     real(8) :: dL(3), base_vec(3,3)
@@ -83,25 +108,23 @@ contains
     end do
     dL(:) = (Lmax(:) - Lmin(:)) / dble(Ndiv)
 
-print *, 'dL : ', dL(:)
-print *, 'Lmin:', Lmin(:)
+    print '(a)',        '   Constructing the cube file '
+    print '(a,I4)',     '     Ndiv    = ', Ndiv
+    print '(a,1pe11.3)',  '     margine = ', margine
+    print '(a,3F10.5)', '     dL      = ', dL(:)
+    print '(a,3F10.5)', '     Lmin    = ', Lmin(:)
     base_vec(:,:) = 0.0d0
     do i = 1, 3
       base_vec(i,i) = dL(i)
     end do
 
     allocate(coun(3,Nbeads,TNstep))
-    !coun(:,:,:,:) = (rnew(:,:,:,:)-spread( spread( spread(Lmin(:),dim=2,ncopies=Natom),dim=3,ncopies=Nbeads),dim=4,ncopies=TNstep))
     do k = 1, TNstep
       do j = 1, Nbeads
         coun(:,j,k) = int( ( rnew(:,muon,j,k)-Lmin(:) ) / dL(:) ) + 1
       end do
     end do
-!do k = 1, TNstep
-!  do j = 1, Nbeads
-!    print *, i,j,k, coun(:,j,k)
-!  end do
-!end do
+
     grid(:,:,:) = 0.0d0
     do k = 1, TNstep
       do j = 1, Nbeads
@@ -111,6 +134,7 @@ print *, 'Lmin:', Lmin(:)
           grid(cx,cy,cz) = grid(cx,cy,cz) + 1.0d0
       end do
     end do
+    grid(:,:,:) = grid(:,:,:) / dble(TNstep*Nbeads)
     open(newunit=Uout,file='hyd.cube',status='replace')
       write(Uout,*) "commnet"
       write(Uout,*) "commnet"
@@ -119,7 +143,7 @@ print *, 'Lmin:', Lmin(:)
         write(Uout,9999) Ndiv, base_vec(i,:)
       end do
       j = 1
-      do i = 1, Natom-Nhyd
+      do i = 1, Natom
         if ( i == hyd(j) ) then
           j = j + 1
           cycle
@@ -137,6 +161,7 @@ print *, 'Lmin:', Lmin(:)
         end do
       end do
     close(Uout)
+    print '(a)', '   Cube file is saved in "hyd.cube"'
 
   9998  format(I5,4F12.6)
   9999  format(I5,4F12.6)
@@ -145,15 +170,16 @@ print *, 'Lmin:', Lmin(:)
   subroutine save_movie
     integer :: Uout
     open(newunit=Uout,file='vmd.xyz',status='replace')
-      !do k = 1, TNstep, graph_step
       do k = 1, TNstep
-        write(Uout,'(I10)') Natom*Nbeads
-        write(Uout,'(I10)') k
-        do j = 1, Nbeads
-          do i = 1, Natom
-            write(Uout,9999) label(i), rnew(:,i,j,k)
+        if ( mod(k,10) == 0) then
+          write(Uout,'(I10)') Natom*Nbeads
+          write(Uout,'(I10)') k
+          do j = 1, Nbeads
+            do i = 1, Natom
+              write(Uout,9999) label(i), rnew(:,i,j,k)
+            end do
           end do
-        end do
+        end if
       end do
     close(Uout)
     9999 format(a,4F11.7)
@@ -212,32 +238,5 @@ print *, 'Lmin:', Lmin(:)
     end select
   end function itoc
 
-!  open(Usave, file=out_bond, status='replace')
-!    do Ifile = 1, Nfile
-!      write (Usave,'(" # From file",I0, " : "a)') Ifile,trim(bond_name)
-!    end do
-!    write(Usave,'(a,F13.6)') " # Maximum bond  = ", data_max
-!    write(Usave,'(a,F13.6)') " # Minimum bond  = ", data_min
-!    write(Usave,'(a,F13.6)') " # Average bond  = ", data_ave
-!    write(Usave,'(a,F13.6)') " # St. deviation = ", data_dev
-!    write(Usave,'(a,F13.6)') " # St. error     = ", data_err
-!    do k = 1, TNstep
-!      if (mod(k,graph_step) == 0) then
-!        write(Usave,'(I7,F10.5)') k, data_step(k)
-!      end if
-!    end do
-!  close(Usave)
-!
-!  write(Uprint,*) "*****START calculating bond length*****"
-!  do Ifile = 1, Nfile
-!    write (Uprint,'("    From file",I0, " : "a)') Ifile, trim(bond_name)
-!  end do
-!  write(Uprint, '("    Maximum bond =", F13.6)') data_max
-!  write(Uprint, '("    Minimum bond =", F13.6)') data_min
-!  write(Uprint, '("    Average bond =", F13.6)') data_ave
-!  write(Uprint, '("    St. deviation=", F13.6)') data_dev
-!  write(Uprint, '("    St. error    =", F13.6)') data_err
-!  write(Uprint,*) ""
-!  call calc_1Dhist(out_hist_ex=out_hist)
 end subroutine rotation
 
