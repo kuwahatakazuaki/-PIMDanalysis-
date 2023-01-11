@@ -119,7 +119,7 @@ open(20,file=input_file,status='old',err=900)
     if (trim(line) == "# histgram parameters" ) then
       print *, 'Please change the "# histgram" to "# histogram"'
       print *, 'Type the "%s/histgram/histogram/gc" in vim"'
-      stop "Error"
+      !stop "Error"
     end if
   end do
 110 continue
@@ -127,7 +127,7 @@ open(20,file=input_file,status='old',err=900)
   rewind(20)
   do
     read(20,'(a)',end=103) line
-      if (trim(line) == "# histogram parameters" ) exit
+      if (trim(line) == "# histogram parameters" .or. trim(line) == "# histgram parameters") exit
   end do
   hist_min(:) = 0.0d0
   hist_max(:) = 0.0d0

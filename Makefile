@@ -49,9 +49,10 @@ mod_periodic.mod    \
 
 $(program): $(objs)
 	@echo
-	$(fc) $(fcopt) $(objs) -o $@
+	$(fc) $(objs) -o $@ $(fcopt)
 	cp $@ ../
 	@echo -e '\e[34m Noraml termination!!!\e[m\n'
+#	$(fc) $(fcopt) $(objs) -o $@
 
 %.o : %.f90
 	@echo
@@ -63,7 +64,7 @@ clean:
 	rm -f *.o *.mod $(program)
 
 install: $(objs)
-	$(fc) $(fcopt) $(objs) -o $(program)
+	$(fc) $(objs) -o $(program) $(fcopt)
 	cp $(program) /Users/kuwahatakazuaki/Program/bin/PIMDanalysis
 # 	cp $(program) /Users/kuwahatakazuaki/PIMD/Analysis/Program/PIMDanalysis
 
