@@ -22,7 +22,7 @@ module input_parameter
   character(:), allocatable :: other_path
   integer :: umbrella_type, umbrella_atom1, umbrella_atom2, umbrella_atom3
   real(8) :: umbrella_force, temperature, Lbox(3)
-  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit, Nhyd
+  integer :: Ielement1, Felement1, Ielement2, Felement2, Nunit, Nhyd, Ndiv = 30
   character(len=2), allocatable :: label(:)
   integer, allocatable :: hyd(:), label_oho(:,:)
   integer :: atom_density, Noho

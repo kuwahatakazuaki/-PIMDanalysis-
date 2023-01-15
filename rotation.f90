@@ -3,7 +3,7 @@
 subroutine rotation
   use input_parameter,  only: atom, atom_num, TNstep, save_beads, Nbeads, Natom, &
       FNameBinary1, graph_step, Nstart, Nstep, weight, r_ref, jobtype, label, &
-      muon => atom_density, Nhyd, hyd
+      muon => atom_density, Nhyd, hyd, Ndiv
   use calc_parameter,   only: r
   use utility,          only: calc_deviation, calc_cumulative, get_rot_mat, lowerchr
   implicit none
@@ -24,7 +24,7 @@ subroutine rotation
   do j = 1, Nhyd
     weight(hyd(j)) = 0.0d0
   end do
-!  print '(10F10.5)', weight(:)
+
   Tweight = sum(weight(:))
   do xyz = 1, 3
     rave(xyz) = dot_product(r_ref(xyz,:), weight(:)) / (Tweight)
@@ -64,8 +64,6 @@ subroutine rotation
         rnew(:,i,j,k) = matmul(rot(:,:), r(:,i,j,k))
       end do
     end do
-!print *, sum(rnew(2,1,:,k))/dble(Nbeads)
-!print *, [sum(rnew(1,1,:,k)),sum(rnew(2,1,:,k)),sum(rnew(3,1,:,k))]/dble(Nbeads)
   end do step_loop2
 ! --- End Rotation to r_ref ---
 
@@ -90,7 +88,7 @@ contains
 
   subroutine save_cube
     integer :: Uout
-    integer, parameter :: Ndiv = 20
+!    integer, parameter :: Ndiv = 20
     real(8), parameter :: Ledge = 10.0d0
     real(8), parameter :: Bohr2Angs = 0.529177249
     real(8), parameter :: Angs2Bohr = 1.8897259886
