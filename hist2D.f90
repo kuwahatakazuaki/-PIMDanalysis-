@@ -3,7 +3,7 @@ module calc_histogram2D
       only: Natom, Nbeads, TNstep, Nhist, Nfile, Nbond, &
             jobtype, atom, atom_num, out_hist, Usave, &
             hist_min, hist_max, FNameBinary1, FNameBinary2, &
-            hist_margin
+            hist_margin, Lfolding
   use calc_parameter, only: r, data_beads
   implicit none
   real(8), save :: hist2D_min(2), hist2D_max(2), Dhist(2)
@@ -160,15 +160,6 @@ contains
           coun(i) = int( (hist2D_beads(k,j,i)-hist_min(i))/Dhist(i) ) + 1
           coun(i) = int( (hist2D_beads(k,j,i)-hist_min(i))/Dhist(i) ) + 1
 
-          !do l = 1, Nhist
-          !  if ( hist_axis(l,i) >= hist2D_beads(k,j,i) ) then
-          !    coun(i) = l
-          !    exit
-          !  else
-          !    cycle
-          !  end if
-          !end do
-
         end do
         hist_data(coun(1),coun(2)) = hist_data(coun(1),coun(2)) + 1.0d0
       end do
@@ -246,6 +237,15 @@ contains
       hist2D_min(i) = minval(hist2D_beads(:,:,i))
     end do
     call calc_2Dhist_sub(hist2D_beads)
+    if ( Lfolding .eqv. .True. ) then
+      block
+        real(8) :: temp(Nhist,Nhist)
+        do i = 1, Nhist
+          temp(i,:) = hist_data(i,:) + hist_data(Nhist-i+1,:)
+        end do
+        hist_data(:,:) = temp(:,:) * 0.5d0
+      end block
+    end if
 
     out_hist='hist_2D_external.out'
     open(Usave, file=trim(out_hist), status='replace')

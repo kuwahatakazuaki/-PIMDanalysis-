@@ -32,10 +32,10 @@ select case(jobtype)
 end select
 
 ! Choose "job type"
-!   1 : 1D histgram of bond         (atom1-atom2)
-!   2 : Angle histgram              (atom1-atom2-atom3)
+!   1 : 1D histogram of bond         (atom1-atom2)
+!   2 : Angle histogram              (atom1-atom2-atom3)
 !   3 : Dihedral angle              (atom1-atom2-atom3-atom4)
-!   9 : 1D histgram from External
+!   9 : 1D histogram from External
 !  11 : Multi bond calc all
 !  12 : Multi bond sort
 !  13 : Multi bond diff              (atom1-atom2  -  atom3-atom4)
@@ -46,7 +46,7 @@ end select
 !  29 : 2D histogram from External   (Normal)
 !  31 : 1D histogram for Centroid
 !  32 : 2D histogram for Centroid
-!  33 : Angle histgram for Centroid
+!  33 : Angle histogram for Centroid
 !  41 : Dummy atom (X) for bond      (atom1-atomX)
 !  42 : Dummy atom (X) for angle     (atom1-atom2-atomX)
 !  43 : Dummy atom (X) for dihedral  (atom1-atom2-atomX-atom4)
@@ -65,6 +65,8 @@ end select
 !  82 : radial distribution  (element1 to element2)
 !  83 : OHO distribution
 !  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
+! 191 : PbHPO4  (O-O distribution)
+! 192 : PbHPO4  (dleta OH distribution)
 !!!! 101 : binary mask       (bin1 if (bin2) )
 !!!! 102 : binary add        (bin1 + bin2)
 !!!! 103 : binary diff       (bin1 - bin2)

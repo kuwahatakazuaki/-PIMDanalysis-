@@ -9,6 +9,7 @@
 #  14 : Multi bond diff              (atom1-atom2  +  atom3-atom4)
 #  21 : 2D histogram_bond            (atom1-atom2 and atom3-atom4)
 #  22 : 2D histogram_angle           (atom1-atom2 and atom3-atom4-atom5)
+#  28 : 2D histogram from External   (Arbitrary number line)
 #  29 : 2D histogram from External   (Normal)
 #  31 : 1D histogram for Centroid
 #  32 : 2D histogram for Centroid
@@ -26,11 +27,16 @@
 #  71 : projection           (atom1-atom2  T  atom3-atom4)
 #  75 : Rotation (movie)
 #  76 : Rotation (cube file)
+#  77 : Rotation (cube file from external)
 #  81 : radial distribution  (element1)
 #  82 : radial distribution  (element1 to element2)
 #  83 : OHO distribution
 #  91 : Out of plane         (atom2-atom1-atom3 -> atom1-atom4)
-# 191 : PbHPO4 (O - H - O distribution)
+# 101 : binary mask       (bin1 if (bin2) )
+# 102 : binary add        (bin1 + bin2)
+# 103 : binary diff       (bin1 - bin2)
+# 191 : PbHPO4  (O-O distribution)
+# 192 : PbHPO4  (dleta OH distribution)
 # job type
 -Nfile
 1
@@ -42,6 +48,8 @@
 T
 -name_binary
 bin1 bin2
+-folding
+.false.
 # end job type
 
 # input file 1
@@ -166,6 +174,14 @@ temp.out
 -path
 /Users/kuwahatakazuaki/PIMD/Result/Muon/Oxy/muo/Result/hfcc.dat
 # end other type
+
+# binary calc
+-mask_min
+8.0
+-mask_max
+12.0
+# end binary calc
+
 
 # PbHPO4
 -Lattice

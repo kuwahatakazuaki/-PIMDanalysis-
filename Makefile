@@ -13,6 +13,8 @@ fcopt =  -O2 -pipe -lblas -llapack
 # +++ End ifort +++
 objs = \
 parameters.o       \
+read_inp.o         \
+read_coor.o        \
 utility.o          \
 hist1D.o           \
 hist2D.o           \
@@ -25,23 +27,22 @@ bond.o             \
 cent.o             \
 main.o             \
 multi_bond.o       \
-read_coor.o        \
-read_inp.o         \
 dummy_atom.o       \
 dihedral.o         \
 projection.o         \
 rotation.o         \
+binary_calc.o         \
 pbhpo4.o           \
 
 module =              \
-calc_centoroid.mod    \
+input_parameter.mod   \
+utility.mod           \
 calc_histogram1d.mod  \
 calc_histogram2d.mod  \
 calc_parameter.mod    \
-input_parameter.mod   \
-utility.mod           \
 mod_other_quantities.mod \
 mod_special_case.mod    \
+calc_centoroid.mod    \
 mod_periodic.mod    \
 
 %.mod : %.f90 %.o
@@ -64,13 +65,8 @@ clean:
 	rm -f *.o *.mod $(program)
 
 install: $(objs)
-	$(fc) $(objs) -o $(program) $(fcopt)
+	$(fc) $(fcopt) $(objs) -o $(program)
 	cp $(program) /Users/kuwahatakazuaki/Program/bin/PIMDanalysis
 # 	cp $(program) /Users/kuwahatakazuaki/PIMD/Analysis/Program/PIMDanalysis
+#	$(fc) $(objs) -o $(program) $(fcopt)
 
-#.SUFFIXES: .f90 .o
-#.f90.o:
-#	@echo
-#	@echo ' << Compiling >>' '"'$<'"'
-
-#	$(fc) $(fcopt) -c $< -o $@
